@@ -35,7 +35,7 @@ def chat_with_ollama(
         "stream": False,
         "options": {
             "temperature": temperature,
-            "num_predict": 800,
+            "num_predict": 1200,
             "num_ctx": 4096,
         },
     }
