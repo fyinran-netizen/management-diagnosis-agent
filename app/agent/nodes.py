@@ -6,7 +6,7 @@ from app.llm.ollama_client import chat_with_ollama
 from app.memory.project_memory import save_project_record
 from app.rag.retriever import retrieve_relevant_chunks
 from app.tools.diagnosis_tools import build_diagnosis_hints
-from app.tools.problem_router import route_problem
+from app.tools.problem_router_tool import route_problem
 from app.tools.verify_tool import verify_report_quality
 from app.tools.language_tool import detect_output_language
 
