@@ -1,11 +1,21 @@
 from __future__ import annotations
 
+import os
 import re
 from dataclasses import asdict
 from functools import lru_cache
 from typing import Any
 
+from dotenv import load_dotenv
+
 from app.rag.ingest import load_knowledge_base
+
+
+load_dotenv()
+
+def should_use_private_knowledge() -> bool:
+    value = os.getenv("USE_PRIVATE_KNOWLEDGE", "false").lower().strip()
+    return value in {"true", "1", "yes", "y"}
 
 
 KEYWORD_MAP: dict[str, list[str]] = {
@@ -63,7 +73,11 @@ KEYWORD_MAP: dict[str, list[str]] = {
 
 @lru_cache(maxsize=1)
 def get_cached_chunks() -> tuple:
-    return tuple(load_knowledge_base(include_private=False))
+    return tuple(
+        load_knowledge_base(
+            include_private=should_use_private_knowledge()
+        )
+    )
 
 
 def normalize_text(text: str) -> str:
