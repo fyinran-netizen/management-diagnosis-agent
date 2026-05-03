@@ -1,0 +1,10 @@
+.venv/
+.env
+__pycache__/
+*.pyc
+
+.idea/
+
+data/private_knowledge_base/
+data/chroma_db/
+*.sqlite3
