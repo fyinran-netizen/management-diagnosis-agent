@@ -7,7 +7,11 @@ def test_retrieve_customer_value_chunks():
     results = retrieve_relevant_chunks(query, top_k=3)
 
     assert len(results) > 0
-    assert any(item["source"] == "01_customer_value.md" for item in results)
+    assert any(
+        "顾客" in f"{item['title']} {item['content']}"
+        or "客户" in f"{item['title']} {item['content']}"
+        for item in results
+    )
 
 
 def test_retrieve_metrics_chunks():
@@ -16,7 +20,12 @@ def test_retrieve_metrics_chunks():
     results = retrieve_relevant_chunks(query, top_k=3)
 
     assert len(results) > 0
-    assert any(item["source"] == "04_metrics.md" for item in results)
+    assert any(
+        "指标" in f"{item['title']} {item['content']}"
+        or "KPI" in f"{item['title']} {item['content']}"
+        or "考核" in f"{item['title']} {item['content']}"
+        for item in results
+    )
 
 
 def test_retrieve_returns_score_field():

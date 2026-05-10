@@ -45,6 +45,7 @@ def build_generation_messages(
                 "Do not invent company facts. If information is missing, clearly state the assumptions. "
                 "Do not use hidden reasoning. Give the final answer directly. "
                 "Use a calm, professional consulting style. "
+                "Do not include source file paths, source IDs, or raw filename citations in the final report. "
                 "Do not include word count, character count, token count, or any length note."
             ),
         },
@@ -71,7 +72,7 @@ def build_generation_messages(
                 "- Use the detected problem types and diagnosis hints to guide the analysis.\n"
                 "- Avoid generic advice.\n"
                 "- Clearly separate known facts from assumptions.\n"
-                "- Mention the source files when using retrieved concepts.\n"
+                "- Refer to the knowledge base concepts naturally, but do not print source file paths or source IDs.\n"
                 "- Do not include any word count or length note."
             ),
         },
@@ -99,6 +100,7 @@ def build_revision_messages(
                 "Use the retrieved knowledge as the basis. "
                 "Do not use hidden reasoning. "
                 "Give the final revised report directly. "
+                "Do not include source file paths, source IDs, or raw filename citations in the final report. "
                 "Do not include word count, character count, token count, or any length note."
             ),
         },

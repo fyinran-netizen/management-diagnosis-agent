@@ -20,10 +20,19 @@ def verify_report_quality(
     if retrieved_chunks:
         source_names = [item["source"] for item in retrieved_chunks]
         mentions_source = any(source in report for source in source_names)
-        mentions_source_word = "来源" in report or "source" in normalized_report
+        mentions_knowledge_basis = (
+            "知识库" in report
+            or "依据" in report
+            or "基于" in report
+            or "based on the knowledge base" in normalized_report
+            or "knowledge base" in normalized_report
+        )
 
-        if not mentions_source and not mentions_source_word:
-            issues.append("The report does not clearly reference retrieved knowledge sources.")
+        if not mentions_knowledge_basis:
+            issues.append("The report does not clearly reference the retrieved knowledge base as a basis.")
+
+        if mentions_source:
+            issues.append("The report should not expose raw source file paths or source IDs.")
 
     has_recommendation = (
         "建议" in report

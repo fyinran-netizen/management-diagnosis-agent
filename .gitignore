@@ -9,3 +9,9 @@ data/private_knowledge_base/
 data/chroma_db/
 data/project_memory/
 *.sqlite3
+
+
+.codex/
+
+
+source_docs/

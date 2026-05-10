@@ -5,7 +5,7 @@ def test_verify_passes_good_report():
     report = (
         "1. 核心诊断：企业当前存在顾客价值偏离的问题。管理层过度关注内部效率、流程和成本，"
         "但没有充分说明这些工作如何创造顾客价值。团队虽然每天都很忙，但新客户减少，说明企业可能正在把内部效率误认为经营目标。"
-        "这一判断基于用户描述，并参考来源：01_customer_value.md。\n\n"
+        "这一判断基于用户描述，并以知识库中关于创造顾客与顾客价值偏离的内容作为分析依据。\n\n"
         "2. 实践建议：建议管理层先重新定义核心顾客，梳理顾客真正愿意付费或持续使用的价值。"
         "同时，检查现有会议、流程和指标，删除不创造顾客价值的内部管理动作。"
         "下一步可以安排客户访谈，并把关键指标重新连接到顾客价值。\n\n"
@@ -39,7 +39,7 @@ def test_verify_fails_empty_report():
 def test_verify_fails_without_recommendations():
     report = (
         "这份报告主要说明企业存在顾客价值问题。"
-        "来源：01_customer_value.md。"
+        "其判断依据来自知识库中关于企业存在目的是创造顾客的观点。"
         "缺失信息与假设：目前缺少客户画像。"
     )
 
@@ -57,6 +57,30 @@ def test_verify_fails_without_recommendations():
     assert result["passed"] is False
     assert result["needs_revision"] is True
     assert any("practical recommendations" in issue for issue in result["issues"])
+
+
+def test_verify_fails_when_report_exposes_raw_source_name():
+    report = (
+        "1. 核心诊断：企业当前存在顾客价值偏离。\n\n"
+        "2. 知识库依据：参考 ch04/s06.md 可以看出企业家的行动重点。\n\n"
+        "3. 实践建议：建议先调整指标与顾客价值的连接关系。\n\n"
+        "4. 缺失信息与假设：目前缺少客户流失数据。"
+    )
+
+    retrieved_chunks = [
+        {
+            "source": "ch04/s06.md",
+            "title": "第六节 企业家能做什么",
+            "content": "企业家需要做关键取舍。",
+            "score": 8,
+        }
+    ]
+
+    result = verify_report_quality(report, retrieved_chunks)
+
+    assert result["passed"] is False
+    assert result["needs_revision"] is True
+    assert any("should not expose raw source file paths" in issue for issue in result["issues"])
 
 
 def test_verify_fails_truncated_report():

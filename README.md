@@ -347,6 +347,7 @@ Current knowledge source:
 
 ```text
 data/sample_knowledge_base/
+data/private_knowledge_base/
 ```
 
 Example output:
@@ -354,14 +355,14 @@ Example output:
 ```json
 [
   {
-    "source": "01_customer_value.md",
-    "title": "Common Symptoms",
+    "source": "ch01/s02.md",
+    "title": "第一节 利润不是目的",
     "content": "...",
     "score": 31
   },
   {
-    "source": "04_metrics.md",
-    "title": "Common Symptoms",
+    "source": "ch05/s05.md",
+    "title": "第四节 为什么指标总是容易“篡位”",
     "content": "...",
     "score": 23
   }
@@ -450,7 +451,8 @@ Current verification checks:
 - report is not too short
 - report includes practical recommendations
 - report includes assumptions or missing information
-- report references retrieved knowledge sources
+- report clearly states that the analysis is based on retrieved knowledge base concepts
+- report does not expose raw source file paths or source IDs in the report body
 - report does not contain word count or length notes
 - report does not appear truncated
 - brackets and quotation marks are not obviously unmatched
@@ -656,6 +658,14 @@ Response:
 POST /diagnose
 ```
 
+Public response behavior:
+
+```text
+- returns diagnosis_report
+- returns retrieved_sources with only source/title/score
+- does not return retrieved source content
+```
+
 Request:
 
 ```json
@@ -672,8 +682,47 @@ Response example:
   "diagnosis_report": "...",
   "retrieved_sources": [
     {
-      "source": "01_customer_value.md",
-      "title": "Common Symptoms",
+      "source": "ch04/s06.md",
+      "title": "第六节 企业家能做什么",
+      "score": 31
+    }
+  ],
+  "verification": {
+    "passed": true,
+    "issues": [],
+    "needs_revision": false
+  },
+  "revision_count": 0,
+  "project_id": "..."
+}
+```
+
+---
+
+### Diagnose Management Problem For Admin Debug
+
+```http
+POST /admin/diagnose
+```
+
+Admin debug response behavior:
+
+```text
+- includes the same diagnosis_report
+- keeps full retrieved_sources entries
+- includes retrieved source content for backend debugging
+```
+
+Response example:
+
+```json
+{
+  "model": "qwen3:8b",
+  "diagnosis_report": "...",
+  "retrieved_sources": [
+    {
+      "source": "ch04/s06.md",
+      "title": "第六节 企业家能做什么",
       "content": "...",
       "score": 31
     }
