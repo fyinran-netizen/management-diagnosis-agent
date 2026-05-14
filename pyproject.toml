@@ -5,10 +5,12 @@ requires-python = ">=3.13"
 dependencies = [
     "fastapi>=0.136.1",
     "langgraph>=1.1.10",
+    "numpy>=2.4.4",
     "pydantic>=2.13.3",
     "pytest>=9.0.3",
     "python-dotenv>=1.2.2",
     "requests>=2.33.1",
+    "sentence-transformers>=5.5.0",
     "uvicorn>=0.46.0",
 ]
 
@@ -16,3 +18,5 @@ dependencies = [
 pythonpath = ["."]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
+addopts = "--basetemp=.pytest_run_tmp"
+cache_dir = ".pytest_run_tmp/cache"

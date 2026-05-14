@@ -1,862 +1,472 @@
 # Management Diagnosis Agent
 
-A local RAG-based management diagnosis agent prototype built with FastAPI, LangGraph, Ollama, and a local management knowledge base.
+A local workflow-based AI Agent prototype for management diagnosis. The project combines FastAPI, LangGraph, Ollama, a private management knowledge base, and a hybrid RAG retrieval pipeline.
 
-This project is designed as an AI Agent demo for management consulting and enterprise diagnosis scenarios. A user can provide an unstructured description of a company's current challenge, and the system will retrieve relevant management knowledge, generate a structured diagnosis report, verify the report quality, revise the report if needed, and save the diagnosis record into local memory.
+The current goal is learning and demonstrating practical Agent/RAG engineering skills: workflow orchestration, controlled tool use, local retrieval, embedding-based search, hybrid retrieval, and retrieval evaluation.
 
 ---
 
 ## Current Implementation
 
-The current version is a local prototype that has implemented:
-
 - FastAPI backend service
-- Local LLM integration through Ollama
-- Qwen3 8B local model
-- Keyword-based RAG over a sample management knowledge base
 - LangGraph workflow orchestration
-- Free-form user input through a single `description` field
-- Automatic output language detection
-- Problem routing based on management issue types
-- Diagnosis hint generation
-- Report generation using retrieved knowledge
+- Local LLM generation through Ollama
+- Qwen3 8B local model by default
+- Private-only management knowledge retrieval
+- Structured markdown chunking with chunk statistics
+- Hugging Face embedding model cached locally
+- Local vector index using JSON + NumPy `.npy`
+- Hybrid retrieval combining keyword and embedding search
+- Retrieval debug script for manual inspection
+- Retrieval eval dataset and experiment tracking
 - Rule-based report verification
-- Revision loop when verification fails
-- Local project memory storage
+- One-step revision loop when verification fails
+- Local project memory persistence
 
 ---
 
-## Why This Is an Agent Demo
+## Agent Workflow
 
-A basic chatbot usually follows this pattern:
+The project is a controlled workflow Agent, not a fully autonomous tool-calling Agent. The LLM does not freely choose every next step; LangGraph controls the workflow.
 
 ```text
-User input
-→ LLM
-→ Response
++-------------+
+| User Input |
++-------------+
+       |
+       v
++-------------+
+| Intake      |
++-------------+
+       |
+       v
++-------------+
+| Route       |
++-------------+
+       |
+       v
++-------------+
+| Retrieve    |  hybrid RAG
++-------------+
+       |
+       v
++-------------+
+| Generate    |  Ollama / Qwen
++-------------+
+       |
+       v
++-------------+
+| Verify      |
++-------------+
+    |      |
+    | pass | fail and revision_count < 1
+    v      v
++-------------+      +-------------+
+| Memory      | <--- | Revise      |
++-------------+      +-------------+
+       |
+       v
++-------------+
+| Response    |
++-------------+
 ```
 
-This project follows a workflow-based agent pattern:
+Main node implementation:
 
 ```text
-User description
-→ Intake
-→ Problem Routing
-→ Knowledge Retrieval
-→ Diagnosis Generation
-→ Report Verification
-→ Revision if needed
-→ Memory Save
-→ Final Response
-```
-
-The system does not only ask the LLM to answer directly. It first processes the user's input, retrieves relevant knowledge, generates a grounded report, checks whether the report is useful and complete, and stores the result for future use.
-
----
-
-## Tech Stack
-
-- Python
-- FastAPI
-- Uvicorn
-- LangGraph
-- Ollama
-- Qwen3 8B local model
-- Pydantic
-- Keyword-based retrieval
-- Local JSONL memory
-- uv for environment and dependency management
-
----
-
-## Project Structure
-
-```text
-management_diagnosis_agent/
-│
-├── app/
-│   ├── main.py
-│   │
-│   ├── agent/
-│   │   ├── graph.py
-│   │   ├── state.py
-│   │   ├── nodes.py
-│   │   └── prompts.py
-│   │
-│   ├── llm/
-│   │   └── ollama_client.py
-│   │
-│   ├── rag/
-│   │   ├── chunker.py
-│   │   ├── ingest.py
-│   │   └── retriever.py
-│   │
-│   ├── tools/
-│   │   ├── language_tool.py
-│   │   ├── problem_router_tool.py
-│   │   ├── diagnosis_tools.py
-│   │   └── verify_tool.py
-│   │
-│   ├── memory/
-│   │   └── project_memory.py
-│   │
-│   └── schemas/
-│       ├── request.py
-│       └── response.py
-│
-├── data/
-│   ├── sample_knowledge_base/
-│   ├── private_knowledge_base/
-│   └── project_memory/
-│
-├── tests/
-│
-├── .env.example
-├── .gitignore
-├── pyproject.toml
-├── uv.lock
-└── README.md
+app/agent/graph.py
+app/agent/nodes.py
+app/agent/prompts.py
 ```
 
 ---
 
-## Internal Workflow and Tool Calls
+## Retrieval Architecture
 
-The current agent workflow is implemented with LangGraph.
-
-It can be understood as a state machine. Each node reads and updates the shared `AgentState`.
-
----
-
-## High-level State Transition
+The original retrieval was keyword-only. The current version uses hybrid retrieval:
 
 ```text
-+----------------+
-| START          |
-+----------------+
-        |
-        v
-+----------------+
-| intake_node    |
-+----------------+
-        |
-        v
-+----------------+
-| route_node     |
-+----------------+
-        |
-        v
-+----------------+
-| retrieve_node  |
-+----------------+
-        |
-        v
-+----------------+
-| generate_node  |
-+----------------+
-        |
-        v
-+----------------+
-| verify_node    |
-+----------------+
-        |
-        +-----------------------------+
-        |                             |
-        | passed = true               | passed = false
-        v                             v
-+----------------+           +----------------+
-| memory_node    |           | revise_node    |
-+----------------+           +----------------+
-        |                             |
-        v                             v
-+----------------+           +----------------+
-| END            | <---------| verify_node    |
-+----------------+           +----------------+
+retrieve_relevant_chunks()
+  -> keyword retriever
+  -> embedding retriever
+  -> score fusion
+  -> top_k chunks
 ```
 
-Current revision rule:
+Current public retrieval entrypoint:
 
 ```text
-If verification fails and revision_count < MAX_REVISIONS:
-    go to revise_node
-
-Otherwise:
-    go to memory_node
+app/rag/retriever.py
 ```
 
-Currently:
+Retrieval modules:
 
 ```text
-MAX_REVISIONS = 1
+app/rag/retrieval/
+  keyword_retriever.py
+  embedding_retriever.py
+  hybrid_retriever.py
 ```
 
-So the workflow allows at most one revision attempt.
-
----
-
-## AgentState
-
-The workflow passes a shared state object between nodes.
+Current default hybrid parameters:
 
 ```text
-+--------------------------------------------------+
-| AgentState                                       |
-+--------------------------------------------------+
-| description                                      |
-| company_context                                  |
-| goal                                             |
-| language                                         |
-| problem_types                                    |
-| diagnosis_hints                                  |
-| retrieved_chunks                                 |
-| report                                           |
-| verification                                     |
-| revision_count                                   |
-| project_id                                       |
-| final_answer                                     |
-+--------------------------------------------------+
+keyword_weight = 0.15
+embedding_weight = 0.85
+candidate_multiplier = 5
+min_candidates = 25
 ```
 
-Each node reads part of the state and writes new fields back into it.
+These can be overridden with environment variables:
 
----
-
-## Node-by-node Explanation
-
-### 1. intake_node
-
-```text
-+--------------------------------------------------+
-| intake_node                                      |
-+--------------------------------------------------+
-| Input state fields:                              |
-| - description                                    |
-|                                                  |
-| Calls tools:                                     |
-| - detect_output_language()                       |
-|                                                  |
-| Output state fields:                             |
-| - company_context                                |
-| - goal                                           |
-| - language                                       |
-+--------------------------------------------------+
-```
-
-Purpose:
-
-```text
-Convert the user's raw free-form description into internal fields used by later nodes.
-```
-
-Current behavior:
-
-```text
-description
-→ company_context
-→ default goal
-→ detected output language
-```
-
-Example:
-
-```text
-User description:
-"我们公司最近增长放缓，员工目标混乱，请帮我做诊断。"
-
-intake_node output:
-company_context = original description
-goal = default diagnosis goal
-language = zh
+```env
+HYBRID_KEYWORD_WEIGHT=0.15
+HYBRID_EMBEDDING_WEIGHT=0.85
+HYBRID_CANDIDATE_MULTIPLIER=5
+HYBRID_MIN_CANDIDATES=25
 ```
 
 ---
 
-### 2. route_node
+## Knowledge Base And Chunking
+
+The private knowledge base is generated from the local source manuscript and ignored by Git:
 
 ```text
-+--------------------------------------------------+
-| route_node                                       |
-+--------------------------------------------------+
-| Input state fields:                              |
-| - company_context                                |
-| - goal                                           |
-|                                                  |
-| Calls tools:                                     |
-| - route_problem()                                |
-| - build_diagnosis_hints()                        |
-|                                                  |
-| Output state fields:                             |
-| - problem_types                                  |
-| - diagnosis_hints                                |
-+--------------------------------------------------+
-```
-
-Purpose:
-
-```text
-Classify the user's messy business problem into clearer management issue types.
-```
-
-Example output:
-
-```text
-problem_types:
-- customer_value_misalignment
-- metrics_misalignment
-- opportunity_neglect
-- control_over_self_drive
-```
-
-The diagnosis hints are then generated based on these problem types.
-
----
-
-### 3. retrieve_node
-
-```text
-+--------------------------------------------------+
-| retrieve_node                                    |
-+--------------------------------------------------+
-| Input state fields:                              |
-| - company_context                                |
-| - goal                                           |
-| - problem_types                                  |
-| - diagnosis_hints                                |
-|                                                  |
-| Calls tools:                                     |
-| - retrieve_relevant_chunks()                     |
-|                                                  |
-| Output state fields:                             |
-| - retrieved_chunks                               |
-+--------------------------------------------------+
-```
-
-Purpose:
-
-```text
-Retrieve relevant knowledge chunks from the local knowledge base.
-```
-
-Current retrieval method:
-
-```text
-keyword-based retrieval
-```
-
-Current knowledge source:
-
-```text
-data/sample_knowledge_base/
+source_docs/
 data/private_knowledge_base/
 ```
 
-Example output:
+Chunking script:
 
-```json
-[
-  {
-    "source": "ch01/s02.md",
-    "title": "第一节 利润不是目的",
-    "content": "...",
-    "score": 31
-  },
-  {
-    "source": "ch05/s05.md",
-    "title": "第四节 为什么指标总是容易“篡位”",
-    "content": "...",
-    "score": 23
-  }
-]
+```powershell
+uv run python scripts\split_markdown_kb.py
+```
+
+The chunker uses a structured strategy:
+
+```text
+markdown headings
+-> paragraph packing
+-> sentence fallback for long paragraphs
+-> small overlap between adjacent chunks
+```
+
+Current generated private chunk stats:
+
+```text
+chunks: 172
+min_chars: 91
+max_chars: 1189
+avg_chars: 719
+```
+
+Generate chunk stats:
+
+```powershell
+uv run python scripts\chunk_stats.py --json-out data\chunk_stats.json --csv-out data\chunk_stats.csv
 ```
 
 ---
 
-### 4. generate_node
+## Embedding And Vector Index
+
+Embedding model:
 
 ```text
-+--------------------------------------------------+
-| generate_node                                    |
-+--------------------------------------------------+
-| Input state fields:                              |
-| - company_context                                |
-| - goal                                           |
-| - language                                       |
-| - problem_types                                  |
-| - diagnosis_hints                                |
-| - retrieved_chunks                               |
-|                                                  |
-| Calls tools / functions:                         |
-| - build_generation_messages()                    |
-| - chat_with_ollama()                             |
-|                                                  |
-| Output state fields:                             |
-| - report                                         |
-| - revision_count                                 |
-+--------------------------------------------------+
+BAAI/bge-small-zh-v1.5
 ```
 
-Purpose:
+The model is cached locally:
 
 ```text
-Generate the first structured management diagnosis report.
+.hf_cache/
 ```
 
-The prompt is built from:
+Recommended `.env` values:
 
-```text
-user description
-+ detected problem types
-+ diagnosis hints
-+ retrieved knowledge chunks
+```env
+EMBEDDING_MODEL=BAAI/bge-small-zh-v1.5
+HF_HOME=D:\management_diagnosis_agent\.hf_cache
+EMBEDDING_LOCAL_FILES_ONLY=true
 ```
 
-Then the prompt is sent to the local Ollama model.
+Build the private-only vector index:
 
-Current model:
+```powershell
+uv run python scripts\build_vector_index.py
+```
+
+Generated vector index files:
 
 ```text
-qwen3:8b
+data/vector_index/
+  knowledge_chunks.json
+  knowledge_embeddings.npy
+  index_metadata.json
+```
+
+`knowledge_chunks.json` stores the retrievable chunk text and metadata. `knowledge_embeddings.npy` stores the corresponding embedding matrix. Row `i` in the `.npy` file corresponds to item `i` in `knowledge_chunks.json`.
+
+Current vector index:
+
+```text
+knowledge_scope: private
+chunk_count: 172
+embedding_dim: 512
 ```
 
 ---
 
-### 5. verify_node
+## Retrieval Debugging
+
+To inspect retrieval without calling the LLM:
+
+```powershell
+uv run python scripts\debug_retrieval.py "公司增长放缓，客户价值不清晰，团队只盯KPI" --top-k 3
+```
+
+The script prints three result sets:
 
 ```text
-+--------------------------------------------------+
-| verify_node                                      |
-+--------------------------------------------------+
-| Input state fields:                              |
-| - report                                         |
-| - retrieved_chunks                               |
-|                                                  |
-| Calls tools:                                     |
-| - verify_report_quality()                        |
-|                                                  |
-| Output state fields:                             |
-| - verification                                   |
-+--------------------------------------------------+
+Keyword
+Embedding
+Hybrid
 ```
 
-Purpose:
+Each result includes:
 
 ```text
-Check whether the generated report is complete, grounded, and useful.
-```
-
-Current verification checks:
-
-```text
-- report is not empty
-- report is not too short
-- report includes practical recommendations
-- report includes assumptions or missing information
-- report clearly states that the analysis is based on retrieved knowledge base concepts
-- report does not expose raw source file paths or source IDs in the report body
-- report does not contain word count or length notes
-- report does not appear truncated
-- brackets and quotation marks are not obviously unmatched
-```
-
-Example pass result:
-
-```json
-{
-  "passed": true,
-  "issues": [],
-  "needs_revision": false
-}
-```
-
-Example fail result:
-
-```json
-{
-  "passed": false,
-  "issues": [
-    "The report does not include clear practical recommendations.",
-    "The report does not clearly separate assumptions or missing information."
-  ],
-  "needs_revision": true
-}
+source
+title
+retrieval_method
+score
+keyword_score
+embedding_score
+hybrid_score
+preview
 ```
 
 ---
 
-### 6. revise_node
+## Retrieval Evaluation
+
+Eval cases:
 
 ```text
-+--------------------------------------------------+
-| revise_node                                      |
-+--------------------------------------------------+
-| Input state fields:                              |
-| - company_context                                |
-| - goal                                           |
-| - language                                       |
-| - retrieved_chunks                               |
-| - report                                         |
-| - verification                                   |
-| - revision_count                                 |
-|                                                  |
-| Calls tools / functions:                         |
-| - build_revision_messages()                      |
-| - chat_with_ollama()                             |
-|                                                  |
-| Output state fields:                             |
-| - report                                         |
-| - revision_count                                 |
-+--------------------------------------------------+
+tests/evals/retrieval_cases.json
 ```
 
-Purpose:
+The eval script compares:
 
 ```text
-Revise the report based on verification issues.
+keyword
+embedding
+hybrid
 ```
 
-Example:
+Metrics:
 
 ```text
-If verify_node says:
-"The report does not include clear practical recommendations."
-
-revise_node asks the LLM to rewrite the report and add practical recommendations.
+Hit@3
+Hit@5
+Recall@5
+MRR@5
 ```
 
-Current behavior:
+Run retrieval eval:
+
+```powershell
+uv run python scripts\eval_retrieval.py
+```
+
+Write a JSON report:
+
+```powershell
+uv run python scripts\eval_retrieval.py --json-out data\retrieval_eval_report.json
+```
+
+Record an experiment:
+
+```powershell
+uv run python scripts\eval_retrieval.py `
+  --record-experiment `
+  --experiment-name linear_015_085_candidates_5x25 `
+  --notes "Selected default hybrid retrieval parameters."
+```
+
+Experiment history:
 
 ```text
-revision_count increases by 1
+tests/evals/retrieval_experiments.jsonl
+tests/evals/retrieval_experiments.md
 ```
 
----
-
-### 7. memory_node
+Current selected experiment:
 
 ```text
-+--------------------------------------------------+
-| memory_node                                      |
-+--------------------------------------------------+
-| Input state fields:                              |
-| - company_context                                |
-| - goal                                           |
-| - retrieved_chunks                               |
-| - verification                                   |
-| - revision_count                                 |
-| - report                                         |
-|                                                  |
-| Calls tools:                                     |
-| - save_project_record()                          |
-|                                                  |
-| Output state fields:                             |
-| - project_id                                     |
-| - final_answer                                   |
-+--------------------------------------------------+
+linear_015_085_candidates_5x25
 ```
 
-Purpose:
+Current recorded results:
 
 ```text
-Save the final diagnosis result into local project memory.
+keyword   hit@3 0.375 | hit@5 0.438 | recall@5 0.167 | mrr@5 0.245
+embedding hit@3 0.625 | hit@5 0.812 | recall@5 0.458 | mrr@5 0.481
+hybrid    hit@3 0.562 | hit@5 0.812 | recall@5 0.438 | mrr@5 0.588
 ```
 
-Current memory storage:
-
-```text
-data/project_memory/records.jsonl
-```
-
-This directory is ignored by Git.
-
-Example saved fields:
-
-```text
-project_id
-created_at
-company_context
-goal
-retrieved_sources
-verification
-revision_count
-final_answer_preview
-```
-
----
-
-## Full Tool Call Map
-
-```text
-+-------------------+---------------------------------------------+
-| Node              | Tool / Function Called                      |
-+-------------------+---------------------------------------------+
-| intake_node       | detect_output_language()                    |
-| route_node        | route_problem(); build_diagnosis_hints()                     |
-| retrieve_node     | retrieve_relevant_chunks()                  |
-| generate_node     | build_generation_messages(); chat_with_ollama()                          |
-| verify_node       | verify_report_quality()                     |
-| revise_node       | build_revision_messages(); chat_with_ollama()                          |
-| memory_node       | save_project_record()                       |
-+-------------------+---------------------------------------------+
-```
-
----
-
-## Current Workflow Type
-
-The current project is a workflow-based agent.
-
-It is not a fully autonomous agent where the LLM freely chooses every next step.
-
-Instead, it uses a controlled workflow:
-
-```text
-fixed main path
-+ conditional verification branch
-+ limited revision loop
-+ local memory persistence
-```
-
-This design is more stable for a first agent demo.
+Interpretation: embedding has the strongest pure recall coverage, while the selected hybrid setup preserves Hit@5 close to embedding and improves MRR@5, meaning the first relevant result is ranked earlier on this eval set.
 
 ---
 
 ## API Usage
 
-### Start the backend
+Start the backend:
 
-```bash
+```powershell
 uv run uvicorn app.main:app --reload
 ```
 
-Then open:
+Open API docs:
 
 ```text
 http://127.0.0.1:8000/docs
 ```
 
----
-
-### Health Check
+Health check:
 
 ```http
 GET /health
 ```
 
-Response:
-
-```json
-{
-  "status": "ok"
-}
-```
-
----
-
-### Diagnose Management Problem
+Diagnosis endpoint:
 
 ```http
 POST /diagnose
-```
-
-Public response behavior:
-
-```text
-- returns diagnosis_report
-- returns retrieved_sources with only source/title/score
-- does not return retrieved source content
 ```
 
 Request:
 
 ```json
 {
-  "description": "我们公司最近增长放缓，团队每天都很忙，但新客户越来越少。管理层现在主要在抓成本和效率，员工觉得目标越来越乱，很多人只是在完成KPI。请帮我判断主要管理问题，并给出下一步建议。"
+  "description": "我们公司最近增长放缓，团队每天都很忙，但新客户越来越少。管理层主要在抓成本和效率，员工只是在完成 KPI。请帮我判断主要管理问题，并给出下一步建议。"
 }
 ```
 
-Response example:
-
-```json
-{
-  "model": "qwen3:8b",
-  "diagnosis_report": "...",
-  "retrieved_sources": [
-    {
-      "source": "ch04/s06.md",
-      "title": "第六节 企业家能做什么",
-      "score": 31
-    }
-  ],
-  "verification": {
-    "passed": true,
-    "issues": [],
-    "needs_revision": false
-  },
-  "revision_count": 0,
-  "project_id": "..."
-}
-```
-
----
-
-### Diagnose Management Problem For Admin Debug
+Admin debug endpoint:
 
 ```http
 POST /admin/diagnose
 ```
 
-Admin debug response behavior:
+The public endpoint hides full retrieved content. The admin endpoint returns full retrieved source content for debugging.
+
+---
+
+## Project Structure
 
 ```text
-- includes the same diagnosis_report
-- keeps full retrieved_sources entries
-- includes retrieved source content for backend debugging
-```
+app/
+  agent/
+    graph.py
+    nodes.py
+    prompts.py
+    state.py
+  llm/
+    ollama_client.py
+  memory/
+    project_memory.py
+  rag/
+    chunker.py
+    embeddings.py
+    ingest.py
+    retriever.py
+    vector_store.py
+    retrieval/
+      keyword_retriever.py
+      embedding_retriever.py
+      hybrid_retriever.py
+  tools/
+    diagnosis_tools.py
+    language_tool.py
+    problem_router_tool.py
+    verify_tool.py
+  schemas/
+    request.py
+    response.py
 
-Response example:
+scripts/
+  split_markdown_kb.py
+  chunk_stats.py
+  build_vector_index.py
+  debug_retrieval.py
+  eval_retrieval.py
 
-```json
-{
-  "model": "qwen3:8b",
-  "diagnosis_report": "...",
-  "retrieved_sources": [
-    {
-      "source": "ch04/s06.md",
-      "title": "第六节 企业家能做什么",
-      "content": "...",
-      "score": 31
-    }
-  ],
-  "verification": {
-    "passed": true,
-    "issues": [],
-    "needs_revision": false
-  },
-  "revision_count": 0,
-  "project_id": "..."
-}
+tests/
+  evals/
+    retrieval_cases.json
+    retrieval_experiments.jsonl
+    retrieval_experiments.md
 ```
 
 ---
 
-## Knowledge Base Design
+## Tests
 
-The project currently uses a small sample knowledge base for demonstration.
+Run tests:
 
-```text
-data/sample_knowledge_base/
+```powershell
+uv run python -m pytest
 ```
 
-The real private manuscript should be placed under:
+Run retriever tests only:
 
-```text
-data/private_knowledge_base/
+```powershell
+uv run python -m pytest tests\test_retriever.py
 ```
 
-This directory is ignored by Git and should not be uploaded to GitHub.
-
-Current sample knowledge files include:
+Pytest temp files are configured to use:
 
 ```text
-01_customer_value.md
-02_opportunity.md
-03_strategy_organization.md
-04_metrics.md
-05_self_drive.md
-```
-
-Each file follows a structured format:
-
-```text
-# Topic Title
-
-## Core Idea
-
-## Common Symptoms
-
-## Diagnostic Questions
-
-## Suggested Actions
-```
-
-This structure makes retrieval easier and helps the model generate more grounded management diagnosis reports.
-
----
-
-## Private Knowledge Base
-
-The private management manuscript is not included in this repository.
-
-The repository only includes sample knowledge files for demonstration purposes.
-
-Ignored local directories:
-
-```text
-data/private_knowledge_base/
-data/project_memory/
-data/chroma_db/
+.pytest_run_tmp/
 ```
 
 ---
 
 ## Current Limitations
 
-The current version is still a prototype.
-
-Known limitations:
-
-- Retrieval is keyword-based, not embedding-based yet.
-- The sample knowledge base is still small.
-- The verification tool is rule-based and not yet a full semantic evaluator.
-- Memory is currently used for saving records, but not yet for continuing previous projects.
-- The workflow is mostly fixed, not fully dynamic.
+- Eval cases are small and manually labeled.
+- Expected sources may be incomplete and should be refined over time.
+- Hybrid fusion is still linear score fusion; RRF or reranking may perform better.
+- Memory is saved but not yet retrieved as part of context.
+- Verification is rule-based rather than semantic or LLM-as-judge.
+- The workflow is controlled and mostly fixed, not a fully autonomous tool-selection Agent.
 - There is no frontend yet.
-- There is no evaluation dataset yet.
 
 ---
 
 ## Roadmap
 
-### Short-term
+Short-term:
 
-- Improve README and tests
-- Process the private management manuscript into structured markdown
-- Make keyword RAG work with the private knowledge base
-- Improve prompts for more stable consulting-style reports
-- Add simple evaluation cases
+- Improve retrieval eval cases.
+- Add RRF fusion and compare against linear fusion.
+- Add query rewrite when retrieval quality is weak.
+- Add retrieval quality checks before generation.
+- Document retrieval experiments in README.
 
-### Medium-term
+Medium-term:
 
-- Upgrade keyword retrieval to embedding-based retrieval
-- Add hybrid search combining keyword and embedding retrieval
-- Add source-grounding verification
-- Add clarification node when user input is too vague
-- Let memory support follow-up diagnosis using `project_id`
+- Add memory retrieval from previous project records.
+- Add reranking.
+- Add source-grounding verification.
+- Add clarification node for vague inputs.
+- Add tracing and node-level logging.
 
-### Long-term
+Long-term:
 
-- Add reranking
-- Add more specialized diagnosis tools
-- Add a simple frontend
-- Add tracing and node-level logging
-- Add a more production-like vector database
-- Support more advanced agentic decision-making
-
----
-
-## Current Agent Capabilities
-
-The current prototype demonstrates:
-
-- Local LLM integration
-- RAG-based knowledge grounding
-- Workflow orchestration with LangGraph
-- Tool-based language detection
-- Tool-based problem routing
-- Tool-based diagnosis hints
-- Rule-based Agent Verify
-- Revision loop
-- Local memory persistence
-- Private knowledge base separation
-
-This makes it a basic but complete local AI Agent workflow demo for management diagnosis.
+- Add Chroma, Qdrant, or pgvector.
+- Add a frontend.
+- Add LLM-as-judge evaluation.
+- Move from controlled workflow Agent toward more dynamic tool planning.

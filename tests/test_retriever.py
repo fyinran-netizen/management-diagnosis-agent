@@ -35,4 +35,19 @@ def test_retrieve_returns_score_field():
 
     assert len(results) > 0
     assert "score" in results[0]
-    assert isinstance(results[0]["score"], int)
+    assert isinstance(results[0]["score"], int | float)
+    assert "retrieval_method" in results[0]
+    assert "keyword_score" in results[0]
+    assert "embedding_score" in results[0]
+    assert "hybrid_score" in results[0]
+
+
+def test_retrieve_uses_private_knowledge_only():
+    query = "增长放缓 新客户减少 KPI"
+
+    results = retrieve_relevant_chunks(query, top_k=10)
+    sources = {item["source"] for item in results}
+
+    assert sources
+    assert "99_private_test.md" not in sources
+    assert not any(source.startswith("0") and source.endswith(".md") for source in sources)

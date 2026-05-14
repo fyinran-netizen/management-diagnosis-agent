@@ -1,11 +1,19 @@
 .venv/
+.hf_cache/
+.pytest_tmp*/
+.pytest_run_tmp/
+.pytest_cache/
 .env
 __pycache__/
 *.pyc
+terminal.txt
 
 .idea/
 
 data/private_knowledge_base/
+data/vector_index/
+data/chunk_stats.*
+data/retrieval_eval_report.json
 data/chroma_db/
 data/project_memory/
 *.sqlite3
