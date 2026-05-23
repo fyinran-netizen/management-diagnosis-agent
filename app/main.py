@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.agent.graph import run_diagnosis_workflow
 from app.llm.ollama_client import OllamaClientError, get_ollama_config
@@ -17,6 +18,17 @@ app = FastAPI(
     title="Management Diagnosis Agent",
     description="A local LangGraph-based management diagnosis agent prototype.",
     version="0.2.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
@@ -95,6 +107,7 @@ def build_diagnosis_result(
         verification=verification,
         revision_count=result.get("revision_count", 0),
         project_id=result.get("project_id"),
+        trace=result.get("trace", []),
     )
     return public_response, debug_response
 

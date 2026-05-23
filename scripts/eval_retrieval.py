@@ -19,6 +19,12 @@ from app.rag.retrieval.hybrid_retriever import (
     MIN_CANDIDATES,
 )
 from app.rag.retrieval.hybrid_retriever import hybrid_retrieve
+from app.rag.retrieval.hybrid_retriever_rrf import (
+    RRF_CANDIDATE_MULTIPLIER,
+    RRF_K,
+    RRF_MIN_CANDIDATES,
+    hybrid_retrieve_rrf,
+)
 from app.rag.retrieval.keyword_retriever import retrieve_by_keyword
 
 
@@ -118,31 +124,6 @@ def print_failures(all_results: dict[str, list[CaseResult]]) -> None:
             print(f"  retrieved: {', '.join(result.retrieved_sources[:5])}")
 
 
-def write_json_report(path: Path, all_results: dict[str, list[CaseResult]]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    payload = {
-        method: {
-            "summary": summarize(results),
-            "cases": [
-                {
-                    "case_id": result.case_id,
-                    "topic": result.topic,
-                    "query": result.query,
-                    "expected_sources": result.expected_sources,
-                    "retrieved_sources": result.retrieved_sources,
-                    "hit@3": result.hit_at_3,
-                    "hit@5": result.hit_at_5,
-                    "recall@5": result.recall_at_5,
-                    "mrr@5": result.mrr_at_5,
-                }
-                for result in results
-            ],
-        }
-        for method, results in all_results.items()
-    }
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
-
-
 def build_experiment_record(
     experiment_name: str,
     cases_path: Path,
@@ -160,6 +141,9 @@ def build_experiment_record(
             "embedding_weight": EMBEDDING_WEIGHT,
             "candidate_multiplier": CANDIDATE_MULTIPLIER,
             "min_candidates": MIN_CANDIDATES,
+            "rrf_k": RRF_K,
+            "rrf_candidate_multiplier": RRF_CANDIDATE_MULTIPLIER,
+            "rrf_min_candidates": RRF_MIN_CANDIDATES,
         },
         "metrics": {
             method: summarize(results)
@@ -178,9 +162,12 @@ def append_experiment(path: Path, record: dict[str, Any]) -> None:
 def append_experiment_markdown(path: Path, record: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     lines: list[str] = []
+    existing_text = path.read_text(encoding="utf-8") if path.exists() else ""
 
-    if not path.exists() or not path.read_text(encoding="utf-8").strip():
+    if not existing_text.strip():
         lines.extend(["# Retrieval Experiments", ""])
+    elif not existing_text.endswith("\n\n"):
+        lines.append("")
 
     lines.extend(
         [
@@ -192,6 +179,9 @@ def append_experiment_markdown(path: Path, record: dict[str, Any]) -> None:
             f"- embedding_weight: {record['parameters']['embedding_weight']}",
             f"- candidate_multiplier: {record['parameters']['candidate_multiplier']}",
             f"- min_candidates: {record['parameters']['min_candidates']}",
+            f"- rrf_k: {record['parameters']['rrf_k']}",
+            f"- rrf_candidate_multiplier: {record['parameters']['rrf_candidate_multiplier']}",
+            f"- rrf_min_candidates: {record['parameters']['rrf_min_candidates']}",
             f"- notes: {record['notes'] or '-'}",
             "",
             "| method | cases | hit@3 | hit@5 | recall@5 | mrr@5 |",
@@ -216,7 +206,6 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Evaluate keyword, embedding, and hybrid retrieval.")
     parser.add_argument("--cases", type=Path, default=DEFAULT_CASES_PATH)
     parser.add_argument("--top-k", type=int, default=5)
-    parser.add_argument("--json-out", type=Path)
     parser.add_argument("--record-experiment", action="store_true")
     parser.add_argument("--no-jsonl-record", action="store_true")
     parser.add_argument("--experiment-name", default="manual_eval")
@@ -225,7 +214,7 @@ def main() -> None:
     parser.add_argument("--notes", default="")
     parser.add_argument(
         "--method",
-        choices=["keyword", "embedding", "hybrid", "all"],
+        choices=["keyword", "embedding", "hybrid", "hybrid_rrf", "all"],
         default="all",
     )
     args = parser.parse_args()
@@ -234,6 +223,7 @@ def main() -> None:
         "keyword": retrieve_by_keyword,
         "embedding": retrieve_by_embedding,
         "hybrid": hybrid_retrieve,
+        "hybrid_rrf": hybrid_retrieve_rrf,
     }
     if args.method != "all":
         retrievers = {args.method: retrievers[args.method]}
@@ -249,10 +239,6 @@ def main() -> None:
 
     print_summary(all_results)
     print_failures(all_results)
-
-    if args.json_out:
-        write_json_report(args.json_out, all_results)
-        print(f"\njson_out: {args.json_out}")
 
     if args.record_experiment:
         record = build_experiment_record(

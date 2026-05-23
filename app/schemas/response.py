@@ -5,13 +5,13 @@ class RetrievedSource(BaseModel):
     source: str
     title: str
     content: str
-    score: int
+    score: float
 
 
 class PublicRetrievedSource(BaseModel):
     source: str
     title: str
-    score: int
+    score: float
 
 
 class VerificationResult(BaseModel):
@@ -36,3 +36,4 @@ class DiagnosisDebugResponse(BaseModel):
     verification: VerificationResult
     revision_count: int
     project_id: str | None = None
+    trace: list[dict] = []

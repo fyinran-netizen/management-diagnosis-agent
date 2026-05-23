@@ -9,8 +9,8 @@ def format_retrieved_context(retrieved_chunks: list[dict[str, Any]]) -> str:
 
     return "\n\n".join(
         [
-            f"[Source: {item['source']} | Section: {item['title']}]\n{item['content']}"
-            for item in retrieved_chunks
+            f"[Knowledge item {index} | Section: {item['title']}]\n{item['content']}"
+            for index, item in enumerate(retrieved_chunks, start=1)
         ]
     )
 
@@ -29,12 +29,14 @@ def build_generation_messages(
     retrieved_chunks: list[dict[str, Any]],
     problem_types: list[str] | None = None,
     diagnosis_hints: list[str] | None = None,
+    diagnosis_summary: dict[str, Any] | None = None,
 ) -> list[dict[str, str]]:
     output_language = "Chinese" if language == "zh" else "English"
     retrieved_context = format_retrieved_context(retrieved_chunks)
 
     problem_types_text = ", ".join(problem_types or ["general_management_diagnosis"])
     diagnosis_hints_text = format_diagnosis_hints(diagnosis_hints)
+    diagnosis_summary_text = diagnosis_summary or {}
 
     return [
         {
@@ -57,6 +59,7 @@ def build_generation_messages(
                 f"Company context:\n{company_context}\n\n"
                 f"Analysis goal:\n{goal}\n\n"
                 f"Detected problem types:\n{problem_types_text}\n\n"
+                f"Structured diagnosis frame:\n{diagnosis_summary_text}\n\n"
                 f"Diagnosis hints:\n{diagnosis_hints_text}\n\n"
                 f"Retrieved management knowledge:\n{retrieved_context}\n\n"
                 "Please provide a concise structured management diagnosis. "

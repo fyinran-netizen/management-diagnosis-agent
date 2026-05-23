@@ -12,6 +12,10 @@ class AgentState(TypedDict, total=False):
 
     problem_types: list[str]
     diagnosis_hints: list[str]
+    problem_check: dict[str, Any]
+    retrieval_quality: dict[str, Any]
+    diagnosis_summary: dict[str, Any]
+    trace: list[dict[str, Any]]
 
     retrieved_chunks: list[dict[str, Any]]
     report: str

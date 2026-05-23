@@ -1,4 +1,5 @@
 from app.rag.retriever import retrieve_relevant_chunks
+from app.rag.retrieval.hybrid_retriever_rrf import hybrid_retrieve_rrf
 
 
 def test_retrieve_customer_value_chunks():
@@ -51,3 +52,18 @@ def test_retrieve_uses_private_knowledge_only():
     assert sources
     assert "99_private_test.md" not in sources
     assert not any(source.startswith("0") and source.endswith(".md") for source in sources)
+
+
+def test_rrf_hybrid_retriever_returns_score_fields():
+    query = "澧為暱鏀剧紦 鏂板鎴峰噺灏?KPI"
+
+    results = hybrid_retrieve_rrf(query, top_k=3)
+
+    assert len(results) > 0
+    assert "score" in results[0]
+    assert isinstance(results[0]["score"], int | float)
+    assert "retrieval_method" in results[0]
+    assert "keyword_score" in results[0]
+    assert "embedding_score" in results[0]
+    assert "hybrid_score" in results[0]
+    assert "rrf_score" in results[0]
