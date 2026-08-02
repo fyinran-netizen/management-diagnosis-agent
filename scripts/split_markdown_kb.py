@@ -253,18 +253,6 @@ def split_section_body(body_lines: list[str]) -> list[str]:
     return [chunk for chunk in chunks if chunk]
 
 
-def extract_keywords(*titles: str) -> list[str]:
-    keywords: list[str] = []
-    seen: set[str] = set()
-    for title in titles:
-        for token in re.split(r"[\s,.;:!?()\[\]\-_/|\u3000\uff0c\u3002\uff1a\uff1b\uff01\uff1f\u3001]+", title):
-            token = token.strip(" \"'")
-            if len(token) < 2 or token in seen:
-                continue
-            seen.add(token)
-            keywords.append(token)
-    return keywords[:8]
-
 
 def yaml_quote(value: str) -> str:
     return json.dumps(value, ensure_ascii=False)
@@ -273,7 +261,6 @@ def yaml_quote(value: str) -> str:
 def render_chunk(section: SourceSection, chunk_text: str, chunk_index: int, chunk_count: int) -> str:
     source_id = f"{section.chapter_id}_{section.section_id}_chunk_{chunk_index:02d}"
     title = section.section_title or section.chapter_title
-    keywords = extract_keywords(section.chapter_title, section.section_title)
     lines = [
         "---",
         f"source_id: {source_id}",
@@ -284,9 +271,7 @@ def render_chunk(section: SourceSection, chunk_text: str, chunk_index: int, chun
         f"chapter_title: {yaml_quote(section.chapter_title)}",
         f"section_title: {yaml_quote(section.section_title)}",
         f"title: {yaml_quote(title)}",
-        "keywords:",
     ]
-    lines.extend(f"  - {yaml_quote(keyword)}" for keyword in keywords)
     lines.extend(["---", "", f"# {section.chapter_title}"])
     if section.section_title:
         lines.extend(["", f"## {section.section_title}"])
@@ -334,7 +319,6 @@ def write_chunks(sections: list[SourceSection], output_dir: Path) -> list[dict[s
                     "section_title": section.section_title,
                     "title": section.section_title or section.chapter_title,
                     "char_count": len(chunk_text),
-                    "keywords": extract_keywords(section.chapter_title, section.section_title),
                 }
             )
 
@@ -351,14 +335,13 @@ def write_index_md(output_dir: Path, entries: list[dict[str, object]]) -> Path:
     lines = [
         "# Knowledge Base Index",
         "",
-        "| source_id | path | title | chunk | chars | keywords |",
-        "| --- | --- | --- | --- | --- | --- |",
+        "| source_id | path | title | chunk | chars |",
+        "| --- | --- | --- | --- | --- |",
     ]
     for entry in entries:
-        keywords = ", ".join(entry["keywords"])
         lines.append(
             f"| {entry['source_id']} | {entry['path']} | {entry['title']} | "
-            f"{entry['chunk_index']}/{entry['chunk_count']} | {entry['char_count']} | {keywords} |"
+            f"{entry['chunk_index']}/{entry['chunk_count']} | {entry['char_count']} |"
         )
     path = output_dir / "_index.md"
     path.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")

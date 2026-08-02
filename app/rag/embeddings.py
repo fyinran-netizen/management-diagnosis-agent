@@ -5,12 +5,17 @@ from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
-from sentence_transformers import SentenceTransformer
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_MODEL_NAME = "BAAI/bge-small-zh-v1.5"
 DEFAULT_CACHE_DIR = PROJECT_ROOT / ".hf_cache"
+DEFAULT_TORCH_CACHE_DIR = PROJECT_ROOT / ".torch_cache"
+
+os.environ.setdefault("HF_HOME", str(DEFAULT_CACHE_DIR))
+os.environ.setdefault("TORCH_HOME", str(DEFAULT_TORCH_CACHE_DIR))
+
+from sentence_transformers import SentenceTransformer
 
 
 def get_embedding_model_name() -> str:
