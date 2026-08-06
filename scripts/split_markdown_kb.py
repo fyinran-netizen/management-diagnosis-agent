@@ -105,14 +105,14 @@ def parse_sections(lines: list[str]) -> list[SourceSection]:
     section_title = ""
     body_lines: list[str] = []
 
-    def flush() -> None:
+    def flush(section_id_override: str | None = None) -> None:
         nonlocal body_lines
         if chapter_title is None or chapter_id is None:
             return
         trimmed = trim_blank_lines(body_lines)
         if not trimmed:
             return
-        current_section_id = f"s{max(section_index, 1):02d}"
+        current_section_id = section_id_override or f"s{max(section_index, 1):02d}"
         sections.append(
             SourceSection(
                 chapter_id=chapter_id,
@@ -139,7 +139,10 @@ def parse_sections(lines: list[str]) -> list[SourceSection]:
 
         h2_match = H2_RE.match(line)
         if h2_match and chapter_title is not None:
-            flush()
+            if section_index == 0 and trim_blank_lines(body_lines):
+                flush("s00")
+            else:
+                flush()
             section_index += 1
             section_title = h2_match.group(1).strip()
             body_lines = []

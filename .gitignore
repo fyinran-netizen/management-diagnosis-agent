@@ -1,7 +1,11 @@
 .venv/
 .uv_cache/
+.uv_python/
 .hf_cache/
 .torch_cache/
+.pip_cache/
+.runtime/
+.cache/
 .pytest_tmp*/
 .pytest_run_tmp/
 .pytest_cache/

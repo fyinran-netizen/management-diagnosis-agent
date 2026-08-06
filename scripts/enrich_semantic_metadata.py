@@ -21,7 +21,7 @@ KNOWLEDGE_DIR = PROJECT_ROOT / "data" / "private_knowledge_base"
 INDEX_PATH = KNOWLEDGE_DIR / "_index.json"
 OUTPUT_PATH = KNOWLEDGE_DIR / "semantic_metadata.jsonl"
 
-DIAGNOSIS_TAGS = [
+ENGLISH_DIAGNOSIS_TAGS = [
     "customer_value_misalignment",
     "opportunity_neglect",
     "strategy_execution_gap",
@@ -30,6 +30,17 @@ DIAGNOSIS_TAGS = [
     "short_term_decision_bias",
     "entrepreneurial_leadership_gap",
     "general_management_diagnosis",
+]
+
+DIAGNOSIS_LABEL_SEEDS_ZH = [
+    "客户价值错位",
+    "机会识别不足",
+    "战略执行脱节",
+    "指标体系错位",
+    "过度控制抑制自驱",
+    "短期决策偏差",
+    "企业家领导力缺口",
+    "通用管理问题",
 ]
 
 MAX_LIST_ITEMS = 8
@@ -105,20 +116,22 @@ def clean_content(markdown_body: str) -> str:
 
 def build_prompt(entry: dict[str, Any], cleaned_content: str) -> list[dict[str, str]]:
     schema = {
-        "summary": "80-150 Chinese characters. Explain the management idea in this chunk.",
+        "summary": "80-150 Chinese characters. Explain the management idea in this chunk in Chinese.",
         "extracted": {
-            "concept_keywords": ["terms explicitly supported by the chunk"],
-            "method_keywords": ["methods or frameworks explicitly supported by the chunk"],
+            "concept_keywords": ["Chinese concepts explicitly supported by the chunk"],
+            "method_keywords": ["Chinese methods or frameworks explicitly supported by the chunk"],
+            "definition_phrases": ["short Chinese phrases that define or explain core concepts in the chunk"],
             "named_entities": ["people, companies, books, or named frameworks explicitly mentioned"],
         },
         "inferred": {
-            "symptom_keywords": ["management symptoms reasonably inferred from the chunk"],
-            "diagnosis_tags": DIAGNOSIS_TAGS,
-            "recommended_methods": ["practical methods reasonably inferred from the chunk"],
+            "symptom_keywords": ["Chinese management symptoms a user may describe"],
+            "diagnosis_labels_zh": ["Chinese diagnostic label candidates for retrieval and manual merge"],
+            "diagnosis_tags": [],
+            "recommended_methods": ["Chinese practical methods reasonably inferred from the chunk"],
         },
         "evidence_anchors": [
             {
-                "label": "short label for the evidence",
+                "label": "short Chinese label for the evidence",
                 "anchor_text": "short exact substring copied from cleaned_content",
             }
         ],
@@ -132,8 +145,9 @@ def build_prompt(entry: dict[str, Any], cleaned_content: str) -> list[dict[str, 
                 "You extract structured semantic metadata for a Chinese management knowledge base. "
                 "Return valid JSON only. Do not include markdown fences or explanations. "
                 "Separate extracted facts from inferred diagnosis information. "
-                "Use concise, domain-specific Chinese keywords. "
+                "Use concise, domain-specific Chinese keywords and labels. "
                 "Do not invent company facts. "
+                "Do not generate English diagnosis tags; keep inferred.diagnosis_tags as an empty array for later human mapping. "
                 "For evidence_anchors, anchor_text must be an exact short substring from cleaned_content."
             ),
         },
@@ -145,16 +159,19 @@ def build_prompt(entry: dict[str, Any], cleaned_content: str) -> list[dict[str, 
                 f"chapter_title: {entry.get('chapter_title')}\n"
                 f"section_title: {entry.get('section_title')}\n"
                 f"title: {entry.get('title')}\n\n"
-                f"Allowed diagnosis_tags:\n{DIAGNOSIS_TAGS}\n\n"
+                f"Chinese diagnosis label seed directions, for reference only:\n{DIAGNOSIS_LABEL_SEEDS_ZH}\n\n"
+                f"English diagnosis tag codes reserved for later human mapping; do not output them:\n{ENGLISH_DIAGNOSIS_TAGS}\n\n"
                 f"Output JSON schema example:\n{json.dumps(schema, ensure_ascii=False, indent=2)}\n\n"
                 "Rules:\n"
                 "- summary must be specific to this chunk, not generic.\n"
-                "- extracted.concept_keywords and extracted.method_keywords must be directly supported by the text.\n"
+                "- extracted.concept_keywords, extracted.method_keywords, and extracted.definition_phrases must be directly supported by the text.\n"
                 "- inferred.symptom_keywords and inferred.recommended_methods may be inferred, but must stay grounded.\n"
-                "- inferred.diagnosis_tags must only use allowed tags.\n"
+                "- inferred.diagnosis_labels_zh should be Chinese label candidates, not canonical labels; similar labels may later be manually merged.\n"
+                "- inferred.diagnosis_tags must be []. English tags are added only during manual review.\n"
                 f"- Use at most {MAX_LIST_ITEMS} items per keyword list.\n"
                 f"- Use at most {MAX_ANCHORS} evidence anchors.\n"
                 "- evidence_anchors.anchor_text must be copied exactly from cleaned_content and should be short.\n"
+                "- Do not output an evidence anchor unless you are certain anchor_text is an exact substring.\n"
                 "- If unsure, use an empty array.\n\n"
                 f"cleaned_content:\n{cleaned_content}"
             ),
@@ -225,7 +242,7 @@ def normalize_metadata(raw: dict[str, Any]) -> dict[str, Any]:
     tags = [
         tag
         for tag in ensure_string_list(inferred.get("diagnosis_tags"))
-        if tag in DIAGNOSIS_TAGS
+        if tag in ENGLISH_DIAGNOSIS_TAGS
     ]
 
     confidence = raw.get("metadata_confidence", 0.0)
@@ -240,10 +257,12 @@ def normalize_metadata(raw: dict[str, Any]) -> dict[str, Any]:
         "extracted": {
             "concept_keywords": ensure_string_list(extracted.get("concept_keywords")),
             "method_keywords": ensure_string_list(extracted.get("method_keywords")),
+            "definition_phrases": ensure_string_list(extracted.get("definition_phrases")),
             "named_entities": ensure_string_list(extracted.get("named_entities")),
         },
         "inferred": {
             "symptom_keywords": ensure_string_list(inferred.get("symptom_keywords")),
+            "diagnosis_labels_zh": ensure_string_list(inferred.get("diagnosis_labels_zh")),
             "diagnosis_tags": tags,
             "recommended_methods": ensure_string_list(inferred.get("recommended_methods")),
         },
@@ -276,6 +295,7 @@ def anchors_to_spans(anchors: list[Any], content: str) -> tuple[list[dict[str, A
         spans.append(
             {
                 "label": label,
+                "text": anchor_text,
                 "start": index,
                 "end": end,
             }
@@ -296,14 +316,17 @@ def build_record(
         cleaned_content,
     )
 
-    validation_issues: list[str] = []
+    blocking_issues: list[str] = []
     if not metadata["summary"]:
-        validation_issues.append("summary is empty")
-    if not metadata["inferred"]["diagnosis_tags"]:
-        validation_issues.append("diagnosis_tags is empty")
-    validation_issues.extend(evidence_issues)
+        blocking_issues.append("summary is empty")
+    if not metadata["inferred"]["diagnosis_labels_zh"]:
+        blocking_issues.append("diagnosis_labels_zh is empty")
+    if not evidence_spans:
+        blocking_issues.append("evidence_spans is empty")
 
-    status = "pending" if not validation_issues else "needs_edit"
+    validation_issues = blocking_issues + evidence_issues
+
+    status = "pending" if not blocking_issues else "needs_edit"
     confidence = metadata.pop("metadata_confidence", 0.0)
 
     return {
@@ -372,7 +395,9 @@ def print_review(records: list[dict[str, Any]]) -> None:
         print(f"summary: {record['summary']}")
         print(f"concept_keywords: {', '.join(extracted['concept_keywords'])}")
         print(f"method_keywords: {', '.join(extracted['method_keywords'])}")
+        print(f"definition_phrases: {', '.join(extracted['definition_phrases'])}")
         print(f"symptom_keywords: {', '.join(inferred['symptom_keywords'])}")
+        print(f"diagnosis_labels_zh: {', '.join(inferred['diagnosis_labels_zh'])}")
         print(f"diagnosis_tags: {', '.join(inferred['diagnosis_tags'])}")
         print(f"recommended_methods: {', '.join(inferred['recommended_methods'])}")
         print(f"evidence_spans: {len(record['evidence_spans'])}")
@@ -388,6 +413,11 @@ def main() -> None:
     parser.add_argument("--model")
     parser.add_argument("--timeout", type=int, default=180)
     parser.add_argument("--overwrite", action="store_true")
+    parser.add_argument(
+        "--replace-output",
+        action="store_true",
+        help="Replace the output file with only this run's records.",
+    )
     parser.add_argument("--include-preface", action="store_true")
     parser.add_argument("--no-write", action="store_true")
     args = parser.parse_args()
@@ -434,10 +464,12 @@ def main() -> None:
                 "extracted": {
                     "concept_keywords": [],
                     "method_keywords": [],
+                    "definition_phrases": [],
                     "named_entities": [],
                 },
                 "inferred": {
                     "symptom_keywords": [],
+                    "diagnosis_labels_zh": [],
                     "diagnosis_tags": [],
                     "recommended_methods": [],
                 },
@@ -462,7 +494,9 @@ def main() -> None:
         records.append(record)
 
     if not args.no_write:
-        if args.overwrite:
+        if args.replace_output:
+            write_jsonl(args.output, records)
+        elif args.overwrite:
             retained: list[dict[str, Any]] = []
             if args.output.exists():
                 selected_ids = {record["source_id"] for record in records}
