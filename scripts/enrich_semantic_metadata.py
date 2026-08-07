@@ -9,8 +9,12 @@ from pathlib import Path
 from typing import Any
 
 import requests
+from dotenv import load_dotenv
+from langsmith import traceable
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+load_dotenv(PROJECT_ROOT / ".env")
+
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
@@ -179,6 +183,7 @@ def build_prompt(entry: dict[str, Any], cleaned_content: str) -> list[dict[str, 
     ]
 
 
+@traceable(name="qwen-semantic-metadata", run_type="llm")
 def call_ollama(messages: list[dict[str, str]], model: str | None, timeout: int) -> str:
     base_url, default_model = get_ollama_config()
     payload = {
