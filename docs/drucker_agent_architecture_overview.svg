@@ -1,0 +1,241 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100">
+  <defs>
+    <style>
+      .title { font-family: "Microsoft YaHei","Noto Sans CJK SC","PingFang SC",sans-serif; font-size: 30px; font-weight: 700; fill: #1f2937; }
+      .section { font-family: "Microsoft YaHei","Noto Sans CJK SC","PingFang SC",sans-serif; font-size: 20px; font-weight: 700; fill: #334155; }
+      .node-title { font-family: "Microsoft YaHei","Noto Sans CJK SC","PingFang SC",sans-serif; font-size: 17px; font-weight: 700; fill: #1f2937; }
+      .node-sub { font-family: "Microsoft YaHei","Noto Sans CJK SC","PingFang SC",sans-serif; font-size: 13px; fill: #475569; }
+      .small { font-family: "Microsoft YaHei","Noto Sans CJK SC","PingFang SC",sans-serif; font-size: 12px; fill: #64748b; }
+      .edge { stroke: #64748b; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .edge-soft { stroke: #94a3b8; stroke-width: 1.8; fill: none; marker-end: url(#arrowSoft); }
+      .dash { stroke: #94a3b8; stroke-width: 2; fill: none; stroke-dasharray: 8 7; marker-end: url(#arrowSoft); }
+      .group { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 22; }
+      .group-dash { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; stroke-dasharray: 8 7; rx: 22; }
+      .blue { fill: #eaf3ff; stroke: #6ea8e6; stroke-width: 2; }
+      .green { fill: #edf9f1; stroke: #72b98b; stroke-width: 2; }
+      .orange { fill: #fff5e8; stroke: #e5a75a; stroke-width: 2; }
+      .purple { fill: #f3edff; stroke: #9f7aea; stroke-width: 2; }
+      .cyan { fill: #e8f8fb; stroke: #5db7c6; stroke-width: 2; }
+      .gray { fill: #f3f4f6; stroke: #9ca3af; stroke-width: 2; }
+      .red { fill: #fff0f0; stroke: #dc7b7b; stroke-width: 2; }
+      .pill { rx: 18; ry: 18; }
+      .decision { fill: #fff5e8; stroke: #e5a75a; stroke-width: 2; }
+    </style>
+
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8.5" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 z" fill="#64748b"/>
+    </marker>
+    <marker id="arrowSoft" markerWidth="10" markerHeight="10" refX="8.5" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 z" fill="#94a3b8"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="1100" fill="#f8fafc"/>
+
+  <text x="70" y="58" class="title">Local Management Diagnosis Agent — Architecture Overview</text>
+  <text x="70" y="86" class="small">本地受控工作流 · LangGraph 编排 · Python 规则决策 · Hybrid RAG · Ollama/Qwen 生成</text>
+
+  <!-- Access Layer -->
+  <rect x="55" y="115" width="1490" height="130" class="group" filter="url(#shadow)"/>
+  <text x="80" y="145" class="section">① 接入层</text>
+
+  <rect x="110" y="165" width="170" height="52" rx="14" class="blue"/>
+  <text x="195" y="197" text-anchor="middle" class="node-title">User</text>
+
+  <rect x="355" y="160" width="220" height="62" rx="14" class="blue"/>
+  <text x="465" y="188" text-anchor="middle" class="node-title">Streamlit Web UI</text>
+  <text x="465" y="207" text-anchor="middle" class="node-sub">展示报告 / Timeline / State</text>
+
+  <rect x="660" y="160" width="260" height="62" rx="14" class="blue"/>
+  <text x="790" y="188" text-anchor="middle" class="node-title">FastAPI</text>
+  <text x="790" y="207" text-anchor="middle" class="node-sub">/diagnose · /admin/diagnose</text>
+
+  <rect x="1030" y="160" width="365" height="62" rx="14" class="green"/>
+  <text x="1212" y="188" text-anchor="middle" class="node-title">run_diagnosis_workflow(description)</text>
+  <text x="1212" y="207" text-anchor="middle" class="node-sub">统一进入 LangGraph 工作流</text>
+
+  <path d="M280 191 H355" class="edge"/>
+  <path d="M280 191 C430 235, 520 235, 660 191" class="edge-soft"/>
+  <path d="M575 191 H1030" class="edge"/>
+  <path d="M920 191 H1030" class="edge"/>
+
+  <!-- Online Agent -->
+  <rect x="55" y="270" width="1490" height="420" class="group" filter="url(#shadow)"/>
+  <text x="80" y="302" class="section">② 在线诊断：LangGraph 主状态机</text>
+
+  <!-- Main row -->
+  <rect x="95" y="340" width="120" height="54" rx="18" class="gray"/>
+  <text x="155" y="373" text-anchor="middle" class="node-title">START</text>
+
+  <rect x="260" y="335" width="160" height="64" rx="14" class="green"/>
+  <text x="340" y="363" text-anchor="middle" class="node-title">Intake</text>
+  <text x="340" y="383" text-anchor="middle" class="node-sub">输入整理</text>
+
+  <polygon points="500,330 570,367 500,404 430,367" class="decision"/>
+  <text x="500" y="361" text-anchor="middle" class="node-title">Problem</text>
+  <text x="500" y="381" text-anchor="middle" class="node-title">Check</text>
+
+  <rect x="625" y="335" width="145" height="64" rx="14" class="green"/>
+  <text x="697" y="363" text-anchor="middle" class="node-title">Route</text>
+  <text x="697" y="383" text-anchor="middle" class="node-sub">问题分类</text>
+
+  <rect x="825" y="335" width="155" height="64" rx="14" class="cyan"/>
+  <text x="902" y="363" text-anchor="middle" class="node-title">Retrieve</text>
+  <text x="902" y="383" text-anchor="middle" class="node-sub">Hybrid RAG</text>
+
+  <polygon points="1060,330 1140,367 1060,404 980,367" class="decision"/>
+  <text x="1060" y="360" text-anchor="middle" class="node-title">Retrieval</text>
+  <text x="1060" y="381" text-anchor="middle" class="node-title">Check</text>
+
+  <rect x="1200" y="335" width="150" height="64" rx="14" class="green"/>
+  <text x="1275" y="363" text-anchor="middle" class="node-title">Diagnose</text>
+  <text x="1275" y="383" text-anchor="middle" class="node-sub">结构化诊断框架</text>
+
+  <rect x="1385" y="335" width="125" height="64" rx="14" class="purple"/>
+  <text x="1447" y="363" text-anchor="middle" class="node-title">Generate</text>
+  <text x="1447" y="383" text-anchor="middle" class="node-sub">Ollama / Qwen</text>
+
+  <path d="M215 367 H260" class="edge"/>
+  <path d="M420 367 H430" class="edge"/>
+  <path d="M570 367 H625" class="edge"/>
+  <path d="M770 367 H825" class="edge"/>
+  <path d="M980 367 H980" class="edge"/>
+  <path d="M1140 367 H1200" class="edge"/>
+  <path d="M1350 367 H1385" class="edge"/>
+
+  <!-- Early exits -->
+  <rect x="355" y="455" width="220" height="62" rx="18" class="red"/>
+  <text x="465" y="481" text-anchor="middle" class="node-title">Clarification Response</text>
+  <text x="465" y="501" text-anchor="middle" class="node-sub">输入不足 → 规则追问 → END</text>
+  <path d="M500 404 V455" class="edge-soft"/>
+  <text x="515" y="431" class="small">unclear</text>
+
+  <rect x="950" y="455" width="245" height="62" rx="18" class="red"/>
+  <text x="1072" y="481" text-anchor="middle" class="node-title">Low-confidence Response</text>
+  <text x="1072" y="501" text-anchor="middle" class="node-sub">检索不足 → 不强行生成 → END</text>
+  <path d="M1060 404 V455" class="edge-soft"/>
+  <text x="1077" y="431" class="small">weak</text>
+
+  <!-- Generate -> Verify loop -->
+  <rect x="1210" y="565" width="155" height="66" rx="14" class="purple"/>
+  <text x="1287" y="592" text-anchor="middle" class="node-title">Report</text>
+  <text x="1287" y="612" text-anchor="middle" class="node-sub">生成诊断报告</text>
+
+  <polygon points="1075,555 1155,598 1075,641 995,598" class="decision"/>
+  <text x="1075" y="592" text-anchor="middle" class="node-title">Verify</text>
+  <text x="1075" y="613" text-anchor="middle" class="node-sub">规则验证</text>
+
+  <rect x="815" y="565" width="145" height="66" rx="14" class="purple"/>
+  <text x="887" y="592" text-anchor="middle" class="node-title">Revise</text>
+  <text x="887" y="612" text-anchor="middle" class="node-sub">最多一次修订</text>
+
+  <rect x="600" y="565" width="150" height="66" rx="14" class="green"/>
+  <text x="675" y="592" text-anchor="middle" class="node-title">Memory</text>
+  <text x="675" y="612" text-anchor="middle" class="node-sub">保存项目记录</text>
+
+  <rect x="380" y="570" width="150" height="56" rx="18" class="gray"/>
+  <text x="455" y="604" text-anchor="middle" class="node-title">END</text>
+
+  <path d="M1447 399 V530 H1287 V565" class="edge"/>
+  <path d="M1210 598 H1155" class="edge"/>
+  <path d="M995 598 H960" class="edge"/>
+  <text x="969" y="585" class="small">fail</text>
+  <path d="M815 598 H785 V535 H1075 V555" class="edge-soft"/>
+  <path d="M995 620 C900 670, 800 670, 750 610" class="edge"/>
+  <text x="835" y="660" class="small">passed / revision limit</text>
+  <path d="M600 598 H530" class="edge"/>
+
+  <!-- AgentState banner -->
+  <rect x="95" y="648" width="1370" height="28" rx="12" fill="#eef2ff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <text x="780" y="667" text-anchor="middle" class="small">Shared AgentState：上下文 · 路由结果 · 检索结果 · 报告 · 验证 · revision_count · trace</text>
+
+  <!-- RAG subsystem -->
+  <rect x="55" y="720" width="720" height="310" class="group" filter="url(#shadow)"/>
+  <text x="80" y="752" class="section">③ Hybrid RAG 检索子系统</text>
+
+  <rect x="95" y="790" width="145" height="58" rx="14" class="cyan"/>
+  <text x="167" y="816" text-anchor="middle" class="node-title">Query</text>
+  <text x="167" y="835" text-anchor="middle" class="node-sub">上下文 + 路由提示</text>
+
+  <rect x="300" y="775" width="165" height="60" rx="14" class="cyan"/>
+  <text x="382" y="802" text-anchor="middle" class="node-title">Keyword</text>
+  <text x="382" y="822" text-anchor="middle" class="node-sub">Markdown 规则评分</text>
+
+  <rect x="300" y="865" width="165" height="60" rx="14" class="cyan"/>
+  <text x="382" y="892" text-anchor="middle" class="node-title">Embedding</text>
+  <text x="382" y="912" text-anchor="middle" class="node-sub">BGE + Vector Index</text>
+
+  <rect x="535" y="815" width="190" height="72" rx="14" class="cyan"/>
+  <text x="630" y="842" text-anchor="middle" class="node-title">Normalize + Fusion</text>
+  <text x="630" y="862" text-anchor="middle" class="node-sub">去重 · 排序 · Top 5</text>
+
+  <path d="M240 819 H270 V805 H300" class="edge"/>
+  <path d="M240 819 H270 V895 H300" class="edge"/>
+  <path d="M465 805 H500 V838 H535" class="edge"/>
+  <path d="M465 895 H500 V864 H535" class="edge"/>
+
+  <rect x="100" y="950" width="170" height="52" rx="10" class="gray"/>
+  <text x="185" y="972" text-anchor="middle" class="node-title">Private Markdown KB</text>
+  <text x="185" y="990" text-anchor="middle" class="node-sub">本地私有知识库</text>
+
+  <rect x="305" y="950" width="170" height="52" rx="10" class="gray"/>
+  <text x="390" y="972" text-anchor="middle" class="node-title">Vector Index</text>
+  <text x="390" y="990" text-anchor="middle" class="node-sub">174 chunks · 512 dim</text>
+
+  <path d="M185 950 V835 H300" class="edge-soft"/>
+  <path d="M390 950 V925" class="edge-soft"/>
+
+  <!-- Offline -->
+  <rect x="805" y="720" width="740" height="310" class="group-dash" filter="url(#shadow)"/>
+  <text x="830" y="752" class="section">④ 离线知识库建设</text>
+
+  <rect x="845" y="800" width="145" height="60" rx="14" class="gray"/>
+  <text x="917" y="826" text-anchor="middle" class="node-title">Raw Document</text>
+  <text x="917" y="846" text-anchor="middle" class="node-sub">原始 Markdown</text>
+
+  <rect x="1030" y="800" width="160" height="60" rx="14" class="green"/>
+  <text x="1110" y="826" text-anchor="middle" class="node-title">Split Pipeline</text>
+  <text x="1110" y="846" text-anchor="middle" class="node-sub">结构化 Chunk</text>
+
+  <rect x="1235" y="775" width="165" height="60" rx="14" class="cyan"/>
+  <text x="1317" y="802" text-anchor="middle" class="node-title">Vector Build</text>
+  <text x="1317" y="822" text-anchor="middle" class="node-sub">BGE Embedding</text>
+
+  <rect x="1235" y="880" width="165" height="60" rx="14" class="purple"/>
+  <text x="1317" y="907" text-anchor="middle" class="node-title">Metadata Build</text>
+  <text x="1317" y="927" text-anchor="middle" class="node-sub">Qwen + 规则校验</text>
+
+  <rect x="1430" y="775" width="85" height="60" rx="10" class="gray"/>
+  <text x="1472" y="802" text-anchor="middle" class="node-title">Vector</text>
+  <text x="1472" y="822" text-anchor="middle" class="node-sub">Index</text>
+
+  <rect x="1430" y="880" width="85" height="60" rx="10" class="gray"/>
+  <text x="1472" y="907" text-anchor="middle" class="node-title">Semantic</text>
+  <text x="1472" y="927" text-anchor="middle" class="node-sub">Metadata</text>
+
+  <path d="M990 830 H1030" class="edge"/>
+  <path d="M1190 830 H1235" class="edge"/>
+  <path d="M1400 805 H1430" class="edge"/>
+  <path d="M1190 840 C1210 855, 1215 910, 1235 910" class="edge-soft"/>
+  <path d="M1400 910 H1430" class="edge"/>
+
+  <!-- offline-to-online relationships -->
+  <path d="M1472 775 C1472 735, 520 735, 390 950" class="dash"/>
+  <text x="980" y="744" class="small">向量索引供在线 Embedding Retriever 使用</text>
+
+  <path d="M1472 940 C1472 1020, 800 1045, 650 885" class="dash"/>
+  <text x="1050" y="1015" class="small">Semantic Metadata：已生成，但尚未接入在线 Retriever</text>
+
+  <!-- legend -->
+  <g transform="translate(80,1060)">
+    <rect x="0" y="-14" width="18" height="18" rx="4" class="green"/><text x="26" y="0" class="small">Python / LangGraph</text>
+    <rect x="175" y="-14" width="18" height="18" rx="4" class="purple"/><text x="201" y="0" class="small">LLM</text>
+    <rect x="270" y="-14" width="18" height="18" rx="4" class="cyan"/><text x="296" y="0" class="small">RAG / Embedding</text>
+    <polygon points="445,-14 455,-5 445,4 435,-5" class="decision"/><text x="465" y="0" class="small">规则判断</text>
+    <rect x="555" y="-14" width="18" height="18" rx="4" class="gray"/><text x="581" y="0" class="small">本地数据 / 索引</text>
+    <line x1="760" y1="-5" x2="808" y2="-5" stroke="#94a3b8" stroke-width="2" stroke-dasharray="8 7"/><text x="818" y="0" class="small">离线 / 尚未接入</text>
+  </g>
+</svg>

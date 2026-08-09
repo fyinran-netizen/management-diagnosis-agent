@@ -4,6 +4,8 @@ A local workflow-based AI Agent prototype for management diagnosis.
 
 The current implementation combines LangGraph, Ollama, a private management knowledge base, local embedding retrieval, hybrid RAG, report verification, project memory, and a Streamlit interface for running and inspecting Agent diagnoses.
 
+Architecture diagram: [docs/drucker_agent_architecture_overview.svg](docs/drucker_agent_architecture_overview.svg)
+
 ---
 
 ## Current Agent Workflow
@@ -77,7 +79,7 @@ Current vector index:
 
 ```text
 knowledge_scope: private
-chunk_count: 172
+chunk_count: 174
 embedding_dim: 512
 ```
 
