@@ -88,6 +88,23 @@
 | hybrid | 16 | 0.562 | 0.812 | 0.438 | 0.588 |
 | hybrid_rrf | 16 | 0.562 | 0.688 | 0.396 | 0.525 |
 
+## keyword_semantic_metadata_v1
+
+- cases: 16
+- top_k: 5
+- keyword_weight: 0.15
+- embedding_weight: 0.85
+- candidate_multiplier: 5
+- min_candidates: 25
+- rrf_k: 60.0
+- rrf_candidate_multiplier: 5
+- rrf_min_candidates: 25
+- notes: Keyword BM25 indexes chunk structure plus semantic metadata fields: summary, concept/method/named-entity keywords, symptom keywords, diagnosis labels/tags, and recommended methods.
+
+| method | cases | hit@3 | hit@5 | recall@5 | mrr@5 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| keyword | 16 | 0.812 | 0.875 | 0.521 | 0.752 |
+
 ## rrf_k10_candidates_5x25
 
 - cases: 16
