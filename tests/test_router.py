@@ -1,4 +1,4 @@
-from app.tools.problem_router_tool import route_problem
+from app.tools.understanding.problem_router import route_problem
 
 
 def test_route_customer_value_and_metrics_problem():

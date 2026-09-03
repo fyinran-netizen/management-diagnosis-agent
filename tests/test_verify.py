@@ -1,4 +1,4 @@
-from app.tools.verify_tool import verify_report_quality
+from app.tools.validation.report import verify_report_quality
 
 
 def test_verify_passes_good_report():
@@ -22,6 +22,7 @@ def test_verify_passes_good_report():
         }
     ]
 
+    report += "\nKnowledge item 1."
     result = verify_report_quality(report, retrieved_chunks)
 
     assert result["passed"] is True
@@ -67,6 +68,8 @@ def test_verify_fails_when_report_exposes_raw_source_name():
         "4. 缺失信息与假设：目前缺少客户流失数据。"
     )
 
+    report += "\n知识项1"
+
     retrieved_chunks = [
         {
             "source": "ch04/s06.md",
@@ -91,3 +94,29 @@ def test_verify_fails_truncated_report():
     assert result["passed"] is False
     assert result["needs_revision"] is True
     assert any("truncated" in issue or "unmatched" in issue for issue in result["issues"])
+
+
+def test_verify_accepts_required_item_citation_without_basis_keyword():
+    report = (
+        "Core diagnosis: the operating model is not creating enough customer value. "
+        "Knowledge item 1 supports this diagnosis through the retrieved management concept. "
+        "Practical recommendations: interview customers, review the value proposition, and connect "
+        "the leading indicator to the team decision process. Missing information: customer-level "
+        "retention data and the current measurement definitions are not available."
+    )
+    result = verify_report_quality(report, [{"source": "kb.md", "title": "Value", "content": "Evidence", "score": 1}])
+
+    assert result["passed"] is True
+    assert result["issues"] == []
+
+
+def test_verify_requires_retrieved_item_citation():
+    report = (
+        "Core diagnosis: the operating model is not creating enough customer value. "
+        "Practical recommendations: interview customers and review the value proposition. "
+        "Missing information: customer-level retention data is not available."
+    )
+    result = verify_report_quality(report, [{"source": "kb.md", "title": "Value", "content": "Evidence", "score": 1}])
+
+    assert result["passed"] is False
+    assert "The report does not cite retrieved knowledge items using the required format." in result["issues"]

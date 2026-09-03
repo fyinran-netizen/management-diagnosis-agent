@@ -21,7 +21,7 @@ terminal.txt
 data/private_knowledge_base/
 data/vector_index/
 data/chunk_stats.*
-data/retrieval_eval_report.json
+tests/evals/retrieval_eval_report.json
 data/chroma_db/
 data/project_memory/
 *.sqlite3

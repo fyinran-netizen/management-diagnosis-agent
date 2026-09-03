@@ -1,5 +1,6 @@
-from app.rag.retriever import retrieve_relevant_chunks
-from app.rag.retrieval.hybrid_retriever_rrf import hybrid_retrieve_rrf
+from app.tools.retrieval.tool import retrieve_relevant_chunks
+from app.tools.retrieval.retrievers.hybrid_retriever_rrf import hybrid_retrieve_rrf
+from app.tools.retrieval.retrievers.embedding_metadata_retriever import retrieve_by_embedding_metadata
 
 
 def test_retrieve_customer_value_chunks():
@@ -39,8 +40,13 @@ def test_retrieve_returns_score_field():
     assert isinstance(results[0]["score"], int | float)
     assert "retrieval_method" in results[0]
     assert "keyword_score" in results[0]
+    assert "bm25_score" in results[0]
     assert "embedding_score" in results[0]
+    assert "embedding_cosine_score" in results[0]
+    assert "normalized_keyword_score" in results[0]
+    assert "normalized_embedding_score" in results[0]
     assert "hybrid_score" in results[0]
+    assert results[0]["rank"] == 1
 
 
 def test_retrieve_uses_private_knowledge_only():
@@ -64,6 +70,20 @@ def test_rrf_hybrid_retriever_returns_score_fields():
     assert isinstance(results[0]["score"], int | float)
     assert "retrieval_method" in results[0]
     assert "keyword_score" in results[0]
+    assert "bm25_score" in results[0]
     assert "embedding_score" in results[0]
+    assert "embedding_cosine_score" in results[0]
     assert "hybrid_score" in results[0]
     assert "rrf_score" in results[0]
+    assert "keyword_rank" in results[0]
+    assert "embedding_rank" in results[0]
+    assert results[0]["rank"] == 1
+
+
+def test_metadata_embedding_retriever_uses_separate_index():
+    results = retrieve_by_embedding_metadata("KPI 鎸囨爣 鐩爣", top_k=3)
+
+    assert len(results) == 3
+    assert results[0]["retrieval_method"] == "embedding_metadata"
+    assert results[0]["rank"] == 1
+    assert "embedding_cosine_score" in results[0]

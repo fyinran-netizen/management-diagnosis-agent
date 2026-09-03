@@ -1,8 +1,21 @@
 from __future__ import annotations
 
+import os
 from typing import Any
 
+# Configure Hugging Face/Transformers before importing Streamlit or any app
+# module that may import sentence-transformers transitively.
+os.environ["TRANSFORMERS_VERBOSITY"] = "error"
+os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
+
+from transformers import logging as transformers_logging
+
+transformers_logging.set_verbosity_error()
+transformers_logging.disable_progress_bar()
+
 import streamlit as st
+
+from app.core.logging import configure_logging
 
 from app.agent.graph import run_diagnosis_workflow
 from app.llm.ollama_client import OllamaClientError, get_ollama_config
@@ -74,6 +87,7 @@ def render_sources(sources: list[dict[str, Any]]) -> None:
 
 
 def main() -> None:
+    configure_logging()
     st.set_page_config(
         page_title="Management Diagnosis Agent",
         page_icon="MD",

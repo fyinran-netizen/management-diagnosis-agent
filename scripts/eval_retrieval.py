@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
-from dataclasses import dataclass
+import tempfile
+import time
 from pathlib import Path
 from typing import Any, Callable
 
@@ -11,249 +13,254 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from app.rag.retrieval.embedding_retriever import retrieve_by_embedding
-from app.rag.retrieval.hybrid_retriever import (
+from app.tools.retrieval.retrievers.embedding_retriever import retrieve_by_embedding
+from app.tools.retrieval.embeddings import get_embedding_model_name
+from app.tools.retrieval.retrievers.keyword_retriever import (
+    SEMANTIC_METADATA_PATH,
+    get_cached_bm25_index,
+    load_semantic_metadata_by_source,
+    load_semantic_metadata_by_source_unweighted,
+)
+from app.tools.retrieval.retrievers.embedding_retriever import get_cached_vector_index
+from app.tools.retrieval.retrievers.hybrid_retriever import (
     CANDIDATE_MULTIPLIER,
     EMBEDDING_WEIGHT,
     KEYWORD_WEIGHT,
     MIN_CANDIDATES,
+    hybrid_retrieve,
 )
-from app.rag.retrieval.hybrid_retriever import hybrid_retrieve
-from app.rag.retrieval.hybrid_retriever_rrf import (
+from app.tools.retrieval.retrievers.hybrid_retriever_rrf import (
     RRF_CANDIDATE_MULTIPLIER,
     RRF_K,
     RRF_MIN_CANDIDATES,
     hybrid_retrieve_rrf,
 )
-from app.rag.retrieval.keyword_retriever import retrieve_by_keyword
-
+from app.tools.retrieval.retrievers.keyword_retriever import retrieve_by_keyword
 
 DEFAULT_CASES_PATH = PROJECT_ROOT / "tests" / "evals" / "retrieval_cases.json"
-DEFAULT_EXPERIMENTS_PATH = PROJECT_ROOT / "tests" / "evals" / "retrieval_experiments.jsonl"
-DEFAULT_EXPERIMENTS_MD_PATH = PROJECT_ROOT / "tests" / "evals" / "retrieval_experiments.md"
+DEFAULT_REPORT_PATH = PROJECT_ROOT / "tests" / "evals" / "reports" / "retrieval_eval_report.json"
+DEFAULT_LEGACY_REPORT_PATH = PROJECT_ROOT / "tests" / "evals" / "reports" / "retrieval_eval_report_weighted_metadata.json"
 Retriever = Callable[[str, int], list[dict[str, Any]]]
 
-
-@dataclass
-class CaseResult:
-    case_id: str
-    topic: str
-    query: str
-    expected_sources: list[str]
-    retrieved_sources: list[str]
-    hit_at_3: float
-    hit_at_5: float
-    recall_at_5: float
-    mrr_at_5: float
+STRATEGIES: dict[str, Retriever] = {
+    "embedding": retrieve_by_embedding,
+    "bm25": retrieve_by_keyword,
+    "linear_hybrid": hybrid_retrieve,
+    "rrf_hybrid": hybrid_retrieve_rrf,
+}
 
 
 def load_cases(path: Path) -> list[dict[str, Any]]:
-    return json.loads(path.read_text(encoding="utf-8"))
+    cases = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(cases, list):
+        raise ValueError(f"Cases file must contain a JSON list: {path}")
+    return cases
 
 
-def source_key(item: dict[str, Any]) -> str:
-    return str(item.get("source", ""))
+def load_report(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {}
+    report = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(report, dict):
+        raise ValueError(f"Report file must contain a JSON object: {path}")
+    return report
 
 
-def evaluate_case(case: dict[str, Any], retriever: Retriever, top_k: int) -> CaseResult:
-    expected_sources = list(dict.fromkeys(case["expected_sources"]))
+def number(value: Any, default: float = 0.0) -> float:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def annotate_chunks(results: list[dict[str, Any]], method: str, top_k: int) -> list[dict[str, Any]]:
+    selected = results[:top_k]
+    chunks: list[dict[str, Any]] = []
+    for rank, item in enumerate(selected, start=1):
+        chunk: dict[str, Any] = {
+            "source": str(item.get("source", "")),
+            "rank": rank,
+            "retrieval_method": item.get("retrieval_method", method),
+        }
+        if method == "embedding":
+            chunk["embedding_score"] = item.get("embedding_cosine_score", item.get("embedding_score"))
+        elif method == "bm25":
+            chunk["bm25_score"] = item.get("bm25_score", item.get("keyword_score"))
+        elif method == "linear_hybrid":
+            for key in (
+                "bm25_score",
+                "embedding_cosine_score",
+                "normalized_bm25_score",
+                "normalized_embedding_cosine_score",
+                "hybrid_score",
+            ):
+                if key in item and item[key] is not None and number(item[key]) != 0:
+                    chunk[key] = item[key]
+        elif method == "rrf_hybrid":
+            for key in (
+                "bm25_score",
+                "embedding_cosine_score",
+                "keyword_rank",
+                "embedding_rank",
+                "rrf_score",
+            ):
+                if key in item and item[key] is not None and (
+                    key.endswith("_rank") or number(item[key]) != 0
+                ):
+                    chunk[key] = item[key]
+        chunks.append(chunk)
+    return chunks
+
+
+def evaluate_case(case: dict[str, Any], retriever: Retriever, method: str, top_k: int) -> dict[str, Any]:
+    expected_sources = list(dict.fromkeys(str(source) for source in case["expected_sources"]))
     expected = set(expected_sources)
-    results = retriever(case["query"], top_k)
-    retrieved_sources = [source_key(item) for item in results]
-
+    started = time.perf_counter()
+    results = retriever(str(case["query"]), top_k)
+    elapsed_ms = (time.perf_counter() - started) * 1000.0
+    chunks = annotate_chunks(results, method, top_k)
+    retrieved_sources = [chunk["source"] for chunk in chunks]
     top_3 = retrieved_sources[:3]
     top_5 = retrieved_sources[:5]
-    top_5_hits = [source for source in top_5 if source in expected]
-
-    first_rank = 0
-    for rank, source in enumerate(top_5, start=1):
-        if source in expected:
-            first_rank = rank
-            break
-
-    return CaseResult(
-        case_id=case["id"],
-        topic=case.get("topic", ""),
-        query=case["query"],
-        expected_sources=expected_sources,
-        retrieved_sources=retrieved_sources,
-        hit_at_3=1.0 if any(source in expected for source in top_3) else 0.0,
-        hit_at_5=1.0 if top_5_hits else 0.0,
-        recall_at_5=len(set(top_5_hits)) / len(expected) if expected else 0.0,
-        mrr_at_5=1.0 / first_rank if first_rank else 0.0,
+    first_rank = next(
+        (rank for rank, source in enumerate(top_5, start=1) if source in expected), 0
     )
+    return {
+        "case_id": str(case["id"]),
+        "topic": case.get("topic", ""),
+        "query": case["query"],
+        "expected_sources": expected_sources,
+        "retrieved_sources": retrieved_sources,
+        "hit@3": 1.0 if any(source in expected for source in top_3) else 0.0,
+        "hit@5": 1.0 if any(source in expected for source in top_5) else 0.0,
+        "recall@5": len(set(source for source in top_5 if source in expected)) / len(expected) if expected else 0.0,
+        "mrr@5": 1.0 / first_rank if first_rank else 0.0,
+        "retrieval_time_ms": elapsed_ms,
+        "top_k_chunks": chunks,
+    }
 
 
 def average(values: list[float]) -> float:
     return sum(values) / len(values) if values else 0.0
 
 
-def summarize(results: list[CaseResult]) -> dict[str, float]:
+def summarize(cases: list[dict[str, Any]]) -> dict[str, float]:
     return {
-        "cases": float(len(results)),
-        "hit@3": average([result.hit_at_3 for result in results]),
-        "hit@5": average([result.hit_at_5 for result in results]),
-        "recall@5": average([result.recall_at_5 for result in results]),
-        "mrr@5": average([result.mrr_at_5 for result in results]),
+        "cases": float(len(cases)),
+        "hit@3": average([number(case["hit@3"]) for case in cases]),
+        "hit@5": average([number(case["hit@5"]) for case in cases]),
+        "recall@5": average([number(case["recall@5"]) for case in cases]),
+        "mrr@5": average([number(case["mrr@5"]) for case in cases]),
+        "average_retrieval_time_ms": average([number(case["retrieval_time_ms"]) for case in cases]),
     }
 
 
-def print_summary(all_results: dict[str, list[CaseResult]]) -> None:
-    print("| method | cases | hit@3 | hit@5 | recall@5 | mrr@5 |")
-    print("| --- | ---: | ---: | ---: | ---: | ---: |")
-    for method, results in all_results.items():
-        summary = summarize(results)
-        print(
-            f"| {method} | {int(summary['cases'])} | "
-            f"{summary['hit@3']:.3f} | {summary['hit@5']:.3f} | "
-            f"{summary['recall@5']:.3f} | {summary['mrr@5']:.3f} |"
+def strategy_config(method: str, top_k: int) -> dict[str, Any]:
+    config: dict[str, Any] = {"top_k": top_k}
+    if method in {"embedding", "linear_hybrid", "rrf_hybrid"}:
+        config["embedding_model"] = get_embedding_model_name()
+    if method in {"bm25", "linear_hybrid", "rrf_hybrid"}:
+        config["bm25_metadata_mode"] = "unweighted"
+        config["bm25_metadata_path"] = str(SEMANTIC_METADATA_PATH)
+    if method == "linear_hybrid":
+        config.update(
+            {
+                "keyword_weight": KEYWORD_WEIGHT,
+                "embedding_weight": EMBEDDING_WEIGHT,
+                "candidate_multiplier": CANDIDATE_MULTIPLIER,
+                "min_candidates": MIN_CANDIDATES,
+                "candidate_k": max(top_k * CANDIDATE_MULTIPLIER, MIN_CANDIDATES),
+            }
         )
-
-
-def print_failures(all_results: dict[str, list[CaseResult]]) -> None:
-    for method, results in all_results.items():
-        failures = [result for result in results if result.hit_at_5 == 0]
-        if not failures:
-            continue
-
-        print(f"\n## {method} failed cases")
-        for result in failures:
-            print(f"\n- {result.case_id} ({result.topic})")
-            print(f"  query: {result.query}")
-            print(f"  expected: {', '.join(result.expected_sources)}")
-            print(f"  retrieved: {', '.join(result.retrieved_sources[:5])}")
-
-
-def build_experiment_record(
-    experiment_name: str,
-    cases_path: Path,
-    top_k: int,
-    all_results: dict[str, list[CaseResult]],
-    notes: str,
-) -> dict[str, Any]:
-    return {
-        "experiment": experiment_name,
-        "cases_path": str(cases_path),
-        "case_count": len(next(iter(all_results.values()), [])),
-        "top_k": top_k,
-        "parameters": {
-            "keyword_weight": KEYWORD_WEIGHT,
-            "embedding_weight": EMBEDDING_WEIGHT,
-            "candidate_multiplier": CANDIDATE_MULTIPLIER,
-            "min_candidates": MIN_CANDIDATES,
-            "rrf_k": RRF_K,
-            "rrf_candidate_multiplier": RRF_CANDIDATE_MULTIPLIER,
-            "rrf_min_candidates": RRF_MIN_CANDIDATES,
-        },
-        "metrics": {
-            method: summarize(results)
-            for method, results in all_results.items()
-        },
-        "notes": notes,
-    }
-
-
-def append_experiment(path: Path, record: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("a", encoding="utf-8", newline="\n") as file:
-        file.write(json.dumps(record, ensure_ascii=False) + "\n")
-
-
-def append_experiment_markdown(path: Path, record: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    lines: list[str] = []
-    existing_text = path.read_text(encoding="utf-8") if path.exists() else ""
-
-    if not existing_text.strip():
-        lines.extend(["# Retrieval Experiments", ""])
-    elif not existing_text.endswith("\n\n"):
-        lines.append("")
-
-    lines.extend(
-        [
-            f"## {record['experiment']}",
-            "",
-            f"- cases: {record['case_count']}",
-            f"- top_k: {record['top_k']}",
-            f"- keyword_weight: {record['parameters']['keyword_weight']}",
-            f"- embedding_weight: {record['parameters']['embedding_weight']}",
-            f"- candidate_multiplier: {record['parameters']['candidate_multiplier']}",
-            f"- min_candidates: {record['parameters']['min_candidates']}",
-            f"- rrf_k: {record['parameters']['rrf_k']}",
-            f"- rrf_candidate_multiplier: {record['parameters']['rrf_candidate_multiplier']}",
-            f"- rrf_min_candidates: {record['parameters']['rrf_min_candidates']}",
-            f"- notes: {record['notes'] or '-'}",
-            "",
-            "| method | cases | hit@3 | hit@5 | recall@5 | mrr@5 |",
-            "| --- | ---: | ---: | ---: | ---: | ---: |",
-        ]
-    )
-
-    for method, metrics in record["metrics"].items():
-        lines.append(
-            f"| {method} | {int(metrics['cases'])} | "
-            f"{metrics['hit@3']:.3f} | {metrics['hit@5']:.3f} | "
-            f"{metrics['recall@5']:.3f} | {metrics['mrr@5']:.3f} |"
+    elif method == "rrf_hybrid":
+        config.update(
+            {
+                "rrf_k": RRF_K,
+                "candidate_multiplier": RRF_CANDIDATE_MULTIPLIER,
+                "min_candidates": RRF_MIN_CANDIDATES,
+                "candidate_k": max(top_k * RRF_CANDIDATE_MULTIPLIER, RRF_MIN_CANDIDATES),
+            }
         )
+    return config
 
-    lines.append("")
 
-    with path.open("a", encoding="utf-8", newline="\n") as file:
-        file.write("\n".join(lines))
+def evaluate_strategy(method: str, retriever: Retriever, cases: list[dict[str, Any]], top_k: int) -> dict[str, Any]:
+    case_results = [evaluate_case(case, retriever, method, top_k) for case in cases]
+    return {"config": strategy_config(method, top_k), "summary": summarize(case_results), "cases": case_results}
+
+
+def atomic_write_json(path: Path, data: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, temporary_name = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=path.parent)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as file:
+            json.dump(data, file, ensure_ascii=False, indent=2)
+            file.write("\n")
+            file.flush()
+            os.fsync(file.fileno())
+        try:
+            os.replace(temporary_name, path)
+        except PermissionError:
+            # Some Windows workspace ACLs allow modifying an existing file but
+            # deny deleting/replacing it. All evaluation work is complete at
+            # this point, so safely fall back to an in-place overwrite.
+            with path.open("w", encoding="utf-8", newline="\n") as file:
+                json.dump(data, file, ensure_ascii=False, indent=2)
+                file.write("\n")
+                file.flush()
+                os.fsync(file.fileno())
+            os.unlink(temporary_name)
+    except Exception:
+        try:
+            os.unlink(temporary_name)
+        except FileNotFoundError:
+            pass
+        raise
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Evaluate keyword, embedding, and hybrid retrieval.")
+    parser = argparse.ArgumentParser(description="Evaluate the four current retrieval strategies directly.")
     parser.add_argument("--cases", type=Path, default=DEFAULT_CASES_PATH)
+    parser.add_argument("--report", type=Path, default=DEFAULT_REPORT_PATH)
     parser.add_argument("--top-k", type=int, default=5)
-    parser.add_argument("--record-experiment", action="store_true")
-    parser.add_argument("--no-jsonl-record", action="store_true")
-    parser.add_argument("--experiment-name", default="manual_eval")
-    parser.add_argument("--experiments-out", type=Path, default=DEFAULT_EXPERIMENTS_PATH)
-    parser.add_argument("--experiments-md-out", type=Path, default=DEFAULT_EXPERIMENTS_MD_PATH)
-    parser.add_argument("--notes", default="")
-    parser.add_argument(
-        "--method",
-        choices=["keyword", "embedding", "hybrid", "hybrid_rrf", "all"],
-        default="all",
-    )
     args = parser.parse_args()
-
-    retrievers: dict[str, Retriever] = {
-        "keyword": retrieve_by_keyword,
-        "embedding": retrieve_by_embedding,
-        "hybrid": hybrid_retrieve,
-        "hybrid_rrf": hybrid_retrieve_rrf,
-    }
-    if args.method != "all":
-        retrievers = {args.method: retrievers[args.method]}
+    if args.top_k < 1:
+        parser.error("--top-k must be >= 1")
 
     cases = load_cases(args.cases)
-    all_results = {
-        method: [
-            evaluate_case(case, retriever, top_k=args.top_k)
-            for case in cases
-        ]
-        for method, retriever in retrievers.items()
+    if len(cases) != 16:
+        raise ValueError(f"Expected 16 retrieval cases, found {len(cases)} in {args.cases}")
+    source_report_path = args.report if args.report.exists() else DEFAULT_LEGACY_REPORT_PATH
+    report = load_report(source_report_path)
+
+    # Clear retrieval indexes before this run so no previous BM25 mode is reused.
+    get_cached_bm25_index.cache_clear()
+    load_semantic_metadata_by_source.cache_clear()
+    load_semantic_metadata_by_source_unweighted.cache_clear()
+    get_cached_vector_index.cache_clear()
+
+    # Run all strategies before touching the report, so failures leave it unchanged.
+    new_results = {
+        method: evaluate_strategy(method, retriever, cases, args.top_k)
+        for method, retriever in STRATEGIES.items()
     }
+    if "keyword" not in report:
+        raise ValueError(f"Legacy report must contain the keyword result: {source_report_path}")
+    # Deliberately construct a fresh top-level object: legacy keyword is kept
+    # verbatim, while obsolete historical strategy keys are dropped.
+    updated_report = {"keyword": report["keyword"], **new_results}
+    atomic_write_json(args.report, updated_report)
 
-    print_summary(all_results)
-    print_failures(all_results)
-
-    if args.record_experiment:
-        record = build_experiment_record(
-            experiment_name=args.experiment_name,
-            cases_path=args.cases,
-            top_k=args.top_k,
-            all_results=all_results,
-            notes=args.notes,
+    print("| method | cases | hit@3 | hit@5 | recall@5 | mrr@5 | avg retrieval ms |")
+    print("| --- | ---: | ---: | ---: | ---: | ---: | ---: |")
+    for method, result in new_results.items():
+        summary = result["summary"]
+        print(
+            f"| {method} | {int(summary['cases'])} | {summary['hit@3']:.3f} | "
+            f"{summary['hit@5']:.3f} | {summary['recall@5']:.3f} | "
+            f"{summary['mrr@5']:.3f} | {summary['average_retrieval_time_ms']:.3f} |"
         )
-        if not args.no_jsonl_record:
-            append_experiment(args.experiments_out, record)
-        append_experiment_markdown(args.experiments_md_out, record)
-        if not args.no_jsonl_record:
-            print(f"experiment_recorded: {args.experiments_out}")
-        print(f"experiment_markdown_recorded: {args.experiments_md_out}")
+    print(f"report: {args.report}")
 
 
 if __name__ == "__main__":

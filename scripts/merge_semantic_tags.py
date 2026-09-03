@@ -11,7 +11,7 @@ from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_INPUT_PATH = PROJECT_ROOT / "data" / "private_knowledge_base" / "semantic_metadata.jsonl"
-DEFAULT_OUTPUT_PATH = PROJECT_ROOT / "data" / "private_knowledge_base" / "semantic_metadata_merged.jsonl"
+DEFAULT_OUTPUT_PATH = PROJECT_ROOT / "data" / "private_knowledge_base" / "codex_metadata" / "semantic_metadata_merged.jsonl"
 
 ENGLISH_DIAGNOSIS_TAGS = [
     "customer_value_misalignment",

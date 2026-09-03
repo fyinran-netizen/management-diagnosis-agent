@@ -1,7 +1,9 @@
 from types import SimpleNamespace
 
-from app.rag.retrieval.keyword_retriever import (
+from app.tools.retrieval.retrievers.keyword_retriever import (
+    SEMANTIC_METADATA_PATH,
     build_bm25_document_text,
+    get_cached_bm25_index,
     semantic_metadata_to_search_text,
 )
 
@@ -31,6 +33,19 @@ def test_semantic_metadata_to_search_text_uses_keyword_fields_and_skips_noise():
     assert text.count("customer_value_misalignment") == 3
     assert "long definition should not be indexed" not in text
     assert "metadata_confidence" not in text
+
+    unweighted = semantic_metadata_to_search_text(record, weighted=False)
+    assert unweighted.count("growth slowdown") == 1
+    assert unweighted.count("customer_value_misalignment") == 1
+
+
+def test_bm25_metadata_path_is_fixed_and_modes_build_distinct_indexes():
+    assert SEMANTIC_METADATA_PATH.as_posix().endswith(
+        "data/private_knowledge_base/codex_metadata/semantic_metadata_merged.jsonl"
+    )
+    assert get_cached_bm25_index("base") is not get_cached_bm25_index("weighted")
+    assert get_cached_bm25_index("unweighted") is not get_cached_bm25_index("weighted")
+    assert get_cached_bm25_index.__wrapped__.__defaults__ == ("unweighted",)
 
 
 def test_build_bm25_document_text_includes_structural_and_semantic_text():

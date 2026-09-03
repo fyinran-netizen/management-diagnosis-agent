@@ -6,12 +6,10 @@ from pathlib import Path
 from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
 
-from app.rag.retrieval.embedding_retriever import retrieve_by_embedding
-from app.rag.retrieval.hybrid_retriever import hybrid_retrieve
-from app.rag.retrieval.keyword_retriever import retrieve_by_keyword
+from app.tools.retrieval.retrievers.embedding_retriever import retrieve_by_embedding
+from app.tools.retrieval.retrievers.hybrid_retriever import hybrid_retrieve
+from app.tools.retrieval.retrievers.keyword_retriever import retrieve_by_keyword
 
 
 def print_results(title: str, results: list[dict[str, Any]], preview_chars: int) -> None:

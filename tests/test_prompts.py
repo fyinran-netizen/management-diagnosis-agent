@@ -1,4 +1,4 @@
-from app.agent.prompts import format_retrieved_context
+from app.tools.generation.prompts import format_retrieved_context
 
 
 def test_format_retrieved_context_hides_raw_source_paths():

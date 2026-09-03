@@ -1,4 +1,4 @@
-from app.tools.diagnosis_tools import build_diagnosis_hints
+from app.tools.understanding.diagnosis import build_diagnosis_hints
 
 
 def test_build_diagnosis_hints_for_known_problem_type():

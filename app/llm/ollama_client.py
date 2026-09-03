@@ -7,8 +7,7 @@ import requests
 from dotenv import load_dotenv
 
 
-class OllamaClientError(RuntimeError):
-    pass
+from app.core.exceptions import OllamaClientError
 
 
 load_dotenv()

@@ -1,117 +1,46 @@
 from __future__ import annotations
-
 from langgraph.graph import END, START, StateGraph
-
-from app.agent.nodes import (
-    clarification_node,
-    diagnose_node,
-    intake_node,
-    low_confidence_node,
-    problem_check_node,
-    route_node,
-    generate_node,
-    memory_node,
-    retrieval_check_node,
-    retrieve_node,
-    revise_node,
-    verify_node,
-)
+from app.agent.nodes import generation_node, persistence_node, retrieval_node, understanding_node, validation_node
 from app.agent.state import AgentState
+from app.core.logging import get_logger
+from time import perf_counter
 
+logger = get_logger("workflow")
 
-MAX_REVISIONS = 1
+def after_understanding(state: AgentState) -> str:
+    return "retrieval" if state.get("problem_check", {}).get("is_clear", False) else "end"
+def after_retrieval(state: AgentState) -> str:
+    return "generation"
+def after_validation(state: AgentState) -> str:
+    return "generation" if state.get("verification", {}).get("needs_revision", False) and state.get("revision_count", 0) < 1 else "persistence"
 
+workflow = StateGraph(AgentState)
+workflow.add_node("understanding", understanding_node)
+workflow.add_node("retrieval", retrieval_node)
+workflow.add_node("generation", generation_node)
+workflow.add_node("validation", validation_node)
+workflow.add_node("persistence", persistence_node)
+workflow.add_edge(START, "understanding")
+workflow.add_conditional_edges("understanding", after_understanding, {"retrieval": "retrieval", "end": END})
+workflow.add_conditional_edges("retrieval", after_retrieval, {"generation": "generation", "end": END})
+workflow.add_edge("generation", "validation")
+workflow.add_conditional_edges("validation", after_validation, {"generation": "generation", "persistence": "persistence"})
+workflow.add_edge("persistence", END)
+diagnosis_graph = workflow.compile()
 
-def should_revise(state: AgentState) -> str:
-    verification = state.get("verification", {})
-    needs_revision = verification.get("needs_revision", False)
-    revision_count = state.get("revision_count", 0)
-
-    if needs_revision and revision_count < MAX_REVISIONS:
-        return "revise"
-
-    return "memory"
-
-
-def should_clarify(state: AgentState) -> str:
-    problem_check = state.get("problem_check", {})
-    if not problem_check.get("is_clear", False):
-        return "clarify"
-    return "route"
-
-
-def should_generate_from_retrieval(state: AgentState) -> str:
-    retrieval_quality = state.get("retrieval_quality", {})
-    if not retrieval_quality.get("passed", False):
-        return "low_confidence"
-    return "diagnose"
-
-
-def build_diagnosis_graph():
-    workflow = StateGraph(AgentState)
-
-    workflow.add_node("intake", intake_node)
-    workflow.add_node("problem_check", problem_check_node)
-    workflow.add_node("clarification", clarification_node)
-    workflow.add_node("route", route_node)
-    workflow.add_node("retrieve", retrieve_node)
-    workflow.add_node("retrieval_check", retrieval_check_node)
-    workflow.add_node("low_confidence", low_confidence_node)
-    workflow.add_node("diagnose", diagnose_node)
-    workflow.add_node("generate", generate_node)
-    workflow.add_node("verify", verify_node)
-    workflow.add_node("revise", revise_node)
-    workflow.add_node("memory", memory_node)
-
-    workflow.add_edge(START, "intake")
-    workflow.add_edge("intake", "problem_check")
-    workflow.add_conditional_edges(
-        "problem_check",
-        should_clarify,
-        {
-            "clarify": "clarification",
-            "route": "route",
-        },
+def run_diagnosis_workflow(description: str) -> AgentState:
+    started_at = perf_counter()
+    logger.info("workflow start description_chars=%d", len(description.strip()))
+    try:
+        result = diagnosis_graph.invoke({"description": description, "revision_count": 0})
+    except Exception as exc:
+        elapsed = perf_counter() - started_at
+        logger.error("workflow exception elapsed_seconds=%.3f error=%s", elapsed, str(exc)[:500])
+        raise
+    logger.info(
+        "workflow completed elapsed_seconds=%.3f final_answer_chars=%d revision_count=%d",
+        perf_counter() - started_at,
+        len(result.get("final_answer", "")),
+        result.get("revision_count", 0),
     )
-    workflow.add_edge("route", "retrieve")
-    workflow.add_edge("retrieve", "retrieval_check")
-    workflow.add_conditional_edges(
-        "retrieval_check",
-        should_generate_from_retrieval,
-        {
-            "low_confidence": "low_confidence",
-            "diagnose": "diagnose",
-        },
-    )
-    workflow.add_edge("diagnose", "generate")
-    workflow.add_edge("generate", "verify")
-
-    workflow.add_conditional_edges(
-        "verify",
-        should_revise,
-        {
-            "revise": "revise",
-            "memory": "memory",
-        },
-    )
-
-    workflow.add_edge("revise", "verify")
-    workflow.add_edge("memory", END)
-    workflow.add_edge("clarification", END)
-    workflow.add_edge("low_confidence", END)
-
-    return workflow.compile()
-
-
-diagnosis_graph = build_diagnosis_graph()
-
-
-def run_diagnosis_workflow(
-    description: str,
-) -> AgentState:
-    initial_state: AgentState = {
-        "description": description,
-        "revision_count": 0,
-    }
-
-    return diagnosis_graph.invoke(initial_state)
+    return result

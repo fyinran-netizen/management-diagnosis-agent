@@ -1,6 +1,6 @@
 from app.agent.graph import run_diagnosis_workflow
-from app.tools.problem_check_tool import check_problem_clarity
-from app.tools.retrieval_quality_tool import evaluate_retrieval_quality
+from app.tools.understanding.problem_check import check_problem_clarity
+from app.tools.retrieval.quality import evaluate_retrieval_quality
 
 
 def test_problem_check_flags_unclear_input():
@@ -23,11 +23,13 @@ def test_problem_check_accepts_specific_management_input():
 def test_retrieval_quality_flags_empty_results():
     result = evaluate_retrieval_quality([])
 
-    assert result["passed"] is False
-    assert result["level"] == "none"
+    assert result["status"] == "observation"
+    assert result["chunk_count"] == 0
+    assert "passed" not in result
+    assert "level" not in result
 
 
-def test_retrieval_quality_accepts_strong_results():
+def test_retrieval_quality_records_observation_without_confidence_or_gate():
     result = evaluate_retrieval_quality(
         [
             {"score": 0.8, "embedding_score": 0.7},
@@ -35,8 +37,11 @@ def test_retrieval_quality_accepts_strong_results():
         ]
     )
 
-    assert result["passed"] is True
-    assert result["level"] == "high"
+    assert result["status"] == "observation"
+    assert result["top_score"] == 0.8
+    assert len(result["chunks"]) == 2
+    assert "passed" not in result
+    assert "level" not in result
 
 
 def test_workflow_returns_clarification_for_unclear_input():

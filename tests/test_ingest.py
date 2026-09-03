@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from app.rag import ingest
+from app.tools.retrieval import ingest
 
 
 def test_load_knowledge_base_reads_nested_private_markdown(tmp_path, monkeypatch):

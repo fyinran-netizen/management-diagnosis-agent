@@ -1,0 +1,4178 @@
+{
+  "base_embedding": {
+    "config": {
+      "top_k": 5,
+      "embedding_model": "BAAI/bge-small-zh-v1.5",
+      "index_dir": "D:\\management_diagnosis_agent\\data\\vector_index\\base",
+      "embedding_text": "chunk structure"
+    },
+    "summary": {
+      "cases": 16.0,
+      "hit@3": 0.625,
+      "hit@5": 0.8125,
+      "recall@5": 0.4583333333333333,
+      "mrr@5": 0.48125,
+      "average_retrieval_time_ms": 26.70744375063805
+    },
+    "cases": [
+      {
+        "case_id": "customer_value_001",
+        "topic": "customer_value",
+        "query": "公司越来越关注利润和内部效率，但客户复购下降，新客户增长也变慢了，应该从哪里诊断？",
+        "expected_sources": [
+          "ch01/s02.md",
+          "ch01/s06_chunk_01.md",
+          "ch01/s08_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch02/s07_chunk_04.md",
+          "ch01/s03_chunk_02.md",
+          "ch01/s04_chunk_02.md",
+          "ch02/s07_chunk_03.md",
+          "ch02/s06_chunk_06.md"
+        ],
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "recall@5": 0.0,
+        "mrr@5": 0.0,
+        "retrieval_time_ms": 295.77460000291467,
+        "top_k_chunks": [
+          {
+            "source": "ch02/s07_chunk_04.md",
+            "rank": 1,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6217571496963501
+          },
+          {
+            "source": "ch01/s03_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6178625822067261
+          },
+          {
+            "source": "ch01/s04_chunk_02.md",
+            "rank": 3,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6089169979095459
+          },
+          {
+            "source": "ch02/s07_chunk_03.md",
+            "rank": 4,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6050829291343689
+          },
+          {
+            "source": "ch02/s06_chunk_06.md",
+            "rank": 5,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.603180468082428
+          }
+        ]
+      },
+      {
+        "case_id": "customer_value_002",
+        "topic": "customer_value",
+        "query": "产品功能越来越多，但客户觉得没有解决真实痛点，团队应该如何重新创造客户价值？",
+        "expected_sources": [
+          "ch01/s07_chunk_01.md",
+          "ch01/s07_chunk_03.md",
+          "ch01/s07_chunk_04.md"
+        ],
+        "retrieved_sources": [
+          "ch02/s07_chunk_05.md",
+          "ch02/s07_chunk_03.md",
+          "ch01/s07_chunk_01.md",
+          "ch02/s07_chunk_02.md",
+          "ch01/s08_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 0.3333333333333333,
+        "retrieval_time_ms": 11.735899955965579,
+        "top_k_chunks": [
+          {
+            "source": "ch02/s07_chunk_05.md",
+            "rank": 1,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6557281017303467
+          },
+          {
+            "source": "ch02/s07_chunk_03.md",
+            "rank": 2,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6535941362380981
+          },
+          {
+            "source": "ch01/s07_chunk_01.md",
+            "rank": 3,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6534687876701355
+          },
+          {
+            "source": "ch02/s07_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6527097225189209
+          },
+          {
+            "source": "ch01/s08_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.649442195892334
+          }
+        ]
+      },
+      {
+        "case_id": "sales_marketing_001",
+        "topic": "sales_vs_marketing",
+        "query": "公司销售动作很多，促销和回款压力很大，但品牌和客户洞察越来越弱，营销应该怎么回归？",
+        "expected_sources": [
+          "ch02/s02.md",
+          "ch02/s03.md",
+          "ch02/s06_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch02/s07_chunk_05.md",
+          "ch02/s07_chunk_01.md",
+          "ch02/s07_chunk_03.md",
+          "ch02/s05_chunk_02.md",
+          "ch02/s07_chunk_04.md"
+        ],
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "recall@5": 0.0,
+        "mrr@5": 0.0,
+        "retrieval_time_ms": 9.200100030284375,
+        "top_k_chunks": [
+          {
+            "source": "ch02/s07_chunk_05.md",
+            "rank": 1,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.7036990523338318
+          },
+          {
+            "source": "ch02/s07_chunk_01.md",
+            "rank": 2,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6986730098724365
+          },
+          {
+            "source": "ch02/s07_chunk_03.md",
+            "rank": 3,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6975287199020386
+          },
+          {
+            "source": "ch02/s05_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6883626580238342
+          },
+          {
+            "source": "ch02/s07_chunk_04.md",
+            "rank": 5,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6877604722976685
+          }
+        ]
+      },
+      {
+        "case_id": "sales_marketing_002",
+        "topic": "sales_vs_marketing",
+        "query": "管理层总是把增长问题交给销售冲业绩，却很少讨论客户选择、价值定义和长期品牌。",
+        "expected_sources": [
+          "ch02/s05_chunk_01.md",
+          "ch02/s06_chunk_03.md",
+          "ch02/s07_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch02/s02.md",
+          "ch02/s08.md",
+          "ch02/s01.md",
+          "ch02/s05_chunk_01.md",
+          "ch02/s05_chunk_02.md"
+        ],
+        "hit@3": 0.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 0.25,
+        "retrieval_time_ms": 11.685499979648739,
+        "top_k_chunks": [
+          {
+            "source": "ch02/s02.md",
+            "rank": 1,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6549596190452576
+          },
+          {
+            "source": "ch02/s08.md",
+            "rank": 2,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6322135329246521
+          },
+          {
+            "source": "ch02/s01.md",
+            "rank": 3,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6263866424560547
+          },
+          {
+            "source": "ch02/s05_chunk_01.md",
+            "rank": 4,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6240658760070801
+          },
+          {
+            "source": "ch02/s05_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.612305760383606
+          }
+        ]
+      },
+      {
+        "case_id": "opportunity_001",
+        "topic": "opportunity",
+        "query": "团队每天都在处理问题和救火，但很少寻找未来增长机会和新客户需求。",
+        "expected_sources": [
+          "ch03/s01.md",
+          "ch03/s03.md",
+          "ch03/s04.md"
+        ],
+        "retrieved_sources": [
+          "ch02/s02.md",
+          "ch02/s06_chunk_03.md",
+          "ch03/s01.md",
+          "ch02/s06_chunk_02.md",
+          "ch03/s04.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 0.3333333333333333,
+        "retrieval_time_ms": 8.58600001083687,
+        "top_k_chunks": [
+          {
+            "source": "ch02/s02.md",
+            "rank": 1,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.542611837387085
+          },
+          {
+            "source": "ch02/s06_chunk_03.md",
+            "rank": 2,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.5168642997741699
+          },
+          {
+            "source": "ch03/s01.md",
+            "rank": 3,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.5133663415908813
+          },
+          {
+            "source": "ch02/s06_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.5052580237388611
+          },
+          {
+            "source": "ch03/s04.md",
+            "rank": 5,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.5031512379646301
+          }
+        ]
+      },
+      {
+        "case_id": "opportunity_002",
+        "topic": "opportunity",
+        "query": "公司看到很多风口就想追，但不知道哪些机会和自己的能力、长期愿景真正相关。",
+        "expected_sources": [
+          "ch03/s05_chunk_01.md",
+          "ch03/s05_chunk_02.md",
+          "ch03/s06_chunk_02.md"
+        ],
+        "retrieved_sources": [
+          "ch03/s06_chunk_01.md",
+          "ch03/s06_chunk_02.md",
+          "ch03/s05_chunk_02.md",
+          "ch01/s03_chunk_01.md",
+          "ch01/s02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 0.5,
+        "retrieval_time_ms": 7.1520000346936285,
+        "top_k_chunks": [
+          {
+            "source": "ch03/s06_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.643769383430481
+          },
+          {
+            "source": "ch03/s06_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6307838559150696
+          },
+          {
+            "source": "ch03/s05_chunk_02.md",
+            "rank": 3,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6120319366455078
+          },
+          {
+            "source": "ch01/s03_chunk_01.md",
+            "rank": 4,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.590611457824707
+          },
+          {
+            "source": "ch01/s02.md",
+            "rank": 5,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.5893091559410095
+          }
+        ]
+      },
+      {
+        "case_id": "strategy_org_001",
+        "topic": "strategy_organization",
+        "query": "公司有战略口号，但部门各做各的，资源和组织结构没有真正承接战略。",
+        "expected_sources": [
+          "ch04/s02.md",
+          "ch04/s04_chunk_01.md",
+          "ch04/s05_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch04/s05_chunk_03.md",
+          "ch04/s06_chunk_02.md",
+          "ch04/s04_chunk_01.md",
+          "ch04/s05_chunk_04.md",
+          "ch04/s04_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 0.3333333333333333,
+        "retrieval_time_ms": 7.090500032063574,
+        "top_k_chunks": [
+          {
+            "source": "ch04/s05_chunk_03.md",
+            "rank": 1,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6297012567520142
+          },
+          {
+            "source": "ch04/s06_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6158037185668945
+          },
+          {
+            "source": "ch04/s04_chunk_01.md",
+            "rank": 3,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6089324355125427
+          },
+          {
+            "source": "ch04/s05_chunk_04.md",
+            "rank": 4,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6062524318695068
+          },
+          {
+            "source": "ch04/s04_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6009937524795532
+          }
+        ]
+      },
+      {
+        "case_id": "strategy_org_002",
+        "topic": "strategy_organization",
+        "query": "跨部门协同很差，战略目标传不到日常行动，如何识别组织偏离战略的信号？",
+        "expected_sources": [
+          "ch04/s06_chunk_01.md",
+          "ch04/s06_chunk_02.md",
+          "ch04/s07.md"
+        ],
+        "retrieved_sources": [
+          "ch04/s06_chunk_01.md",
+          "ch04/s06_chunk_02.md",
+          "ch04/s06_chunk_03.md",
+          "ch04/s05_chunk_04.md",
+          "ch04/s02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 8.628399984445423,
+        "top_k_chunks": [
+          {
+            "source": "ch04/s06_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.7053102254867554
+          },
+          {
+            "source": "ch04/s06_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.699674129486084
+          },
+          {
+            "source": "ch04/s06_chunk_03.md",
+            "rank": 3,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6599157452583313
+          },
+          {
+            "source": "ch04/s05_chunk_04.md",
+            "rank": 4,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6345452070236206
+          },
+          {
+            "source": "ch04/s02.md",
+            "rank": 5,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6293659210205078
+          }
+        ]
+      },
+      {
+        "case_id": "metrics_001",
+        "topic": "metrics",
+        "query": "团队为了完成KPI牺牲客户价值，短期数据好看但客户流失和复购下降。",
+        "expected_sources": [
+          "ch05/s04_chunk_01.md",
+          "ch05/s04_chunk_03.md",
+          "ch05/s05_chunk_02.md"
+        ],
+        "retrieved_sources": [
+          "ch02/s06_chunk_05.md",
+          "ch02/s06_chunk_03.md",
+          "ch02/s08.md",
+          "ch02/s06_chunk_06.md",
+          "ch01/s05_chunk_04.md"
+        ],
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "recall@5": 0.0,
+        "mrr@5": 0.0,
+        "retrieval_time_ms": 7.2607999900355935,
+        "top_k_chunks": [
+          {
+            "source": "ch02/s06_chunk_05.md",
+            "rank": 1,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6329253911972046
+          },
+          {
+            "source": "ch02/s06_chunk_03.md",
+            "rank": 2,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6278042793273926
+          },
+          {
+            "source": "ch02/s08.md",
+            "rank": 3,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6253063678741455
+          },
+          {
+            "source": "ch02/s06_chunk_06.md",
+            "rank": 4,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6110014915466309
+          },
+          {
+            "source": "ch01/s05_chunk_04.md",
+            "rank": 5,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6097152233123779
+          }
+        ]
+      },
+      {
+        "case_id": "metrics_002",
+        "topic": "metrics",
+        "query": "公司指标越来越多，但大家不知道真正目标是什么，衡量体系应该怎么重新设计？",
+        "expected_sources": [
+          "ch05/s01.md",
+          "ch05/s03_chunk_01.md",
+          "ch05/s06_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch05/s05_chunk_03.md",
+          "ch05/s06_chunk_01.md",
+          "ch05/s05_chunk_01.md",
+          "ch05/s01.md",
+          "ch05/s06_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 0.5,
+        "retrieval_time_ms": 8.90739995520562,
+        "top_k_chunks": [
+          {
+            "source": "ch05/s05_chunk_03.md",
+            "rank": 1,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.7286883592605591
+          },
+          {
+            "source": "ch05/s06_chunk_01.md",
+            "rank": 2,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.7117806673049927
+          },
+          {
+            "source": "ch05/s05_chunk_01.md",
+            "rank": 3,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.7077230215072632
+          },
+          {
+            "source": "ch05/s01.md",
+            "rank": 4,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6980908513069153
+          },
+          {
+            "source": "ch05/s06_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6966738700866699
+          }
+        ]
+      },
+      {
+        "case_id": "self_drive_001",
+        "topic": "self_drive",
+        "query": "员工只等指令，管理层不断增加审批和过程监控，目标管理变成了目标控制。",
+        "expected_sources": [
+          "ch06/s01.md",
+          "ch06/s03_chunk_01.md",
+          "ch06/s03_chunk_02.md"
+        ],
+        "retrieved_sources": [
+          "ch06/s03_chunk_02.md",
+          "ch06/s01.md",
+          "ch06/s03_chunk_01.md",
+          "ch06/s03_chunk_03.md",
+          "ch06/s06_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 6.529100006446242,
+        "top_k_chunks": [
+          {
+            "source": "ch06/s03_chunk_02.md",
+            "rank": 1,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6592023372650146
+          },
+          {
+            "source": "ch06/s01.md",
+            "rank": 2,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6263885498046875
+          },
+          {
+            "source": "ch06/s03_chunk_01.md",
+            "rank": 3,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6206923127174377
+          },
+          {
+            "source": "ch06/s03_chunk_03.md",
+            "rank": 4,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6206851005554199
+          },
+          {
+            "source": "ch06/s06_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.609732449054718
+          }
+        ]
+      },
+      {
+        "case_id": "self_drive_002",
+        "topic": "self_drive",
+        "query": "公司想减少管控、提高员工责任感和主动性，如何实现真正的自我控制？",
+        "expected_sources": [
+          "ch06/s02_chunk_01.md",
+          "ch06/s06_chunk_01.md",
+          "ch06/s06_chunk_03.md"
+        ],
+        "retrieved_sources": [
+          "ch06/s06_chunk_02.md",
+          "ch06/s01.md",
+          "ch06/s05_chunk_02.md",
+          "ch06/s05_chunk_01.md",
+          "ch06/s06_chunk_03.md"
+        ],
+        "hit@3": 0.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 0.2,
+        "retrieval_time_ms": 8.319000015035272,
+        "top_k_chunks": [
+          {
+            "source": "ch06/s06_chunk_02.md",
+            "rank": 1,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6886239051818848
+          },
+          {
+            "source": "ch06/s01.md",
+            "rank": 2,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6808786392211914
+          },
+          {
+            "source": "ch06/s05_chunk_02.md",
+            "rank": 3,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6758142113685608
+          },
+          {
+            "source": "ch06/s05_chunk_01.md",
+            "rank": 4,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.670883059501648
+          },
+          {
+            "source": "ch06/s06_chunk_03.md",
+            "rank": 5,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6606963276863098
+          }
+        ]
+      },
+      {
+        "case_id": "long_term_decision_001",
+        "topic": "long_term_decision",
+        "query": "公司为了季度业绩削减长期投入，担心错过未来机会，如何平衡短期生存和长期建设？",
+        "expected_sources": [
+          "ch07/s03_chunk_01.md",
+          "ch07/s03_chunk_03.md",
+          "ch07/s06_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch07/s03_chunk_03.md",
+          "ch07/s03_chunk_01.md",
+          "ch08/s02_chunk_03.md",
+          "ch07/s06_chunk_02.md",
+          "ch01/s03_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 7.897200004663318,
+        "top_k_chunks": [
+          {
+            "source": "ch07/s03_chunk_03.md",
+            "rank": 1,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6631146669387817
+          },
+          {
+            "source": "ch07/s03_chunk_01.md",
+            "rank": 2,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6549006104469299
+          },
+          {
+            "source": "ch08/s02_chunk_03.md",
+            "rank": 3,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6294189691543579
+          },
+          {
+            "source": "ch07/s06_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6051471829414368
+          },
+          {
+            "source": "ch01/s03_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6024446487426758
+          }
+        ]
+      },
+      {
+        "case_id": "long_term_decision_002",
+        "topic": "long_term_decision",
+        "query": "决策总是依赖预测和行业报告，一旦环境变化就很被动，怎样做面向未来的清醒决策？",
+        "expected_sources": [
+          "ch07/s02_chunk_01.md",
+          "ch07/s02_chunk_03.md",
+          "ch07/s05_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch07/s02_chunk_01.md",
+          "ch07/s02_chunk_04.md",
+          "ch07/s05_chunk_01.md",
+          "ch07/s02_chunk_03.md",
+          "ch07/s02_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 9.911400033161044,
+        "top_k_chunks": [
+          {
+            "source": "ch07/s02_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.7019063830375671
+          },
+          {
+            "source": "ch07/s02_chunk_04.md",
+            "rank": 2,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.7008368968963623
+          },
+          {
+            "source": "ch07/s05_chunk_01.md",
+            "rank": 3,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6908523440361023
+          },
+          {
+            "source": "ch07/s02_chunk_03.md",
+            "rank": 4,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6875864267349243
+          },
+          {
+            "source": "ch07/s02_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6765956878662109
+          }
+        ]
+      },
+      {
+        "case_id": "entrepreneurship_001",
+        "topic": "entrepreneurship",
+        "query": "企业家面对复杂问题时，不能只修补局部，要如何用系统思考看清因果和整体最优？",
+        "expected_sources": [
+          "ch08/s01_chunk_01.md",
+          "ch08/s01_chunk_04.md",
+          "ch08/s01_chunk_07.md"
+        ],
+        "retrieved_sources": [
+          "ch08/s01_chunk_07.md",
+          "ch08/s01_chunk_02.md",
+          "ch08/s01_chunk_05.md",
+          "ch08/s01_chunk_03.md",
+          "ch08/s01_chunk_06.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 9.203199995681643,
+        "top_k_chunks": [
+          {
+            "source": "ch08/s01_chunk_07.md",
+            "rank": 1,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6376514434814453
+          },
+          {
+            "source": "ch08/s01_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6357936859130859
+          },
+          {
+            "source": "ch08/s01_chunk_05.md",
+            "rank": 3,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6143632531166077
+          },
+          {
+            "source": "ch08/s01_chunk_03.md",
+            "rank": 4,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6061818599700928
+          },
+          {
+            "source": "ch08/s01_chunk_06.md",
+            "rank": 5,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6022564172744751
+          }
+        ]
+      },
+      {
+        "case_id": "entrepreneurship_002",
+        "topic": "entrepreneurship",
+        "query": "领导者在短期压力下犹豫不决，价值观摇摆，怎样建立决策勇气和人文精神？",
+        "expected_sources": [
+          "ch08/s02_chunk_01.md",
+          "ch08/s02_chunk_03.md",
+          "ch08/s03_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch08/s02_chunk_02.md",
+          "ch08/s02_chunk_04.md",
+          "ch08/s02_chunk_05.md",
+          "ch08/s02_chunk_01.md",
+          "ch07/s06_chunk_02.md"
+        ],
+        "hit@3": 0.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 0.25,
+        "retrieval_time_ms": 9.437999979127198,
+        "top_k_chunks": [
+          {
+            "source": "ch08/s02_chunk_02.md",
+            "rank": 1,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.706116259098053
+          },
+          {
+            "source": "ch08/s02_chunk_04.md",
+            "rank": 2,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6776355504989624
+          },
+          {
+            "source": "ch08/s02_chunk_05.md",
+            "rank": 3,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6642575860023499
+          },
+          {
+            "source": "ch08/s02_chunk_01.md",
+            "rank": 4,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6609262228012085
+          },
+          {
+            "source": "ch07/s06_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.6425471305847168
+          }
+        ]
+      }
+    ]
+  },
+  "metadata_embedding": {
+    "config": {
+      "top_k": 5,
+      "embedding_model": "BAAI/bge-small-zh-v1.5",
+      "index_dir": "D:\\management_diagnosis_agent\\data\\vector_index\\semantic_metadata_unweighted",
+      "embedding_text": "chunk structure + unweighted semantic metadata"
+    },
+    "summary": {
+      "cases": 16.0,
+      "hit@3": 0.75,
+      "hit@5": 0.8125,
+      "recall@5": 0.4583333333333333,
+      "mrr@5": 0.49166666666666664,
+      "average_retrieval_time_ms": 8.030537501326762
+    },
+    "cases": [
+      {
+        "case_id": "customer_value_001",
+        "topic": "customer_value",
+        "query": "公司越来越关注利润和内部效率，但客户复购下降，新客户增长也变慢了，应该从哪里诊断？",
+        "expected_sources": [
+          "ch01/s02.md",
+          "ch01/s06_chunk_01.md",
+          "ch01/s08_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch02/s07_chunk_04.md",
+          "ch01/s03_chunk_02.md",
+          "ch01/s04_chunk_02.md",
+          "ch02/s07_chunk_03.md",
+          "ch02/s06_chunk_06.md"
+        ],
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "recall@5": 0.0,
+        "mrr@5": 0.0,
+        "retrieval_time_ms": 9.731999947689474,
+        "top_k_chunks": [
+          {
+            "source": "ch02/s07_chunk_04.md",
+            "rank": 1,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6217571496963501
+          },
+          {
+            "source": "ch01/s03_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6178625822067261
+          },
+          {
+            "source": "ch01/s04_chunk_02.md",
+            "rank": 3,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6089169979095459
+          },
+          {
+            "source": "ch02/s07_chunk_03.md",
+            "rank": 4,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6050829291343689
+          },
+          {
+            "source": "ch02/s06_chunk_06.md",
+            "rank": 5,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.603180468082428
+          }
+        ]
+      },
+      {
+        "case_id": "customer_value_002",
+        "topic": "customer_value",
+        "query": "产品功能越来越多，但客户觉得没有解决真实痛点，团队应该如何重新创造客户价值？",
+        "expected_sources": [
+          "ch01/s07_chunk_01.md",
+          "ch01/s07_chunk_03.md",
+          "ch01/s07_chunk_04.md"
+        ],
+        "retrieved_sources": [
+          "ch02/s07_chunk_05.md",
+          "ch02/s07_chunk_03.md",
+          "ch01/s07_chunk_01.md",
+          "ch02/s07_chunk_02.md",
+          "ch01/s08_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 0.3333333333333333,
+        "retrieval_time_ms": 7.129599980544299,
+        "top_k_chunks": [
+          {
+            "source": "ch02/s07_chunk_05.md",
+            "rank": 1,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6557281017303467
+          },
+          {
+            "source": "ch02/s07_chunk_03.md",
+            "rank": 2,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6535941362380981
+          },
+          {
+            "source": "ch01/s07_chunk_01.md",
+            "rank": 3,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6534687876701355
+          },
+          {
+            "source": "ch02/s07_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6527097225189209
+          },
+          {
+            "source": "ch01/s08_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.649442195892334
+          }
+        ]
+      },
+      {
+        "case_id": "sales_marketing_001",
+        "topic": "sales_vs_marketing",
+        "query": "公司销售动作很多，促销和回款压力很大，但品牌和客户洞察越来越弱，营销应该怎么回归？",
+        "expected_sources": [
+          "ch02/s02.md",
+          "ch02/s03.md",
+          "ch02/s06_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch02/s07_chunk_05.md",
+          "ch02/s07_chunk_01.md",
+          "ch02/s05_chunk_02.md",
+          "ch02/s07_chunk_03.md",
+          "ch02/s07_chunk_04.md"
+        ],
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "recall@5": 0.0,
+        "mrr@5": 0.0,
+        "retrieval_time_ms": 8.501400006935,
+        "top_k_chunks": [
+          {
+            "source": "ch02/s07_chunk_05.md",
+            "rank": 1,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.7036990523338318
+          },
+          {
+            "source": "ch02/s07_chunk_01.md",
+            "rank": 2,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6986730098724365
+          },
+          {
+            "source": "ch02/s05_chunk_02.md",
+            "rank": 3,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6977773308753967
+          },
+          {
+            "source": "ch02/s07_chunk_03.md",
+            "rank": 4,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6975287199020386
+          },
+          {
+            "source": "ch02/s07_chunk_04.md",
+            "rank": 5,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6877604722976685
+          }
+        ]
+      },
+      {
+        "case_id": "sales_marketing_002",
+        "topic": "sales_vs_marketing",
+        "query": "管理层总是把增长问题交给销售冲业绩，却很少讨论客户选择、价值定义和长期品牌。",
+        "expected_sources": [
+          "ch02/s05_chunk_01.md",
+          "ch02/s06_chunk_03.md",
+          "ch02/s07_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch02/s02.md",
+          "ch02/s08.md",
+          "ch02/s05_chunk_01.md",
+          "ch02/s01.md",
+          "ch02/s03.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 0.3333333333333333,
+        "retrieval_time_ms": 9.103399992454797,
+        "top_k_chunks": [
+          {
+            "source": "ch02/s02.md",
+            "rank": 1,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6549596190452576
+          },
+          {
+            "source": "ch02/s08.md",
+            "rank": 2,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6322135329246521
+          },
+          {
+            "source": "ch02/s05_chunk_01.md",
+            "rank": 3,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6240658760070801
+          },
+          {
+            "source": "ch02/s01.md",
+            "rank": 4,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.617879331111908
+          },
+          {
+            "source": "ch02/s03.md",
+            "rank": 5,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6055483818054199
+          }
+        ]
+      },
+      {
+        "case_id": "opportunity_001",
+        "topic": "opportunity",
+        "query": "团队每天都在处理问题和救火，但很少寻找未来增长机会和新客户需求。",
+        "expected_sources": [
+          "ch03/s01.md",
+          "ch03/s03.md",
+          "ch03/s04.md"
+        ],
+        "retrieved_sources": [
+          "ch02/s02.md",
+          "ch02/s06_chunk_03.md",
+          "ch03/s01.md",
+          "ch02/s06_chunk_02.md",
+          "ch03/s04.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 0.3333333333333333,
+        "retrieval_time_ms": 7.539200014434755,
+        "top_k_chunks": [
+          {
+            "source": "ch02/s02.md",
+            "rank": 1,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.542611837387085
+          },
+          {
+            "source": "ch02/s06_chunk_03.md",
+            "rank": 2,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.5168642997741699
+          },
+          {
+            "source": "ch03/s01.md",
+            "rank": 3,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.5133663415908813
+          },
+          {
+            "source": "ch02/s06_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.5052580237388611
+          },
+          {
+            "source": "ch03/s04.md",
+            "rank": 5,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.5031512379646301
+          }
+        ]
+      },
+      {
+        "case_id": "opportunity_002",
+        "topic": "opportunity",
+        "query": "公司看到很多风口就想追，但不知道哪些机会和自己的能力、长期愿景真正相关。",
+        "expected_sources": [
+          "ch03/s05_chunk_01.md",
+          "ch03/s05_chunk_02.md",
+          "ch03/s06_chunk_02.md"
+        ],
+        "retrieved_sources": [
+          "ch03/s06_chunk_01.md",
+          "ch03/s06_chunk_02.md",
+          "ch03/s05_chunk_02.md",
+          "ch01/s03_chunk_01.md",
+          "ch01/s02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 0.5,
+        "retrieval_time_ms": 6.574500002898276,
+        "top_k_chunks": [
+          {
+            "source": "ch03/s06_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6383620500564575
+          },
+          {
+            "source": "ch03/s06_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6307838559150696
+          },
+          {
+            "source": "ch03/s05_chunk_02.md",
+            "rank": 3,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6120319366455078
+          },
+          {
+            "source": "ch01/s03_chunk_01.md",
+            "rank": 4,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.590611457824707
+          },
+          {
+            "source": "ch01/s02.md",
+            "rank": 5,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.5893091559410095
+          }
+        ]
+      },
+      {
+        "case_id": "strategy_org_001",
+        "topic": "strategy_organization",
+        "query": "公司有战略口号，但部门各做各的，资源和组织结构没有真正承接战略。",
+        "expected_sources": [
+          "ch04/s02.md",
+          "ch04/s04_chunk_01.md",
+          "ch04/s05_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch04/s05_chunk_03.md",
+          "ch04/s06_chunk_02.md",
+          "ch04/s04_chunk_01.md",
+          "ch04/s05_chunk_04.md",
+          "ch04/s04_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 0.3333333333333333,
+        "retrieval_time_ms": 7.16799998190254,
+        "top_k_chunks": [
+          {
+            "source": "ch04/s05_chunk_03.md",
+            "rank": 1,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6297012567520142
+          },
+          {
+            "source": "ch04/s06_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6158037185668945
+          },
+          {
+            "source": "ch04/s04_chunk_01.md",
+            "rank": 3,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6089324355125427
+          },
+          {
+            "source": "ch04/s05_chunk_04.md",
+            "rank": 4,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6062524318695068
+          },
+          {
+            "source": "ch04/s04_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6009937524795532
+          }
+        ]
+      },
+      {
+        "case_id": "strategy_org_002",
+        "topic": "strategy_organization",
+        "query": "跨部门协同很差，战略目标传不到日常行动，如何识别组织偏离战略的信号？",
+        "expected_sources": [
+          "ch04/s06_chunk_01.md",
+          "ch04/s06_chunk_02.md",
+          "ch04/s07.md"
+        ],
+        "retrieved_sources": [
+          "ch04/s06_chunk_01.md",
+          "ch04/s06_chunk_02.md",
+          "ch04/s06_chunk_03.md",
+          "ch04/s05_chunk_04.md",
+          "ch04/s02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 8.681100036483258,
+        "top_k_chunks": [
+          {
+            "source": "ch04/s06_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.7053102254867554
+          },
+          {
+            "source": "ch04/s06_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.699674129486084
+          },
+          {
+            "source": "ch04/s06_chunk_03.md",
+            "rank": 3,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6567254066467285
+          },
+          {
+            "source": "ch04/s05_chunk_04.md",
+            "rank": 4,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6345452070236206
+          },
+          {
+            "source": "ch04/s02.md",
+            "rank": 5,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6293659210205078
+          }
+        ]
+      },
+      {
+        "case_id": "metrics_001",
+        "topic": "metrics",
+        "query": "团队为了完成KPI牺牲客户价值，短期数据好看但客户流失和复购下降。",
+        "expected_sources": [
+          "ch05/s04_chunk_01.md",
+          "ch05/s04_chunk_03.md",
+          "ch05/s05_chunk_02.md"
+        ],
+        "retrieved_sources": [
+          "ch02/s06_chunk_05.md",
+          "ch02/s06_chunk_03.md",
+          "ch02/s08.md",
+          "ch02/s06_chunk_06.md",
+          "ch02/s06_chunk_02.md"
+        ],
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "recall@5": 0.0,
+        "mrr@5": 0.0,
+        "retrieval_time_ms": 6.778499984648079,
+        "top_k_chunks": [
+          {
+            "source": "ch02/s06_chunk_05.md",
+            "rank": 1,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6329253911972046
+          },
+          {
+            "source": "ch02/s06_chunk_03.md",
+            "rank": 2,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6278042793273926
+          },
+          {
+            "source": "ch02/s08.md",
+            "rank": 3,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6253063678741455
+          },
+          {
+            "source": "ch02/s06_chunk_06.md",
+            "rank": 4,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6110014915466309
+          },
+          {
+            "source": "ch02/s06_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.607483446598053
+          }
+        ]
+      },
+      {
+        "case_id": "metrics_002",
+        "topic": "metrics",
+        "query": "公司指标越来越多，但大家不知道真正目标是什么，衡量体系应该怎么重新设计？",
+        "expected_sources": [
+          "ch05/s01.md",
+          "ch05/s03_chunk_01.md",
+          "ch05/s06_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch05/s05_chunk_03.md",
+          "ch05/s06_chunk_01.md",
+          "ch05/s05_chunk_01.md",
+          "ch05/s01.md",
+          "ch05/s06_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 0.5,
+        "retrieval_time_ms": 8.093199983704835,
+        "top_k_chunks": [
+          {
+            "source": "ch05/s05_chunk_03.md",
+            "rank": 1,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.7190032005310059
+          },
+          {
+            "source": "ch05/s06_chunk_01.md",
+            "rank": 2,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.7117806673049927
+          },
+          {
+            "source": "ch05/s05_chunk_01.md",
+            "rank": 3,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.7077230215072632
+          },
+          {
+            "source": "ch05/s01.md",
+            "rank": 4,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6980908513069153
+          },
+          {
+            "source": "ch05/s06_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6966738700866699
+          }
+        ]
+      },
+      {
+        "case_id": "self_drive_001",
+        "topic": "self_drive",
+        "query": "员工只等指令，管理层不断增加审批和过程监控，目标管理变成了目标控制。",
+        "expected_sources": [
+          "ch06/s01.md",
+          "ch06/s03_chunk_01.md",
+          "ch06/s03_chunk_02.md"
+        ],
+        "retrieved_sources": [
+          "ch06/s03_chunk_02.md",
+          "ch06/s01.md",
+          "ch06/s03_chunk_01.md",
+          "ch06/s03_chunk_03.md",
+          "ch06/s06_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 7.174600032158196,
+        "top_k_chunks": [
+          {
+            "source": "ch06/s03_chunk_02.md",
+            "rank": 1,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6592023372650146
+          },
+          {
+            "source": "ch06/s01.md",
+            "rank": 2,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6263885498046875
+          },
+          {
+            "source": "ch06/s03_chunk_01.md",
+            "rank": 3,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6206923127174377
+          },
+          {
+            "source": "ch06/s03_chunk_03.md",
+            "rank": 4,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6206851005554199
+          },
+          {
+            "source": "ch06/s06_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.609732449054718
+          }
+        ]
+      },
+      {
+        "case_id": "self_drive_002",
+        "topic": "self_drive",
+        "query": "公司想减少管控、提高员工责任感和主动性，如何实现真正的自我控制？",
+        "expected_sources": [
+          "ch06/s02_chunk_01.md",
+          "ch06/s06_chunk_01.md",
+          "ch06/s06_chunk_03.md"
+        ],
+        "retrieved_sources": [
+          "ch06/s06_chunk_02.md",
+          "ch06/s01.md",
+          "ch06/s05_chunk_02.md",
+          "ch06/s05_chunk_01.md",
+          "ch06/s06_chunk_03.md"
+        ],
+        "hit@3": 0.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 0.2,
+        "retrieval_time_ms": 7.541100028902292,
+        "top_k_chunks": [
+          {
+            "source": "ch06/s06_chunk_02.md",
+            "rank": 1,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6886239051818848
+          },
+          {
+            "source": "ch06/s01.md",
+            "rank": 2,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6808786392211914
+          },
+          {
+            "source": "ch06/s05_chunk_02.md",
+            "rank": 3,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6758142113685608
+          },
+          {
+            "source": "ch06/s05_chunk_01.md",
+            "rank": 4,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.670883059501648
+          },
+          {
+            "source": "ch06/s06_chunk_03.md",
+            "rank": 5,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6606963276863098
+          }
+        ]
+      },
+      {
+        "case_id": "long_term_decision_001",
+        "topic": "long_term_decision",
+        "query": "公司为了季度业绩削减长期投入，担心错过未来机会，如何平衡短期生存和长期建设？",
+        "expected_sources": [
+          "ch07/s03_chunk_01.md",
+          "ch07/s03_chunk_03.md",
+          "ch07/s06_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch07/s03_chunk_03.md",
+          "ch07/s03_chunk_01.md",
+          "ch08/s02_chunk_03.md",
+          "ch03/s02_chunk_04.md",
+          "ch07/s06_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 7.641000032890588,
+        "top_k_chunks": [
+          {
+            "source": "ch07/s03_chunk_03.md",
+            "rank": 1,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6631146669387817
+          },
+          {
+            "source": "ch07/s03_chunk_01.md",
+            "rank": 2,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6549006104469299
+          },
+          {
+            "source": "ch08/s02_chunk_03.md",
+            "rank": 3,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6294189691543579
+          },
+          {
+            "source": "ch03/s02_chunk_04.md",
+            "rank": 4,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.611876368522644
+          },
+          {
+            "source": "ch07/s06_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6051471829414368
+          }
+        ]
+      },
+      {
+        "case_id": "long_term_decision_002",
+        "topic": "long_term_decision",
+        "query": "决策总是依赖预测和行业报告，一旦环境变化就很被动，怎样做面向未来的清醒决策？",
+        "expected_sources": [
+          "ch07/s02_chunk_01.md",
+          "ch07/s02_chunk_03.md",
+          "ch07/s05_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch07/s02_chunk_01.md",
+          "ch07/s02_chunk_04.md",
+          "ch07/s05_chunk_01.md",
+          "ch07/s02_chunk_03.md",
+          "ch07/s02_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 11.452300008386374,
+        "top_k_chunks": [
+          {
+            "source": "ch07/s02_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.7019063830375671
+          },
+          {
+            "source": "ch07/s02_chunk_04.md",
+            "rank": 2,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6988341808319092
+          },
+          {
+            "source": "ch07/s05_chunk_01.md",
+            "rank": 3,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6908523440361023
+          },
+          {
+            "source": "ch07/s02_chunk_03.md",
+            "rank": 4,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6875864267349243
+          },
+          {
+            "source": "ch07/s02_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6765956878662109
+          }
+        ]
+      },
+      {
+        "case_id": "entrepreneurship_001",
+        "topic": "entrepreneurship",
+        "query": "企业家面对复杂问题时，不能只修补局部，要如何用系统思考看清因果和整体最优？",
+        "expected_sources": [
+          "ch08/s01_chunk_01.md",
+          "ch08/s01_chunk_04.md",
+          "ch08/s01_chunk_07.md"
+        ],
+        "retrieved_sources": [
+          "ch08/s01_chunk_07.md",
+          "ch08/s01_chunk_02.md",
+          "ch08/s01_chunk_05.md",
+          "ch08/s01_chunk_03.md",
+          "ch08/s01_chunk_06.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 8.044100017286837,
+        "top_k_chunks": [
+          {
+            "source": "ch08/s01_chunk_07.md",
+            "rank": 1,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6376514434814453
+          },
+          {
+            "source": "ch08/s01_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6357936859130859
+          },
+          {
+            "source": "ch08/s01_chunk_05.md",
+            "rank": 3,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6143632531166077
+          },
+          {
+            "source": "ch08/s01_chunk_03.md",
+            "rank": 4,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6061818599700928
+          },
+          {
+            "source": "ch08/s01_chunk_06.md",
+            "rank": 5,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6022564172744751
+          }
+        ]
+      },
+      {
+        "case_id": "entrepreneurship_002",
+        "topic": "entrepreneurship",
+        "query": "领导者在短期压力下犹豫不决，价值观摇摆，怎样建立决策勇气和人文精神？",
+        "expected_sources": [
+          "ch08/s02_chunk_01.md",
+          "ch08/s02_chunk_03.md",
+          "ch08/s03_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch08/s02_chunk_02.md",
+          "ch08/s02_chunk_04.md",
+          "ch08/s02_chunk_01.md",
+          "ch07/s06_chunk_02.md",
+          "ch08/s02_chunk_05.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 0.3333333333333333,
+        "retrieval_time_ms": 7.334599969908595,
+        "top_k_chunks": [
+          {
+            "source": "ch08/s02_chunk_02.md",
+            "rank": 1,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.706116259098053
+          },
+          {
+            "source": "ch08/s02_chunk_04.md",
+            "rank": 2,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6776355504989624
+          },
+          {
+            "source": "ch08/s02_chunk_01.md",
+            "rank": 3,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6609262228012085
+          },
+          {
+            "source": "ch07/s06_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6425471305847168
+          },
+          {
+            "source": "ch08/s02_chunk_05.md",
+            "rank": 5,
+            "retrieval_method": "embedding_metadata",
+            "embedding_cosine_score": 0.6381475329399109
+          }
+        ]
+      }
+    ]
+  },
+  "linear_hybrid_base": {
+    "config": {
+      "top_k": 5,
+      "embedding_model": "BAAI/bge-small-zh-v1.5",
+      "index_dir": "D:\\management_diagnosis_agent\\data\\vector_index\\base",
+      "embedding_text": "chunk structure",
+      "keyword_weight": 0.15,
+      "embedding_weight": 0.85,
+      "candidate_multiplier": 5,
+      "min_candidates": 25,
+      "candidate_k": 25,
+      "bm25_metadata_mode": "unweighted"
+    },
+    "summary": {
+      "cases": 16.0,
+      "hit@3": 0.875,
+      "hit@5": 0.875,
+      "recall@5": 0.6041666666666666,
+      "mrr@5": 0.6666666666666666,
+      "average_retrieval_time_ms": 19.84378125052899
+    },
+    "cases": [
+      {
+        "case_id": "customer_value_001",
+        "topic": "customer_value",
+        "query": "公司越来越关注利润和内部效率，但客户复购下降，新客户增长也变慢了，应该从哪里诊断？",
+        "expected_sources": [
+          "ch01/s02.md",
+          "ch01/s06_chunk_01.md",
+          "ch01/s08_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch01/s08_chunk_02.md",
+          "ch02/s07_chunk_03.md",
+          "ch01/s06_chunk_01.md",
+          "ch01/s06_chunk_02.md",
+          "ch01/s04_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 0.3333333333333333,
+        "retrieval_time_ms": 119.88700000802055,
+        "top_k_chunks": [
+          {
+            "source": "ch01/s08_chunk_02.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 19.71624172218517,
+            "embedding_cosine_score": 0.5980826020240784,
+            "normalized_bm25_score": 0.8964877729132185,
+            "normalized_embedding_cosine_score": 0.9619231597355434,
+            "hybrid_score": 0.9521078517121947
+          },
+          {
+            "source": "ch02/s07_chunk_03.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 18.269109198809634,
+            "embedding_cosine_score": 0.6050829291343689,
+            "normalized_bm25_score": 0.8306873718392437,
+            "normalized_embedding_cosine_score": 0.9731821008087732,
+            "hybrid_score": 0.9518078914633438
+          },
+          {
+            "source": "ch01/s06_chunk_01.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 21.99276143846943,
+            "embedding_cosine_score": 0.5764128565788269,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9270707330994615,
+            "hybrid_score": 0.9380101231345424
+          },
+          {
+            "source": "ch01/s06_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 19.59331656273493,
+            "embedding_cosine_score": 0.5830250978469849,
+            "normalized_bm25_score": 0.8908984266278893,
+            "normalized_embedding_cosine_score": 0.9377054982507544,
+            "hybrid_score": 0.9306844375073247
+          },
+          {
+            "source": "ch01/s04_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 14.35425018436364,
+            "embedding_cosine_score": 0.6089169979095459,
+            "normalized_bm25_score": 0.6526806660693089,
+            "normalized_embedding_cosine_score": 0.9793486061349275,
+            "hybrid_score": 0.9303484151250847
+          }
+        ]
+      },
+      {
+        "case_id": "customer_value_002",
+        "topic": "customer_value",
+        "query": "产品功能越来越多，但客户觉得没有解决真实痛点，团队应该如何重新创造客户价值？",
+        "expected_sources": [
+          "ch01/s07_chunk_01.md",
+          "ch01/s07_chunk_03.md",
+          "ch01/s07_chunk_04.md"
+        ],
+        "retrieved_sources": [
+          "ch01/s07_chunk_01.md",
+          "ch05/s02_chunk_02.md",
+          "ch01/s07_chunk_04.md",
+          "ch02/s06_chunk_02.md",
+          "ch02/s07_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 16.095299972221255,
+        "top_k_chunks": [
+          {
+            "source": "ch01/s07_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 25.979018622847033,
+            "embedding_cosine_score": 0.6534687876701355,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9965544955992441,
+            "hybrid_score": 0.9970713212593575
+          },
+          {
+            "source": "ch05/s02_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 24.44538838343945,
+            "embedding_cosine_score": 0.633500874042511,
+            "normalized_bm25_score": 0.9409665830079184,
+            "normalized_embedding_cosine_score": 0.9661029813589167,
+            "hybrid_score": 0.9623325216062669
+          },
+          {
+            "source": "ch01/s07_chunk_04.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 24.66139517841384,
+            "embedding_cosine_score": 0.6270312070846558,
+            "normalized_bm25_score": 0.9492812463949497,
+            "normalized_embedding_cosine_score": 0.9562365947563249,
+            "hybrid_score": 0.9551932925021187
+          },
+          {
+            "source": "ch02/s06_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 17.87455966201805,
+            "embedding_cosine_score": 0.6457521915435791,
+            "normalized_bm25_score": 0.6880382943448995,
+            "normalized_embedding_cosine_score": 0.9847865141657907,
+            "hybrid_score": 0.9402742811926569
+          },
+          {
+            "source": "ch02/s07_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 14.152825469271077,
+            "embedding_cosine_score": 0.6527097225189209,
+            "normalized_bm25_score": 0.5447790647805492,
+            "normalized_embedding_cosine_score": 0.9953969042908778,
+            "hybrid_score": 0.9278042283643284
+          }
+        ]
+      },
+      {
+        "case_id": "sales_marketing_001",
+        "topic": "sales_vs_marketing",
+        "query": "公司销售动作很多，促销和回款压力很大，但品牌和客户洞察越来越弱，营销应该怎么回归？",
+        "expected_sources": [
+          "ch02/s02.md",
+          "ch02/s03.md",
+          "ch02/s06_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch02/s05_chunk_01.md",
+          "ch02/s07_chunk_05.md",
+          "ch02/s02.md",
+          "ch02/s04_chunk_02.md",
+          "ch02/s05_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 0.3333333333333333,
+        "retrieval_time_ms": 14.986700029112399,
+        "top_k_chunks": [
+          {
+            "source": "ch02/s05_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 29.633335276030852,
+            "embedding_cosine_score": 0.6869569420814514,
+            "normalized_bm25_score": 0.9665045393383822,
+            "normalized_embedding_cosine_score": 0.9762084229091188,
+            "hybrid_score": 0.9747528403735083
+          },
+          {
+            "source": "ch02/s07_chunk_05.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 19.613109967868475,
+            "embedding_cosine_score": 0.7036990523338318,
+            "normalized_bm25_score": 0.6396903904981829,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.9459535585747274
+          },
+          {
+            "source": "ch02/s02.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 26.027109974731786,
+            "embedding_cosine_score": 0.6688789129257202,
+            "normalized_bm25_score": 0.8488858814614981,
+            "normalized_embedding_cosine_score": 0.9505184221967758,
+            "hybrid_score": 0.9352735410864841
+          },
+          {
+            "source": "ch02/s04_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 30.660316708203215,
+            "embedding_cosine_score": 0.6443861722946167,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9157127186081851,
+            "hybrid_score": 0.9283558108169574
+          },
+          {
+            "source": "ch02/s05_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 18.59712101986543,
+            "embedding_cosine_score": 0.6883626580238342,
+            "normalized_bm25_score": 0.6065534546448355,
+            "normalized_embedding_cosine_score": 0.9782060324521766,
+            "hybrid_score": 0.9224581457810754
+          }
+        ]
+      },
+      {
+        "case_id": "sales_marketing_002",
+        "topic": "sales_vs_marketing",
+        "query": "管理层总是把增长问题交给销售冲业绩，却很少讨论客户选择、价值定义和长期品牌。",
+        "expected_sources": [
+          "ch02/s05_chunk_01.md",
+          "ch02/s06_chunk_03.md",
+          "ch02/s07_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch02/s02.md",
+          "ch02/s01.md",
+          "ch02/s03.md",
+          "ch02/s04_chunk_03.md",
+          "ch08/s02_chunk_03.md"
+        ],
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "recall@5": 0.0,
+        "mrr@5": 0.0,
+        "retrieval_time_ms": 13.076299976091832,
+        "top_k_chunks": [
+          {
+            "source": "ch02/s02.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 19.620914293356428,
+            "embedding_cosine_score": 0.6549596190452576,
+            "normalized_bm25_score": 0.9420104389322101,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.9913015658398315
+          },
+          {
+            "source": "ch02/s01.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 20.82876524765179,
+            "embedding_cosine_score": 0.6263866424560547,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9563744454492416,
+            "hybrid_score": 0.9629182786318553
+          },
+          {
+            "source": "ch02/s03.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 19.847747914927226,
+            "embedding_cosine_score": 0.6055483818054199,
+            "normalized_bm25_score": 0.9529008406854476,
+            "normalized_embedding_cosine_score": 0.9245583455788237,
+            "hybrid_score": 0.9288097198448172
+          },
+          {
+            "source": "ch02/s04_chunk_03.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 19.123312823367748,
+            "embedding_cosine_score": 0.6007930040359497,
+            "normalized_bm25_score": 0.9181203300336628,
+            "normalized_embedding_cosine_score": 0.9172977792306232,
+            "hybrid_score": 0.917421161851079
+          },
+          {
+            "source": "ch08/s02_chunk_03.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 17.8389829791051,
+            "embedding_cosine_score": 0.5966190695762634,
+            "normalized_bm25_score": 0.8564589771405794,
+            "normalized_embedding_cosine_score": 0.9109249673223552,
+            "hybrid_score": 0.9027550687950888
+          }
+        ]
+      },
+      {
+        "case_id": "opportunity_001",
+        "topic": "opportunity",
+        "query": "团队每天都在处理问题和救火，但很少寻找未来增长机会和新客户需求。",
+        "expected_sources": [
+          "ch03/s01.md",
+          "ch03/s03.md",
+          "ch03/s04.md"
+        ],
+        "retrieved_sources": [
+          "ch03/s04.md",
+          "ch03/s01.md",
+          "ch03/s03.md",
+          "ch02/s06_chunk_02.md",
+          "ch02/s02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 12.140100006945431,
+        "top_k_chunks": [
+          {
+            "source": "ch03/s04.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 38.97329908962,
+            "embedding_cosine_score": 0.5031512379646301,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9272765599577131,
+            "hybrid_score": 0.9381850759640561
+          },
+          {
+            "source": "ch03/s01.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 17.378004483637522,
+            "embedding_cosine_score": 0.5133663415908813,
+            "normalized_bm25_score": 0.4458951356331523,
+            "normalized_embedding_cosine_score": 0.9461023630869655,
+            "hybrid_score": 0.8710712789688935
+          },
+          {
+            "source": "ch03/s03.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 25.40681947242377,
+            "embedding_cosine_score": 0.4922389090061188,
+            "normalized_bm25_score": 0.6519032277457498,
+            "normalized_embedding_cosine_score": 0.9071658137361432,
+            "hybrid_score": 0.8688764258375843
+          },
+          {
+            "source": "ch02/s06_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 18.901072420123093,
+            "embedding_cosine_score": 0.5052580237388611,
+            "normalized_bm25_score": 0.48497491517614766,
+            "normalized_embedding_cosine_score": 0.9311592356184138,
+            "hybrid_score": 0.8642315875520739
+          },
+          {
+            "source": "ch02/s02.md",
+            "rank": 5,
+            "retrieval_method": "embedding",
+            "embedding_cosine_score": 0.542611837387085,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.85
+          }
+        ]
+      },
+      {
+        "case_id": "opportunity_002",
+        "topic": "opportunity",
+        "query": "公司看到很多风口就想追，但不知道哪些机会和自己的能力、长期愿景真正相关。",
+        "expected_sources": [
+          "ch03/s05_chunk_01.md",
+          "ch03/s05_chunk_02.md",
+          "ch03/s06_chunk_02.md"
+        ],
+        "retrieved_sources": [
+          "ch03/s05_chunk_02.md",
+          "ch03/s06_chunk_02.md",
+          "ch03/s06_chunk_01.md",
+          "ch01/s03_chunk_01.md",
+          "ch03/s05_chunk_01.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 13.4276999742724,
+        "top_k_chunks": [
+          {
+            "source": "ch03/s05_chunk_02.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 29.48817062396729,
+            "embedding_cosine_score": 0.6120319366455078,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9507005962044164,
+            "hybrid_score": 0.9580955067737539
+          },
+          {
+            "source": "ch03/s06_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 14.84490745720197,
+            "embedding_cosine_score": 0.6307838559150696,
+            "normalized_bm25_score": 0.5034190708709607,
+            "normalized_embedding_cosine_score": 0.9798289141272689,
+            "hybrid_score": 0.9083674376388227
+          },
+          {
+            "source": "ch03/s06_chunk_01.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 11.130287082161374,
+            "embedding_cosine_score": 0.643769383430481,
+            "normalized_bm25_score": 0.37744922274408366,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.9066173834116125
+          },
+          {
+            "source": "ch01/s03_chunk_01.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 23.596533683590035,
+            "embedding_cosine_score": 0.590611457824707,
+            "normalized_bm25_score": 0.8002033759398872,
+            "normalized_embedding_cosine_score": 0.9174270678693836,
+            "hybrid_score": 0.8998435140799591
+          },
+          {
+            "source": "ch03/s05_chunk_01.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 28.303337178356234,
+            "embedding_cosine_score": 0.5684399604797363,
+            "normalized_bm25_score": 0.9598200423919125,
+            "normalized_embedding_cosine_score": 0.8829869439436004,
+            "hybrid_score": 0.8945119087108472
+          }
+        ]
+      },
+      {
+        "case_id": "strategy_org_001",
+        "topic": "strategy_organization",
+        "query": "公司有战略口号，但部门各做各的，资源和组织结构没有真正承接战略。",
+        "expected_sources": [
+          "ch04/s02.md",
+          "ch04/s04_chunk_01.md",
+          "ch04/s05_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch04/s05_chunk_03.md",
+          "ch04/s06_chunk_02.md",
+          "ch04/s05_chunk_04.md",
+          "ch04/s06_chunk_01.md",
+          "ch04/s05_chunk_05.md"
+        ],
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "recall@5": 0.0,
+        "mrr@5": 0.0,
+        "retrieval_time_ms": 13.111400010529906,
+        "top_k_chunks": [
+          {
+            "source": "ch04/s05_chunk_03.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 27.58409514949411,
+            "embedding_cosine_score": 0.6297012567520142,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 1.0
+          },
+          {
+            "source": "ch04/s06_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 19.074782522022222,
+            "embedding_cosine_score": 0.6158037185668945,
+            "normalized_bm25_score": 0.691513802379414,
+            "normalized_embedding_cosine_score": 0.9779299500579007,
+            "hybrid_score": 0.9349675279061277
+          },
+          {
+            "source": "ch04/s05_chunk_04.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 21.185122961437894,
+            "embedding_cosine_score": 0.6062524318695068,
+            "normalized_bm25_score": 0.7680194998829398,
+            "normalized_embedding_cosine_score": 0.9627619849395634,
+            "hybrid_score": 0.9335506121810699
+          },
+          {
+            "source": "ch04/s06_chunk_01.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 22.49937884260473,
+            "embedding_cosine_score": 0.6004026532173157,
+            "normalized_bm25_score": 0.8156649228719531,
+            "normalized_embedding_cosine_score": 0.9534722168321212,
+            "hybrid_score": 0.932801122738096
+          },
+          {
+            "source": "ch04/s05_chunk_05.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 19.46972014955328,
+            "embedding_cosine_score": 0.6004908680915833,
+            "normalized_bm25_score": 0.7058313874004437,
+            "normalized_embedding_cosine_score": 0.9536123068721548,
+            "hybrid_score": 0.9164451689513982
+          }
+        ]
+      },
+      {
+        "case_id": "strategy_org_002",
+        "topic": "strategy_organization",
+        "query": "跨部门协同很差，战略目标传不到日常行动，如何识别组织偏离战略的信号？",
+        "expected_sources": [
+          "ch04/s06_chunk_01.md",
+          "ch04/s06_chunk_02.md",
+          "ch04/s07.md"
+        ],
+        "retrieved_sources": [
+          "ch04/s06_chunk_01.md",
+          "ch04/s06_chunk_02.md",
+          "ch04/s06_chunk_03.md",
+          "ch04/s05_chunk_04.md",
+          "ch04/s02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 20.63590002944693,
+        "top_k_chunks": [
+          {
+            "source": "ch04/s06_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 55.57466301459139,
+            "embedding_cosine_score": 0.7053102254867554,
+            "normalized_bm25_score": 0.9619002638363268,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.994285039575449
+          },
+          {
+            "source": "ch04/s06_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 57.77590993991843,
+            "embedding_cosine_score": 0.699674129486084,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9920090538928714,
+            "hybrid_score": 0.9932076958089407
+          },
+          {
+            "source": "ch04/s06_chunk_03.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 35.99916046857605,
+            "embedding_cosine_score": 0.6599157452583313,
+            "normalized_bm25_score": 0.6230825357144842,
+            "normalized_embedding_cosine_score": 0.9356389875148967,
+            "hybrid_score": 0.8887555197448349
+          },
+          {
+            "source": "ch04/s05_chunk_04.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 36.91417085807528,
+            "embedding_cosine_score": 0.6345452070236206,
+            "normalized_bm25_score": 0.6389197659796719,
+            "normalized_embedding_cosine_score": 0.8996682368892387,
+            "hybrid_score": 0.8605559662528037
+          },
+          {
+            "source": "ch04/s02.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 22.92776480964965,
+            "embedding_cosine_score": 0.6293659210205078,
+            "normalized_bm25_score": 0.39683952764209846,
+            "normalized_embedding_cosine_score": 0.892324963226166,
+            "hybrid_score": 0.8180021478885557
+          }
+        ]
+      },
+      {
+        "case_id": "metrics_001",
+        "topic": "metrics",
+        "query": "团队为了完成KPI牺牲客户价值，短期数据好看但客户流失和复购下降。",
+        "expected_sources": [
+          "ch05/s04_chunk_01.md",
+          "ch05/s04_chunk_03.md",
+          "ch05/s05_chunk_02.md"
+        ],
+        "retrieved_sources": [
+          "ch06/s05_chunk_03.md",
+          "ch05/s05_chunk_02.md",
+          "ch02/s08.md",
+          "ch02/s06_chunk_06.md",
+          "ch05/s01.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 0.5,
+        "retrieval_time_ms": 15.360199962742627,
+        "top_k_chunks": [
+          {
+            "source": "ch06/s05_chunk_03.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 29.325421669135494,
+            "embedding_cosine_score": 0.5802172422409058,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9167229665780998,
+            "hybrid_score": 0.9292145215913848
+          },
+          {
+            "source": "ch05/s05_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 24.303664789495045,
+            "embedding_cosine_score": 0.5947302579879761,
+            "normalized_bm25_score": 0.8287575559424688,
+            "normalized_embedding_cosine_score": 0.9396530242893545,
+            "hybrid_score": 0.9230187040373217
+          },
+          {
+            "source": "ch02/s08.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 14.609794294088324,
+            "embedding_cosine_score": 0.6253063678741455,
+            "normalized_bm25_score": 0.49819554033778424,
+            "normalized_embedding_cosine_score": 0.9879622094025216,
+            "hybrid_score": 0.9144972090428108
+          },
+          {
+            "source": "ch02/s06_chunk_06.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 15.066114811389657,
+            "embedding_cosine_score": 0.6110014915466309,
+            "normalized_bm25_score": 0.5137561185436077,
+            "normalized_embedding_cosine_score": 0.9653610047005639,
+            "hybrid_score": 0.8976202717770204
+          },
+          {
+            "source": "ch05/s01.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 22.45663161087527,
+            "embedding_cosine_score": 0.5796006917953491,
+            "normalized_bm25_score": 0.7657735279731882,
+            "normalized_embedding_cosine_score": 0.9157488384199762,
+            "hybrid_score": 0.893252541852958
+          }
+        ]
+      },
+      {
+        "case_id": "metrics_002",
+        "topic": "metrics",
+        "query": "公司指标越来越多，但大家不知道真正目标是什么，衡量体系应该怎么重新设计？",
+        "expected_sources": [
+          "ch05/s01.md",
+          "ch05/s03_chunk_01.md",
+          "ch05/s06_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch05/s06_chunk_01.md",
+          "ch05/s06_chunk_02.md",
+          "ch05/s01.md",
+          "ch05/s08_chunk_01.md",
+          "ch05/s04_chunk_03.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 11.46020001033321,
+        "top_k_chunks": [
+          {
+            "source": "ch05/s06_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 29.304128227521492,
+            "embedding_cosine_score": 0.7117806673049927,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9767970878899128,
+            "hybrid_score": 0.9802775247064259
+          },
+          {
+            "source": "ch05/s06_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 26.469223969394132,
+            "embedding_cosine_score": 0.6966738700866699,
+            "normalized_bm25_score": 0.903259218765467,
+            "normalized_embedding_cosine_score": 0.9560655954400369,
+            "hybrid_score": 0.9481446389388514
+          },
+          {
+            "source": "ch05/s01.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 23.08295450015054,
+            "embedding_cosine_score": 0.6980908513069153,
+            "normalized_bm25_score": 0.7877031632175214,
+            "normalized_embedding_cosine_score": 0.9580101595355622,
+            "hybrid_score": 0.9324641100878561
+          },
+          {
+            "source": "ch05/s08_chunk_01.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 24.51768538503421,
+            "embedding_cosine_score": 0.684546709060669,
+            "normalized_bm25_score": 0.8366631893866745,
+            "normalized_embedding_cosine_score": 0.9394231434619278,
+            "hybrid_score": 0.9240091503506397
+          },
+          {
+            "source": "ch05/s04_chunk_03.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 22.078064683301523,
+            "embedding_cosine_score": 0.6799632906913757,
+            "normalized_bm25_score": 0.7534114139784073,
+            "normalized_embedding_cosine_score": 0.9331331865673999,
+            "hybrid_score": 0.9061749206790509
+          }
+        ]
+      },
+      {
+        "case_id": "self_drive_001",
+        "topic": "self_drive",
+        "query": "员工只等指令，管理层不断增加审批和过程监控，目标管理变成了目标控制。",
+        "expected_sources": [
+          "ch06/s01.md",
+          "ch06/s03_chunk_01.md",
+          "ch06/s03_chunk_02.md"
+        ],
+        "retrieved_sources": [
+          "ch06/s03_chunk_02.md",
+          "ch06/s03_chunk_03.md",
+          "ch06/s01.md",
+          "ch06/s06_chunk_01.md",
+          "ch06/s03_chunk_01.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 13.029000023379922,
+        "top_k_chunks": [
+          {
+            "source": "ch06/s03_chunk_02.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 65.58230262233691,
+            "embedding_cosine_score": 0.6592023372650146,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 1.0
+          },
+          {
+            "source": "ch06/s03_chunk_03.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 36.01872961932712,
+            "embedding_cosine_score": 0.6206851005554199,
+            "normalized_bm25_score": 0.5492141656987105,
+            "normalized_embedding_cosine_score": 0.9415699330354317,
+            "hybrid_score": 0.8827165679349235
+          },
+          {
+            "source": "ch06/s01.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 26.66479363626454,
+            "embedding_cosine_score": 0.6263885498046875,
+            "normalized_bm25_score": 0.40658520012352667,
+            "normalized_embedding_cosine_score": 0.9502219794965089,
+            "hybrid_score": 0.8686764625905615
+          },
+          {
+            "source": "ch06/s06_chunk_01.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 37.95986891484579,
+            "embedding_cosine_score": 0.5978569388389587,
+            "normalized_bm25_score": 0.5788126887438213,
+            "normalized_embedding_cosine_score": 0.906939956128533,
+            "hybrid_score": 0.8577208660208262
+          },
+          {
+            "source": "ch06/s03_chunk_01.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 24.642768405863805,
+            "embedding_cosine_score": 0.6206923127174377,
+            "normalized_bm25_score": 0.37575332704879194,
+            "normalized_embedding_cosine_score": 0.9415808737764002,
+            "hybrid_score": 0.8567067417672589
+          }
+        ]
+      },
+      {
+        "case_id": "self_drive_002",
+        "topic": "self_drive",
+        "query": "公司想减少管控、提高员工责任感和主动性，如何实现真正的自我控制？",
+        "expected_sources": [
+          "ch06/s02_chunk_01.md",
+          "ch06/s06_chunk_01.md",
+          "ch06/s06_chunk_03.md"
+        ],
+        "retrieved_sources": [
+          "ch06/s06_chunk_02.md",
+          "ch06/s06_chunk_01.md",
+          "ch06/s06_chunk_03.md",
+          "ch06/s03_chunk_02.md",
+          "ch06/s01.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 0.5,
+        "retrieval_time_ms": 10.482600016985089,
+        "top_k_chunks": [
+          {
+            "source": "ch06/s06_chunk_02.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 51.371562954239515,
+            "embedding_cosine_score": 0.6886239051818848,
+            "normalized_bm25_score": 0.9126377437314516,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.9868956615597178
+          },
+          {
+            "source": "ch06/s06_chunk_01.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 56.28910628241107,
+            "embedding_cosine_score": 0.6545774936676025,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9505587719826694,
+            "hybrid_score": 0.957974956185269
+          },
+          {
+            "source": "ch06/s06_chunk_03.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 44.62342863092981,
+            "embedding_cosine_score": 0.6606963276863098,
+            "normalized_bm25_score": 0.7927542570501516,
+            "normalized_embedding_cosine_score": 0.9594443682750187,
+            "hybrid_score": 0.9344408515912885
+          },
+          {
+            "source": "ch06/s03_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 44.603064497258664,
+            "embedding_cosine_score": 0.6575150489807129,
+            "normalized_bm25_score": 0.7923924795230938,
+            "normalized_embedding_cosine_score": 0.9548246060482679,
+            "hybrid_score": 0.9304597870694917
+          },
+          {
+            "source": "ch06/s01.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 29.04277268801514,
+            "embedding_cosine_score": 0.6808786392211914,
+            "normalized_bm25_score": 0.5159572536522982,
+            "normalized_embedding_cosine_score": 0.9887525456168303,
+            "hybrid_score": 0.9178332518221505
+          }
+        ]
+      },
+      {
+        "case_id": "long_term_decision_001",
+        "topic": "long_term_decision",
+        "query": "公司为了季度业绩削减长期投入，担心错过未来机会，如何平衡短期生存和长期建设？",
+        "expected_sources": [
+          "ch07/s03_chunk_01.md",
+          "ch07/s03_chunk_03.md",
+          "ch07/s06_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch07/s03_chunk_01.md",
+          "ch07/s03_chunk_03.md",
+          "ch08/s02_chunk_03.md",
+          "ch07/s06_chunk_02.md",
+          "ch07/s03_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 11.55960001051426,
+        "top_k_chunks": [
+          {
+            "source": "ch07/s03_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 42.246505838196946,
+            "embedding_cosine_score": 0.6549006104469299,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9876129168884601,
+            "hybrid_score": 0.9894709793551911
+          },
+          {
+            "source": "ch07/s03_chunk_03.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 36.227821210028004,
+            "embedding_cosine_score": 0.6631146669387817,
+            "normalized_bm25_score": 0.8575341437414883,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.9786301215612232
+          },
+          {
+            "source": "ch08/s02_chunk_03.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 37.128330873904446,
+            "embedding_cosine_score": 0.6294189691543579,
+            "normalized_bm25_score": 0.8788497447837466,
+            "normalized_embedding_cosine_score": 0.9491857148327341,
+            "hybrid_score": 0.9386353193253859
+          },
+          {
+            "source": "ch07/s06_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 31.252647723212025,
+            "embedding_cosine_score": 0.6051471829414368,
+            "normalized_bm25_score": 0.7397688188203986,
+            "normalized_embedding_cosine_score": 0.9125830163507808,
+            "hybrid_score": 0.8866608867212235
+          },
+          {
+            "source": "ch07/s03_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 34.93051991957983,
+            "embedding_cosine_score": 0.5853472948074341,
+            "normalized_bm25_score": 0.826826248148494,
+            "normalized_embedding_cosine_score": 0.8827240958334479,
+            "hybrid_score": 0.8743394186807049
+          }
+        ]
+      },
+      {
+        "case_id": "long_term_decision_002",
+        "topic": "long_term_decision",
+        "query": "决策总是依赖预测和行业报告，一旦环境变化就很被动，怎样做面向未来的清醒决策？",
+        "expected_sources": [
+          "ch07/s02_chunk_01.md",
+          "ch07/s02_chunk_03.md",
+          "ch07/s05_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch07/s02_chunk_01.md",
+          "ch07/s02_chunk_04.md",
+          "ch07/s02_chunk_03.md",
+          "ch07/s05_chunk_01.md",
+          "ch07/s07_chunk_01.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 9.749699966050684,
+        "top_k_chunks": [
+          {
+            "source": "ch07/s02_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 35.12762661717578,
+            "embedding_cosine_score": 0.7019063830375671,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 1.0
+          },
+          {
+            "source": "ch07/s02_chunk_04.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 26.413842765660014,
+            "embedding_cosine_score": 0.7008368968963623,
+            "normalized_bm25_score": 0.751939294206255,
+            "normalized_embedding_cosine_score": 0.9984763122731887,
+            "hybrid_score": 0.9614957595631486
+          },
+          {
+            "source": "ch07/s02_chunk_03.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 29.124416121872258,
+            "embedding_cosine_score": 0.6875864267349243,
+            "normalized_bm25_score": 0.8291028722000755,
+            "normalized_embedding_cosine_score": 0.979598481152612,
+            "hybrid_score": 0.9570241398097316
+          },
+          {
+            "source": "ch07/s05_chunk_01.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 27.644030245056683,
+            "embedding_cosine_score": 0.6908523440361023,
+            "normalized_bm25_score": 0.7869598064886068,
+            "normalized_embedding_cosine_score": 0.984251405502786,
+            "hybrid_score": 0.9546576656506591
+          },
+          {
+            "source": "ch07/s07_chunk_01.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 29.43783876036873,
+            "embedding_cosine_score": 0.6696681976318359,
+            "normalized_bm25_score": 0.8380252694320941,
+            "normalized_embedding_cosine_score": 0.9540705339275911,
+            "hybrid_score": 0.9366637442532666
+          }
+        ]
+      },
+      {
+        "case_id": "entrepreneurship_001",
+        "topic": "entrepreneurship",
+        "query": "企业家面对复杂问题时，不能只修补局部，要如何用系统思考看清因果和整体最优？",
+        "expected_sources": [
+          "ch08/s01_chunk_01.md",
+          "ch08/s01_chunk_04.md",
+          "ch08/s01_chunk_07.md"
+        ],
+        "retrieved_sources": [
+          "ch08/s01_chunk_06.md",
+          "ch08/s01_chunk_07.md",
+          "ch08/s01_chunk_04.md",
+          "ch08/s01_chunk_02.md",
+          "ch08/s01_chunk_03.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 0.5,
+        "retrieval_time_ms": 11.139800015371293,
+        "top_k_chunks": [
+          {
+            "source": "ch08/s01_chunk_06.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 45.368310085332894,
+            "embedding_cosine_score": 0.6022564172744751,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9444915767559143,
+            "hybrid_score": 0.9528178402425271
+          },
+          {
+            "source": "ch08/s01_chunk_07.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 27.28127350120106,
+            "embedding_cosine_score": 0.6376514434814453,
+            "normalized_bm25_score": 0.6013288449556073,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.9401993267433411
+          },
+          {
+            "source": "ch08/s01_chunk_04.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 41.58034378228348,
+            "embedding_cosine_score": 0.5975098609924316,
+            "normalized_bm25_score": 0.9165063389858547,
+            "normalized_embedding_cosine_score": 0.9370477666139216,
+            "hybrid_score": 0.9339665524697116
+          },
+          {
+            "source": "ch08/s01_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 22.66777319683193,
+            "embedding_cosine_score": 0.6357936859130859,
+            "normalized_bm25_score": 0.49963891434784097,
+            "normalized_embedding_cosine_score": 0.9970865625925405,
+            "hybrid_score": 0.9224694153558356
+          },
+          {
+            "source": "ch08/s01_chunk_03.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 25.07213454318433,
+            "embedding_cosine_score": 0.6061818599700928,
+            "normalized_bm25_score": 0.5526354077554653,
+            "normalized_embedding_cosine_score": 0.9506476714934806,
+            "hybrid_score": 0.8909458319327783
+          }
+        ]
+      },
+      {
+        "case_id": "entrepreneurship_002",
+        "topic": "entrepreneurship",
+        "query": "领导者在短期压力下犹豫不决，价值观摇摆，怎样建立决策勇气和人文精神？",
+        "expected_sources": [
+          "ch08/s02_chunk_01.md",
+          "ch08/s02_chunk_03.md",
+          "ch08/s03_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch08/s02_chunk_02.md",
+          "ch08/s02_chunk_01.md",
+          "ch08/s02_chunk_04.md",
+          "ch08/s02_chunk_03.md",
+          "ch08/s02_chunk_05.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 0.5,
+        "retrieval_time_ms": 11.358999996446073,
+        "top_k_chunks": [
+          {
+            "source": "ch08/s02_chunk_02.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 44.564841273830226,
+            "embedding_cosine_score": 0.706116259098053,
+            "normalized_bm25_score": 0.8667617091197756,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.9800142563679664
+          },
+          {
+            "source": "ch08/s02_chunk_01.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 51.4153322706044,
+            "embedding_cosine_score": 0.6609262228012085,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9360019887453558,
+            "hybrid_score": 0.9456016904335525
+          },
+          {
+            "source": "ch08/s02_chunk_04.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 28.8407234242405,
+            "embedding_cosine_score": 0.6776355504989624,
+            "normalized_bm25_score": 0.560936245096087,
+            "normalized_embedding_cosine_score": 0.9596656949445266,
+            "hybrid_score": 0.8998562774672606
+          },
+          {
+            "source": "ch08/s02_chunk_03.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 42.18039613707864,
+            "embedding_cosine_score": 0.6270291805267334,
+            "normalized_bm25_score": 0.8203855596046467,
+            "normalized_embedding_cosine_score": 0.8879970860997589,
+            "hybrid_score": 0.8778553571254921
+          },
+          {
+            "source": "ch08/s02_chunk_05.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 26.520723390983797,
+            "embedding_cosine_score": 0.6642575860023499,
+            "normalized_bm25_score": 0.5158135174815635,
+            "normalized_embedding_cosine_score": 0.9407198566009928,
+            "hybrid_score": 0.8769839057330784
+          }
+        ]
+      }
+    ]
+  },
+  "linear_hybrid_metadata": {
+    "config": {
+      "top_k": 5,
+      "embedding_model": "BAAI/bge-small-zh-v1.5",
+      "index_dir": "D:\\management_diagnosis_agent\\data\\vector_index\\semantic_metadata_unweighted",
+      "embedding_text": "chunk structure + unweighted semantic metadata",
+      "keyword_weight": 0.15,
+      "embedding_weight": 0.85,
+      "candidate_multiplier": 5,
+      "min_candidates": 25,
+      "candidate_k": 25,
+      "bm25_metadata_mode": "unweighted"
+    },
+    "summary": {
+      "cases": 16.0,
+      "hit@3": 0.875,
+      "hit@5": 0.875,
+      "recall@5": 0.6041666666666666,
+      "mrr@5": 0.6666666666666666,
+      "average_retrieval_time_ms": 11.25924374719034
+    },
+    "cases": [
+      {
+        "case_id": "customer_value_001",
+        "topic": "customer_value",
+        "query": "公司越来越关注利润和内部效率，但客户复购下降，新客户增长也变慢了，应该从哪里诊断？",
+        "expected_sources": [
+          "ch01/s02.md",
+          "ch01/s06_chunk_01.md",
+          "ch01/s08_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch01/s08_chunk_02.md",
+          "ch02/s07_chunk_03.md",
+          "ch01/s06_chunk_01.md",
+          "ch01/s04_chunk_02.md",
+          "ch01/s06_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 0.3333333333333333,
+        "retrieval_time_ms": 9.818800026550889,
+        "top_k_chunks": [
+          {
+            "source": "ch01/s08_chunk_02.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 19.71624172218517,
+            "embedding_cosine_score": 0.5980826020240784,
+            "normalized_bm25_score": 0.8964877729132185,
+            "normalized_embedding_cosine_score": 0.9619231597355434,
+            "hybrid_score": 0.9521078517121947
+          },
+          {
+            "source": "ch02/s07_chunk_03.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 18.269109198809634,
+            "embedding_cosine_score": 0.6050829291343689,
+            "normalized_bm25_score": 0.8306873718392437,
+            "normalized_embedding_cosine_score": 0.9731821008087732,
+            "hybrid_score": 0.9518078914633438
+          },
+          {
+            "source": "ch01/s06_chunk_01.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 21.99276143846943,
+            "embedding_cosine_score": 0.5764128565788269,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9270707330994615,
+            "hybrid_score": 0.9380101231345424
+          },
+          {
+            "source": "ch01/s04_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 14.35425018436364,
+            "embedding_cosine_score": 0.6089169979095459,
+            "normalized_bm25_score": 0.6526806660693089,
+            "normalized_embedding_cosine_score": 0.9793486061349275,
+            "hybrid_score": 0.9303484151250847
+          },
+          {
+            "source": "ch01/s06_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 19.59331656273493,
+            "embedding_cosine_score": 0.5826491117477417,
+            "normalized_bm25_score": 0.8908984266278893,
+            "normalized_embedding_cosine_score": 0.937100782889738,
+            "hybrid_score": 0.9301704294504607
+          }
+        ]
+      },
+      {
+        "case_id": "customer_value_002",
+        "topic": "customer_value",
+        "query": "产品功能越来越多，但客户觉得没有解决真实痛点，团队应该如何重新创造客户价值？",
+        "expected_sources": [
+          "ch01/s07_chunk_01.md",
+          "ch01/s07_chunk_03.md",
+          "ch01/s07_chunk_04.md"
+        ],
+        "retrieved_sources": [
+          "ch01/s07_chunk_01.md",
+          "ch05/s02_chunk_02.md",
+          "ch01/s07_chunk_04.md",
+          "ch02/s06_chunk_02.md",
+          "ch02/s07_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 10.757200012449175,
+        "top_k_chunks": [
+          {
+            "source": "ch01/s07_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 25.979018622847033,
+            "embedding_cosine_score": 0.6534687876701355,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9965544955992441,
+            "hybrid_score": 0.9970713212593575
+          },
+          {
+            "source": "ch05/s02_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 24.44538838343945,
+            "embedding_cosine_score": 0.633500874042511,
+            "normalized_bm25_score": 0.9409665830079184,
+            "normalized_embedding_cosine_score": 0.9661029813589167,
+            "hybrid_score": 0.9623325216062669
+          },
+          {
+            "source": "ch01/s07_chunk_04.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 24.66139517841384,
+            "embedding_cosine_score": 0.6270312070846558,
+            "normalized_bm25_score": 0.9492812463949497,
+            "normalized_embedding_cosine_score": 0.9562365947563249,
+            "hybrid_score": 0.9551932925021187
+          },
+          {
+            "source": "ch02/s06_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 17.87455966201805,
+            "embedding_cosine_score": 0.6457521915435791,
+            "normalized_bm25_score": 0.6880382943448995,
+            "normalized_embedding_cosine_score": 0.9847865141657907,
+            "hybrid_score": 0.9402742811926569
+          },
+          {
+            "source": "ch02/s07_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 14.152825469271077,
+            "embedding_cosine_score": 0.6527097225189209,
+            "normalized_bm25_score": 0.5447790647805492,
+            "normalized_embedding_cosine_score": 0.9953969042908778,
+            "hybrid_score": 0.9278042283643284
+          }
+        ]
+      },
+      {
+        "case_id": "sales_marketing_001",
+        "topic": "sales_vs_marketing",
+        "query": "公司销售动作很多，促销和回款压力很大，但品牌和客户洞察越来越弱，营销应该怎么回归？",
+        "expected_sources": [
+          "ch02/s02.md",
+          "ch02/s03.md",
+          "ch02/s06_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch02/s05_chunk_01.md",
+          "ch02/s07_chunk_05.md",
+          "ch02/s02.md",
+          "ch02/s05_chunk_02.md",
+          "ch02/s04_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 0.3333333333333333,
+        "retrieval_time_ms": 12.562099960632622,
+        "top_k_chunks": [
+          {
+            "source": "ch02/s05_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 29.633335276030852,
+            "embedding_cosine_score": 0.6869569420814514,
+            "normalized_bm25_score": 0.9665045393383822,
+            "normalized_embedding_cosine_score": 0.9762084229091188,
+            "hybrid_score": 0.9747528403735083
+          },
+          {
+            "source": "ch02/s07_chunk_05.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 19.613109967868475,
+            "embedding_cosine_score": 0.7036990523338318,
+            "normalized_bm25_score": 0.6396903904981829,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.9459535585747274
+          },
+          {
+            "source": "ch02/s02.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 26.027109974731786,
+            "embedding_cosine_score": 0.6688789129257202,
+            "normalized_bm25_score": 0.8488858814614981,
+            "normalized_embedding_cosine_score": 0.9505184221967758,
+            "hybrid_score": 0.9352735410864841
+          },
+          {
+            "source": "ch02/s05_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 18.59712101986543,
+            "embedding_cosine_score": 0.6977773308753967,
+            "normalized_bm25_score": 0.6065534546448355,
+            "normalized_embedding_cosine_score": 0.9915848665153156,
+            "hybrid_score": 0.9338301547347435
+          },
+          {
+            "source": "ch02/s04_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 30.660316708203215,
+            "embedding_cosine_score": 0.6443861722946167,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9157127186081851,
+            "hybrid_score": 0.9283558108169574
+          }
+        ]
+      },
+      {
+        "case_id": "sales_marketing_002",
+        "topic": "sales_vs_marketing",
+        "query": "管理层总是把增长问题交给销售冲业绩，却很少讨论客户选择、价值定义和长期品牌。",
+        "expected_sources": [
+          "ch02/s05_chunk_01.md",
+          "ch02/s06_chunk_03.md",
+          "ch02/s07_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch02/s02.md",
+          "ch02/s01.md",
+          "ch02/s03.md",
+          "ch02/s04_chunk_03.md",
+          "ch08/s02_chunk_03.md"
+        ],
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "recall@5": 0.0,
+        "mrr@5": 0.0,
+        "retrieval_time_ms": 10.956999962218106,
+        "top_k_chunks": [
+          {
+            "source": "ch02/s02.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 19.620914293356428,
+            "embedding_cosine_score": 0.6549596190452576,
+            "normalized_bm25_score": 0.9420104389322101,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.9913015658398315
+          },
+          {
+            "source": "ch02/s01.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 20.82876524765179,
+            "embedding_cosine_score": 0.617879331111908,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9433853830753689,
+            "hybrid_score": 0.9518775756140636
+          },
+          {
+            "source": "ch02/s03.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 19.847747914927226,
+            "embedding_cosine_score": 0.6055483818054199,
+            "normalized_bm25_score": 0.9529008406854476,
+            "normalized_embedding_cosine_score": 0.9245583455788237,
+            "hybrid_score": 0.9288097198448172
+          },
+          {
+            "source": "ch02/s04_chunk_03.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 19.123312823367748,
+            "embedding_cosine_score": 0.6007930040359497,
+            "normalized_bm25_score": 0.9181203300336628,
+            "normalized_embedding_cosine_score": 0.9172977792306232,
+            "hybrid_score": 0.917421161851079
+          },
+          {
+            "source": "ch08/s02_chunk_03.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 17.8389829791051,
+            "embedding_cosine_score": 0.5966190695762634,
+            "normalized_bm25_score": 0.8564589771405794,
+            "normalized_embedding_cosine_score": 0.9109249673223552,
+            "hybrid_score": 0.9027550687950888
+          }
+        ]
+      },
+      {
+        "case_id": "opportunity_001",
+        "topic": "opportunity",
+        "query": "团队每天都在处理问题和救火，但很少寻找未来增长机会和新客户需求。",
+        "expected_sources": [
+          "ch03/s01.md",
+          "ch03/s03.md",
+          "ch03/s04.md"
+        ],
+        "retrieved_sources": [
+          "ch03/s04.md",
+          "ch03/s01.md",
+          "ch03/s03.md",
+          "ch02/s06_chunk_02.md",
+          "ch02/s02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 10.207300016190857,
+        "top_k_chunks": [
+          {
+            "source": "ch03/s04.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 38.97329908962,
+            "embedding_cosine_score": 0.5031512379646301,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9272765599577131,
+            "hybrid_score": 0.9381850759640561
+          },
+          {
+            "source": "ch03/s01.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 17.378004483637522,
+            "embedding_cosine_score": 0.5133663415908813,
+            "normalized_bm25_score": 0.4458951356331523,
+            "normalized_embedding_cosine_score": 0.9461023630869655,
+            "hybrid_score": 0.8710712789688935
+          },
+          {
+            "source": "ch03/s03.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 25.40681947242377,
+            "embedding_cosine_score": 0.4922389090061188,
+            "normalized_bm25_score": 0.6519032277457498,
+            "normalized_embedding_cosine_score": 0.9071658137361432,
+            "hybrid_score": 0.8688764258375843
+          },
+          {
+            "source": "ch02/s06_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 18.901072420123093,
+            "embedding_cosine_score": 0.5052580237388611,
+            "normalized_bm25_score": 0.48497491517614766,
+            "normalized_embedding_cosine_score": 0.9311592356184138,
+            "hybrid_score": 0.8642315875520739
+          },
+          {
+            "source": "ch02/s02.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "embedding_cosine_score": 0.542611837387085,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.85
+          }
+        ]
+      },
+      {
+        "case_id": "opportunity_002",
+        "topic": "opportunity",
+        "query": "公司看到很多风口就想追，但不知道哪些机会和自己的能力、长期愿景真正相关。",
+        "expected_sources": [
+          "ch03/s05_chunk_01.md",
+          "ch03/s05_chunk_02.md",
+          "ch03/s06_chunk_02.md"
+        ],
+        "retrieved_sources": [
+          "ch03/s05_chunk_02.md",
+          "ch03/s06_chunk_02.md",
+          "ch03/s06_chunk_01.md",
+          "ch01/s03_chunk_01.md",
+          "ch03/s05_chunk_01.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 11.6913000238128,
+        "top_k_chunks": [
+          {
+            "source": "ch03/s05_chunk_02.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 29.48817062396729,
+            "embedding_cosine_score": 0.6120319366455078,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9587536361088178,
+            "hybrid_score": 0.9649405906924952
+          },
+          {
+            "source": "ch03/s06_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 14.84490745720197,
+            "embedding_cosine_score": 0.6307838559150696,
+            "normalized_bm25_score": 0.5034190708709607,
+            "normalized_embedding_cosine_score": 0.9881286894471285,
+            "hybrid_score": 0.9154222466607033
+          },
+          {
+            "source": "ch03/s06_chunk_01.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 11.130287082161374,
+            "embedding_cosine_score": 0.6383620500564575,
+            "normalized_bm25_score": 0.37744922274408366,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.9066173834116125
+          },
+          {
+            "source": "ch01/s03_chunk_01.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 23.596533683590035,
+            "embedding_cosine_score": 0.590611457824707,
+            "normalized_bm25_score": 0.8002033759398872,
+            "normalized_embedding_cosine_score": 0.9251982597845104,
+            "hybrid_score": 0.906449027207817
+          },
+          {
+            "source": "ch03/s05_chunk_01.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 28.303337178356234,
+            "embedding_cosine_score": 0.5684399604797363,
+            "normalized_bm25_score": 0.9598200423919125,
+            "normalized_embedding_cosine_score": 0.890466406061361,
+            "hybrid_score": 0.9008694515109437
+          }
+        ]
+      },
+      {
+        "case_id": "strategy_org_001",
+        "topic": "strategy_organization",
+        "query": "公司有战略口号，但部门各做各的，资源和组织结构没有真正承接战略。",
+        "expected_sources": [
+          "ch04/s02.md",
+          "ch04/s04_chunk_01.md",
+          "ch04/s05_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch04/s05_chunk_03.md",
+          "ch04/s06_chunk_02.md",
+          "ch04/s05_chunk_04.md",
+          "ch04/s06_chunk_01.md",
+          "ch04/s05_chunk_05.md"
+        ],
+        "hit@3": 0.0,
+        "hit@5": 0.0,
+        "recall@5": 0.0,
+        "mrr@5": 0.0,
+        "retrieval_time_ms": 9.758799977134913,
+        "top_k_chunks": [
+          {
+            "source": "ch04/s05_chunk_03.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 27.58409514949411,
+            "embedding_cosine_score": 0.6297012567520142,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 1.0
+          },
+          {
+            "source": "ch04/s06_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 19.074782522022222,
+            "embedding_cosine_score": 0.6158037185668945,
+            "normalized_bm25_score": 0.691513802379414,
+            "normalized_embedding_cosine_score": 0.9779299500579007,
+            "hybrid_score": 0.9349675279061277
+          },
+          {
+            "source": "ch04/s05_chunk_04.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 21.185122961437894,
+            "embedding_cosine_score": 0.6062524318695068,
+            "normalized_bm25_score": 0.7680194998829398,
+            "normalized_embedding_cosine_score": 0.9627619849395634,
+            "hybrid_score": 0.9335506121810699
+          },
+          {
+            "source": "ch04/s06_chunk_01.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 22.49937884260473,
+            "embedding_cosine_score": 0.6004026532173157,
+            "normalized_bm25_score": 0.8156649228719531,
+            "normalized_embedding_cosine_score": 0.9534722168321212,
+            "hybrid_score": 0.932801122738096
+          },
+          {
+            "source": "ch04/s05_chunk_05.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 19.46972014955328,
+            "embedding_cosine_score": 0.6004908680915833,
+            "normalized_bm25_score": 0.7058313874004437,
+            "normalized_embedding_cosine_score": 0.9536123068721548,
+            "hybrid_score": 0.9164451689513982
+          }
+        ]
+      },
+      {
+        "case_id": "strategy_org_002",
+        "topic": "strategy_organization",
+        "query": "跨部门协同很差，战略目标传不到日常行动，如何识别组织偏离战略的信号？",
+        "expected_sources": [
+          "ch04/s06_chunk_01.md",
+          "ch04/s06_chunk_02.md",
+          "ch04/s07.md"
+        ],
+        "retrieved_sources": [
+          "ch04/s06_chunk_01.md",
+          "ch04/s06_chunk_02.md",
+          "ch04/s06_chunk_03.md",
+          "ch04/s05_chunk_04.md",
+          "ch04/s02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 11.69740001205355,
+        "top_k_chunks": [
+          {
+            "source": "ch04/s06_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 55.57466301459139,
+            "embedding_cosine_score": 0.7053102254867554,
+            "normalized_bm25_score": 0.9619002638363268,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.994285039575449
+          },
+          {
+            "source": "ch04/s06_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 57.77590993991843,
+            "embedding_cosine_score": 0.699674129486084,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9920090538928714,
+            "hybrid_score": 0.9932076958089407
+          },
+          {
+            "source": "ch04/s06_chunk_03.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 35.99916046857605,
+            "embedding_cosine_score": 0.6567254066467285,
+            "normalized_bm25_score": 0.6230825357144842,
+            "normalized_embedding_cosine_score": 0.9311156749407723,
+            "hybrid_score": 0.8849107040568291
+          },
+          {
+            "source": "ch04/s05_chunk_04.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 36.91417085807528,
+            "embedding_cosine_score": 0.6345452070236206,
+            "normalized_bm25_score": 0.6389197659796719,
+            "normalized_embedding_cosine_score": 0.8996682368892387,
+            "hybrid_score": 0.8605559662528037
+          },
+          {
+            "source": "ch04/s02.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 22.92776480964965,
+            "embedding_cosine_score": 0.6293659210205078,
+            "normalized_bm25_score": 0.39683952764209846,
+            "normalized_embedding_cosine_score": 0.892324963226166,
+            "hybrid_score": 0.8180021478885557
+          }
+        ]
+      },
+      {
+        "case_id": "metrics_001",
+        "topic": "metrics",
+        "query": "团队为了完成KPI牺牲客户价值，短期数据好看但客户流失和复购下降。",
+        "expected_sources": [
+          "ch05/s04_chunk_01.md",
+          "ch05/s04_chunk_03.md",
+          "ch05/s05_chunk_02.md"
+        ],
+        "retrieved_sources": [
+          "ch06/s05_chunk_03.md",
+          "ch05/s05_chunk_02.md",
+          "ch02/s08.md",
+          "ch02/s06_chunk_06.md",
+          "ch05/s01.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.3333333333333333,
+        "mrr@5": 0.5,
+        "retrieval_time_ms": 11.791599972639233,
+        "top_k_chunks": [
+          {
+            "source": "ch06/s05_chunk_03.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 29.325421669135494,
+            "embedding_cosine_score": 0.5802172422409058,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9167229665780998,
+            "hybrid_score": 0.9292145215913848
+          },
+          {
+            "source": "ch05/s05_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 24.303664789495045,
+            "embedding_cosine_score": 0.5947302579879761,
+            "normalized_bm25_score": 0.8287575559424688,
+            "normalized_embedding_cosine_score": 0.9396530242893545,
+            "hybrid_score": 0.9230187040373217
+          },
+          {
+            "source": "ch02/s08.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 14.609794294088324,
+            "embedding_cosine_score": 0.6253063678741455,
+            "normalized_bm25_score": 0.49819554033778424,
+            "normalized_embedding_cosine_score": 0.9879622094025216,
+            "hybrid_score": 0.9144972090428108
+          },
+          {
+            "source": "ch02/s06_chunk_06.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 15.066114811389657,
+            "embedding_cosine_score": 0.6110014915466309,
+            "normalized_bm25_score": 0.5137561185436077,
+            "normalized_embedding_cosine_score": 0.9653610047005639,
+            "hybrid_score": 0.8976202717770204
+          },
+          {
+            "source": "ch05/s01.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 22.45663161087527,
+            "embedding_cosine_score": 0.5796006917953491,
+            "normalized_bm25_score": 0.7657735279731882,
+            "normalized_embedding_cosine_score": 0.9157488384199762,
+            "hybrid_score": 0.893252541852958
+          }
+        ]
+      },
+      {
+        "case_id": "metrics_002",
+        "topic": "metrics",
+        "query": "公司指标越来越多，但大家不知道真正目标是什么，衡量体系应该怎么重新设计？",
+        "expected_sources": [
+          "ch05/s01.md",
+          "ch05/s03_chunk_01.md",
+          "ch05/s06_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch05/s06_chunk_01.md",
+          "ch05/s06_chunk_02.md",
+          "ch05/s01.md",
+          "ch05/s08_chunk_01.md",
+          "ch05/s08_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 10.0895999930799,
+        "top_k_chunks": [
+          {
+            "source": "ch05/s06_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 29.304128227521492,
+            "embedding_cosine_score": 0.7117806673049927,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.989954796834452,
+            "hybrid_score": 0.9914615773092842
+          },
+          {
+            "source": "ch05/s06_chunk_02.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 26.469223969394132,
+            "embedding_cosine_score": 0.6966738700866699,
+            "normalized_bm25_score": 0.903259218765467,
+            "normalized_embedding_cosine_score": 0.9689440458292188,
+            "hybrid_score": 0.9590913217696561
+          },
+          {
+            "source": "ch05/s01.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 23.08295450015054,
+            "embedding_cosine_score": 0.6980908513069153,
+            "normalized_bm25_score": 0.7877031632175214,
+            "normalized_embedding_cosine_score": 0.970914803705121,
+            "hybrid_score": 0.943433057631981
+          },
+          {
+            "source": "ch05/s08_chunk_01.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 24.51768538503421,
+            "embedding_cosine_score": 0.684546709060669,
+            "normalized_bm25_score": 0.8366631893866745,
+            "normalized_embedding_cosine_score": 0.9520774157265368,
+            "hybrid_score": 0.9347652817755574
+          },
+          {
+            "source": "ch05/s08_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 26.85339887619814,
+            "embedding_cosine_score": 0.6677161455154419,
+            "normalized_bm25_score": 0.9163691432041405,
+            "normalized_embedding_cosine_score": 0.9286692257034643,
+            "hybrid_score": 0.9268242133285657
+          }
+        ]
+      },
+      {
+        "case_id": "self_drive_001",
+        "topic": "self_drive",
+        "query": "员工只等指令，管理层不断增加审批和过程监控，目标管理变成了目标控制。",
+        "expected_sources": [
+          "ch06/s01.md",
+          "ch06/s03_chunk_01.md",
+          "ch06/s03_chunk_02.md"
+        ],
+        "retrieved_sources": [
+          "ch06/s03_chunk_02.md",
+          "ch06/s03_chunk_03.md",
+          "ch06/s01.md",
+          "ch06/s06_chunk_01.md",
+          "ch06/s03_chunk_01.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 10.44840004760772,
+        "top_k_chunks": [
+          {
+            "source": "ch06/s03_chunk_02.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 65.58230262233691,
+            "embedding_cosine_score": 0.6592023372650146,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 1.0
+          },
+          {
+            "source": "ch06/s03_chunk_03.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 36.01872961932712,
+            "embedding_cosine_score": 0.6206851005554199,
+            "normalized_bm25_score": 0.5492141656987105,
+            "normalized_embedding_cosine_score": 0.9415699330354317,
+            "hybrid_score": 0.8827165679349235
+          },
+          {
+            "source": "ch06/s01.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 26.66479363626454,
+            "embedding_cosine_score": 0.6263885498046875,
+            "normalized_bm25_score": 0.40658520012352667,
+            "normalized_embedding_cosine_score": 0.9502219794965089,
+            "hybrid_score": 0.8686764625905615
+          },
+          {
+            "source": "ch06/s06_chunk_01.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 37.95986891484579,
+            "embedding_cosine_score": 0.5978569388389587,
+            "normalized_bm25_score": 0.5788126887438213,
+            "normalized_embedding_cosine_score": 0.906939956128533,
+            "hybrid_score": 0.8577208660208262
+          },
+          {
+            "source": "ch06/s03_chunk_01.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 24.642768405863805,
+            "embedding_cosine_score": 0.6206923127174377,
+            "normalized_bm25_score": 0.37575332704879194,
+            "normalized_embedding_cosine_score": 0.9415808737764002,
+            "hybrid_score": 0.8567067417672589
+          }
+        ]
+      },
+      {
+        "case_id": "self_drive_002",
+        "topic": "self_drive",
+        "query": "公司想减少管控、提高员工责任感和主动性，如何实现真正的自我控制？",
+        "expected_sources": [
+          "ch06/s02_chunk_01.md",
+          "ch06/s06_chunk_01.md",
+          "ch06/s06_chunk_03.md"
+        ],
+        "retrieved_sources": [
+          "ch06/s06_chunk_02.md",
+          "ch06/s06_chunk_01.md",
+          "ch06/s06_chunk_03.md",
+          "ch06/s03_chunk_02.md",
+          "ch06/s01.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 0.5,
+        "retrieval_time_ms": 12.25139998132363,
+        "top_k_chunks": [
+          {
+            "source": "ch06/s06_chunk_02.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 51.371562954239515,
+            "embedding_cosine_score": 0.6886239051818848,
+            "normalized_bm25_score": 0.9126377437314516,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.9868956615597178
+          },
+          {
+            "source": "ch06/s06_chunk_01.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 56.28910628241107,
+            "embedding_cosine_score": 0.6545774936676025,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9505587719826694,
+            "hybrid_score": 0.957974956185269
+          },
+          {
+            "source": "ch06/s06_chunk_03.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 44.62342863092981,
+            "embedding_cosine_score": 0.6606963276863098,
+            "normalized_bm25_score": 0.7927542570501516,
+            "normalized_embedding_cosine_score": 0.9594443682750187,
+            "hybrid_score": 0.9344408515912885
+          },
+          {
+            "source": "ch06/s03_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 44.603064497258664,
+            "embedding_cosine_score": 0.6575150489807129,
+            "normalized_bm25_score": 0.7923924795230938,
+            "normalized_embedding_cosine_score": 0.9548246060482679,
+            "hybrid_score": 0.9304597870694917
+          },
+          {
+            "source": "ch06/s01.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 29.04277268801514,
+            "embedding_cosine_score": 0.6808786392211914,
+            "normalized_bm25_score": 0.5159572536522982,
+            "normalized_embedding_cosine_score": 0.9887525456168303,
+            "hybrid_score": 0.9178332518221505
+          }
+        ]
+      },
+      {
+        "case_id": "long_term_decision_001",
+        "topic": "long_term_decision",
+        "query": "公司为了季度业绩削减长期投入，担心错过未来机会，如何平衡短期生存和长期建设？",
+        "expected_sources": [
+          "ch07/s03_chunk_01.md",
+          "ch07/s03_chunk_03.md",
+          "ch07/s06_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch07/s03_chunk_01.md",
+          "ch07/s03_chunk_03.md",
+          "ch08/s02_chunk_03.md",
+          "ch07/s06_chunk_02.md",
+          "ch07/s03_chunk_02.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 10.613199963700026,
+        "top_k_chunks": [
+          {
+            "source": "ch07/s03_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 42.246505838196946,
+            "embedding_cosine_score": 0.6549006104469299,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9876129168884601,
+            "hybrid_score": 0.9894709793551911
+          },
+          {
+            "source": "ch07/s03_chunk_03.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 36.227821210028004,
+            "embedding_cosine_score": 0.6631146669387817,
+            "normalized_bm25_score": 0.8575341437414883,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.9786301215612232
+          },
+          {
+            "source": "ch08/s02_chunk_03.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 37.128330873904446,
+            "embedding_cosine_score": 0.6294189691543579,
+            "normalized_bm25_score": 0.8788497447837466,
+            "normalized_embedding_cosine_score": 0.9491857148327341,
+            "hybrid_score": 0.9386353193253859
+          },
+          {
+            "source": "ch07/s06_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 31.252647723212025,
+            "embedding_cosine_score": 0.6051471829414368,
+            "normalized_bm25_score": 0.7397688188203986,
+            "normalized_embedding_cosine_score": 0.9125830163507808,
+            "hybrid_score": 0.8866608867212235
+          },
+          {
+            "source": "ch07/s03_chunk_02.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 34.93051991957983,
+            "embedding_cosine_score": 0.5853472948074341,
+            "normalized_bm25_score": 0.826826248148494,
+            "normalized_embedding_cosine_score": 0.8827240958334479,
+            "hybrid_score": 0.8743394186807049
+          }
+        ]
+      },
+      {
+        "case_id": "long_term_decision_002",
+        "topic": "long_term_decision",
+        "query": "决策总是依赖预测和行业报告，一旦环境变化就很被动，怎样做面向未来的清醒决策？",
+        "expected_sources": [
+          "ch07/s02_chunk_01.md",
+          "ch07/s02_chunk_03.md",
+          "ch07/s05_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch07/s02_chunk_01.md",
+          "ch07/s02_chunk_04.md",
+          "ch07/s02_chunk_03.md",
+          "ch07/s05_chunk_01.md",
+          "ch07/s07_chunk_01.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 1.0,
+        "mrr@5": 1.0,
+        "retrieval_time_ms": 10.797600029036403,
+        "top_k_chunks": [
+          {
+            "source": "ch07/s02_chunk_01.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 35.12762661717578,
+            "embedding_cosine_score": 0.7019063830375671,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 1.0
+          },
+          {
+            "source": "ch07/s02_chunk_04.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 26.413842765660014,
+            "embedding_cosine_score": 0.6988341808319092,
+            "normalized_bm25_score": 0.751939294206255,
+            "normalized_embedding_cosine_score": 0.9956230598839083,
+            "hybrid_score": 0.9590704950322603
+          },
+          {
+            "source": "ch07/s02_chunk_03.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 29.124416121872258,
+            "embedding_cosine_score": 0.6875864267349243,
+            "normalized_bm25_score": 0.8291028722000755,
+            "normalized_embedding_cosine_score": 0.979598481152612,
+            "hybrid_score": 0.9570241398097316
+          },
+          {
+            "source": "ch07/s05_chunk_01.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 27.644030245056683,
+            "embedding_cosine_score": 0.6908523440361023,
+            "normalized_bm25_score": 0.7869598064886068,
+            "normalized_embedding_cosine_score": 0.984251405502786,
+            "hybrid_score": 0.9546576656506591
+          },
+          {
+            "source": "ch07/s07_chunk_01.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 29.43783876036873,
+            "embedding_cosine_score": 0.6696681976318359,
+            "normalized_bm25_score": 0.8380252694320941,
+            "normalized_embedding_cosine_score": 0.9540705339275911,
+            "hybrid_score": 0.9366637442532666
+          }
+        ]
+      },
+      {
+        "case_id": "entrepreneurship_001",
+        "topic": "entrepreneurship",
+        "query": "企业家面对复杂问题时，不能只修补局部，要如何用系统思考看清因果和整体最优？",
+        "expected_sources": [
+          "ch08/s01_chunk_01.md",
+          "ch08/s01_chunk_04.md",
+          "ch08/s01_chunk_07.md"
+        ],
+        "retrieved_sources": [
+          "ch08/s01_chunk_06.md",
+          "ch08/s01_chunk_07.md",
+          "ch08/s01_chunk_04.md",
+          "ch08/s01_chunk_02.md",
+          "ch08/s01_chunk_03.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 0.5,
+        "retrieval_time_ms": 14.622299990151078,
+        "top_k_chunks": [
+          {
+            "source": "ch08/s01_chunk_06.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 45.368310085332894,
+            "embedding_cosine_score": 0.6022564172744751,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9444915767559143,
+            "hybrid_score": 0.9528178402425271
+          },
+          {
+            "source": "ch08/s01_chunk_07.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 27.28127350120106,
+            "embedding_cosine_score": 0.6376514434814453,
+            "normalized_bm25_score": 0.6013288449556073,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.9401993267433411
+          },
+          {
+            "source": "ch08/s01_chunk_04.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 41.58034378228348,
+            "embedding_cosine_score": 0.5975098609924316,
+            "normalized_bm25_score": 0.9165063389858547,
+            "normalized_embedding_cosine_score": 0.9370477666139216,
+            "hybrid_score": 0.9339665524697116
+          },
+          {
+            "source": "ch08/s01_chunk_02.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 22.66777319683193,
+            "embedding_cosine_score": 0.6357936859130859,
+            "normalized_bm25_score": 0.49963891434784097,
+            "normalized_embedding_cosine_score": 0.9970865625925405,
+            "hybrid_score": 0.9224694153558356
+          },
+          {
+            "source": "ch08/s01_chunk_03.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 25.07213454318433,
+            "embedding_cosine_score": 0.6061818599700928,
+            "normalized_bm25_score": 0.5526354077554653,
+            "normalized_embedding_cosine_score": 0.9506476714934806,
+            "hybrid_score": 0.8909458319327783
+          }
+        ]
+      },
+      {
+        "case_id": "entrepreneurship_002",
+        "topic": "entrepreneurship",
+        "query": "领导者在短期压力下犹豫不决，价值观摇摆，怎样建立决策勇气和人文精神？",
+        "expected_sources": [
+          "ch08/s02_chunk_01.md",
+          "ch08/s02_chunk_03.md",
+          "ch08/s03_chunk_01.md"
+        ],
+        "retrieved_sources": [
+          "ch08/s02_chunk_02.md",
+          "ch08/s02_chunk_01.md",
+          "ch08/s02_chunk_04.md",
+          "ch08/s02_chunk_03.md",
+          "ch08/s02_chunk_05.md"
+        ],
+        "hit@3": 1.0,
+        "hit@5": 1.0,
+        "recall@5": 0.6666666666666666,
+        "mrr@5": 0.5,
+        "retrieval_time_ms": 12.08389998646453,
+        "top_k_chunks": [
+          {
+            "source": "ch08/s02_chunk_02.md",
+            "rank": 1,
+            "retrieval_method": "hybrid",
+            "bm25_score": 44.564841273830226,
+            "embedding_cosine_score": 0.706116259098053,
+            "normalized_bm25_score": 0.8667617091197756,
+            "normalized_embedding_cosine_score": 1.0,
+            "hybrid_score": 0.9800142563679664
+          },
+          {
+            "source": "ch08/s02_chunk_01.md",
+            "rank": 2,
+            "retrieval_method": "hybrid",
+            "bm25_score": 51.4153322706044,
+            "embedding_cosine_score": 0.6609262228012085,
+            "normalized_bm25_score": 1.0,
+            "normalized_embedding_cosine_score": 0.9360019887453558,
+            "hybrid_score": 0.9456016904335525
+          },
+          {
+            "source": "ch08/s02_chunk_04.md",
+            "rank": 3,
+            "retrieval_method": "hybrid",
+            "bm25_score": 28.8407234242405,
+            "embedding_cosine_score": 0.6776355504989624,
+            "normalized_bm25_score": 0.560936245096087,
+            "normalized_embedding_cosine_score": 0.9596656949445266,
+            "hybrid_score": 0.8998562774672606
+          },
+          {
+            "source": "ch08/s02_chunk_03.md",
+            "rank": 4,
+            "retrieval_method": "hybrid",
+            "bm25_score": 42.18039613707864,
+            "embedding_cosine_score": 0.6270291805267334,
+            "normalized_bm25_score": 0.8203855596046467,
+            "normalized_embedding_cosine_score": 0.8879970860997589,
+            "hybrid_score": 0.8778553571254921
+          },
+          {
+            "source": "ch08/s02_chunk_05.md",
+            "rank": 5,
+            "retrieval_method": "hybrid",
+            "bm25_score": 26.520723390983797,
+            "embedding_cosine_score": 0.6381475329399109,
+            "normalized_bm25_score": 0.5158135174815635,
+            "normalized_embedding_cosine_score": 0.9037428677184676,
+            "hybrid_score": 0.845553465182932
+          }
+        ]
+      }
+    ]
+  }
+}

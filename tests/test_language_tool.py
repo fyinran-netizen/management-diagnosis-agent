@@ -1,4 +1,4 @@
-from app.tools.language_tool import detect_output_language
+from app.tools.understanding.language import detect_output_language
 
 
 def test_detect_chinese_from_chinese_description():

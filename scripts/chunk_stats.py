@@ -7,10 +7,8 @@ import sys
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
 
-from app.rag.ingest import PRIVATE_KNOWLEDGE_DIR, SAMPLE_KNOWLEDGE_DIR, iter_markdown_files, load_chunks_from_path
+from app.tools.retrieval.ingest import PRIVATE_KNOWLEDGE_DIR, SAMPLE_KNOWLEDGE_DIR, iter_markdown_files, load_chunks_from_path
 
 
 EXCLUDED_SOURCES = {"99_private_test.md"}
