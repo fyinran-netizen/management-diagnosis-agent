@@ -20,7 +20,7 @@ terminal.txt
 
 data/private_knowledge_base/
 data/vector_index/
-data/chunk_stats.*
+data/stats/
 tests/evals/retrieval_eval_report.json
 data/chroma_db/
 data/project_memory/

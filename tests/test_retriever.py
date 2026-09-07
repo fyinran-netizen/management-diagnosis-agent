@@ -1,6 +1,7 @@
 from app.tools.retrieval.tool import retrieve_relevant_chunks
-from app.tools.retrieval.retrievers.hybrid_retriever_rrf import hybrid_retrieve_rrf
-from app.tools.retrieval.retrievers.embedding_metadata_retriever import retrieve_by_embedding_metadata
+from app.tools.retrieval.retrievers.hybrid_rrf import hybrid_retrieve_rrf
+from app.tools.retrieval.retrievers.embedding import retrieve_by_embedding as retrieve_by_embedding_metadata
+from app.tools.retrieval.vector_store import SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR
 
 
 def test_retrieve_customer_value_chunks():
@@ -80,10 +81,10 @@ def test_rrf_hybrid_retriever_returns_score_fields():
     assert results[0]["rank"] == 1
 
 
-def test_metadata_embedding_retriever_uses_separate_index():
+def test_embedding_retriever_accepts_configured_index():
     results = retrieve_by_embedding_metadata("KPI 鎸囨爣 鐩爣", top_k=3)
 
     assert len(results) == 3
-    assert results[0]["retrieval_method"] == "embedding_metadata"
+    assert results[0]["retrieval_method"] == "embedding"
     assert results[0]["rank"] == 1
     assert "embedding_cosine_score" in results[0]

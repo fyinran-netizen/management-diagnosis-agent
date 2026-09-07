@@ -11,12 +11,17 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from app.tools.retrieval.embeddings import embed_texts, get_embedding_cache_dir, get_embedding_model_name
-from app.tools.retrieval.ingest import PRIVATE_KNOWLEDGE_DIR, load_chunks_from_path, iter_markdown_files
-from app.tools.retrieval.retrievers.keyword_retriever import (
+from app.tools.retrieval.knowledge_loader import PRIVATE_KNOWLEDGE_DIR, load_chunks_from_path, iter_markdown_files
+from app.tools.retrieval.retrievers.bm25 import (
     SEMANTIC_METADATA_PATH,
     load_semantic_metadata_by_source_unweighted,
 )
-from app.tools.retrieval.vector_store import VECTOR_INDEX_DIR, chunk_to_embedding_text, save_vector_index
+from app.tools.retrieval.vector_store import (
+    SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR,
+    VECTOR_INDEX_DIR,
+    chunk_to_embedding_text,
+    save_vector_index,
+)
 
 
 EXCLUDED_SOURCES = {"99_private_test.md"}
@@ -41,7 +46,7 @@ def main() -> None:
 
     chunks = []
     if args.include_sample:
-        from app.tools.retrieval.ingest import SAMPLE_KNOWLEDGE_DIR
+        from app.tools.retrieval.knowledge_loader import SAMPLE_KNOWLEDGE_DIR
 
         if SAMPLE_KNOWLEDGE_DIR.exists():
             for path in iter_markdown_files(SAMPLE_KNOWLEDGE_DIR):
@@ -87,9 +92,13 @@ def main() -> None:
     save_vector_index(chunks=chunks, embeddings=embeddings, metadata=metadata, index_dir=args.index_dir)
 
     print(json.dumps(metadata, ensure_ascii=False, indent=2))
-    print(f"chunks_path: {args.index_dir / 'knowledge_chunks.json'}")
-    print(f"embeddings_path: {args.index_dir / 'knowledge_embeddings.npy'}")
-    print(f"metadata_path: {args.index_dir / 'index_metadata.json'}")
+    if args.index_dir == SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR:
+        names = ("knowledge_chunks.json", "knowledge_embeddings.npy", "index_metadata.json")
+    else:
+        names = ("chunks.json", "embeddings.npy", "manifest.json")
+    print(f"chunks_path: {args.index_dir / names[0]}")
+    print(f"embeddings_path: {args.index_dir / names[1]}")
+    print(f"metadata_path: {args.index_dir / names[2]}")
 
 
 if __name__ == "__main__":

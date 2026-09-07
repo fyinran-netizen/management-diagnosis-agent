@@ -1,22 +1,13 @@
 from __future__ import annotations
 
-import json
 from datetime import datetime, timezone
-from pathlib import Path
 from uuid import uuid4
 
 from app.agent.state import AgentState
-from app.core.config import DIAGNOSIS_HISTORY_DIR, DIAGNOSIS_HISTORY_FILE
-
-
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-HISTORY_DIR = DIAGNOSIS_HISTORY_DIR
-HISTORY_FILE = DIAGNOSIS_HISTORY_FILE
+from app.database.diagnosis_repository import save_diagnosis
 
 
 def save_diagnosis_record(state: AgentState) -> str:
-    HISTORY_DIR.mkdir(parents=True, exist_ok=True)
-
     project_id = state.get("project_id") or str(uuid4())
 
     record = {
@@ -34,13 +25,8 @@ def save_diagnosis_record(state: AgentState) -> str:
         ],
         "verification": state.get("verification"),
         "revision_count": state.get("revision_count", 0),
-        "final_answer_preview": state.get("final_answer", "")[:500],
+        "final_answer": state.get("final_answer", ""),
     }
 
-    with HISTORY_FILE.open("a", encoding="utf-8") as file:
-        file.write(json.dumps(record, ensure_ascii=False) + "\n")
-
+    save_diagnosis(record)
     return project_id
-
-
-save_project_record = save_diagnosis_record

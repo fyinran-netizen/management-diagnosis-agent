@@ -8,7 +8,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
-from app.tools.retrieval.ingest import PRIVATE_KNOWLEDGE_DIR, SAMPLE_KNOWLEDGE_DIR, iter_markdown_files, load_chunks_from_path
+from app.tools.retrieval.knowledge_loader import PRIVATE_KNOWLEDGE_DIR, SAMPLE_KNOWLEDGE_DIR, iter_markdown_files, load_chunks_from_path
 
 
 EXCLUDED_SOURCES = {"99_private_test.md"}

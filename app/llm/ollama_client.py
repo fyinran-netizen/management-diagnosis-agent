@@ -1,35 +1,24 @@
 from __future__ import annotations
 
-import os
 from typing import Any
 
 import requests
-from dotenv import load_dotenv
+
+from app.core.config import OLLAMA_BASE_URL
 
 
-from app.core.exceptions import OllamaClientError
-
-
-load_dotenv()
-
-
-def get_ollama_config() -> tuple[str, str]:
-    base_url = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434").rstrip("/")
-    model = os.getenv("OLLAMA_MODEL", "qwen3")
-    return base_url, model
+class OllamaClientError(RuntimeError):
+    """Raised when the local Ollama service cannot answer a request."""
 
 
 def chat_with_ollama(
     messages: list[dict[str, str]],
-    model: str | None = None,
+    model: str,
     temperature: float = 0.2,
     timeout: int = 120,
 ) -> str:
-    base_url, default_model = get_ollama_config()
-    selected_model = model or default_model
-
     payload: dict[str, Any] = {
-        "model": selected_model,
+        "model": model,
         "messages": messages,
         "stream": False,
         "options": {
@@ -41,13 +30,13 @@ def chat_with_ollama(
 
     try:
         response = requests.post(
-            f"{base_url}/api/chat",
+            f"{OLLAMA_BASE_URL}/api/chat",
             json=payload,
             timeout=timeout,
         )
     except requests.RequestException as exc:
         raise OllamaClientError(
-            f"Failed to connect to Ollama at {base_url}. "
+            f"Failed to connect to Ollama at {OLLAMA_BASE_URL}. "
             f"Make sure Ollama is running."
         ) from exc
 

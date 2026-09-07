@@ -16,9 +16,20 @@ BASE_VECTOR_INDEX_DIR = VECTOR_INDEX_ROOT / "base"
 SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR = VECTOR_INDEX_ROOT / "semantic_metadata_unweighted"
 # Production retrieval keeps its existing API and now reads the preserved base index.
 VECTOR_INDEX_DIR = BASE_VECTOR_INDEX_DIR
-CHUNKS_PATH = VECTOR_INDEX_DIR / "knowledge_chunks.json"
-EMBEDDINGS_PATH = VECTOR_INDEX_DIR / "knowledge_embeddings.npy"
-METADATA_PATH = VECTOR_INDEX_DIR / "index_metadata.json"
+CHUNKS_PATH = VECTOR_INDEX_DIR / "chunks.json"
+EMBEDDINGS_PATH = VECTOR_INDEX_DIR / "embeddings.npy"
+METADATA_PATH = VECTOR_INDEX_DIR / "manifest.json"
+LEGACY_INDEX_FILENAMES = (
+    "knowledge_chunks.json",
+    "knowledge_embeddings.npy",
+    "index_metadata.json",
+)
+
+
+def _index_filenames(index_dir: Path) -> tuple[str, str, str]:
+    if index_dir == SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR:
+        return LEGACY_INDEX_FILENAMES
+    return CHUNKS_PATH.name, EMBEDDINGS_PATH.name, METADATA_PATH.name
 
 
 def chunk_to_embedding_text(chunk: TextChunk | dict[str, Any]) -> str:
@@ -52,13 +63,14 @@ def save_vector_index(
     index_dir.mkdir(parents=True, exist_ok=True)
 
     chunk_dicts = [asdict(chunk) for chunk in chunks]
-    (index_dir / CHUNKS_PATH.name).write_text(
+    chunks_name, embeddings_name, metadata_name = _index_filenames(index_dir)
+    (index_dir / chunks_name).write_text(
         json.dumps(chunk_dicts, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
         newline="\n",
     )
-    np.save(index_dir / EMBEDDINGS_PATH.name, embeddings)
-    (index_dir / METADATA_PATH.name).write_text(
+    np.save(index_dir / embeddings_name, embeddings)
+    (index_dir / metadata_name).write_text(
         json.dumps(metadata, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
         newline="\n",
@@ -66,9 +78,10 @@ def save_vector_index(
 
 
 def load_vector_index(index_dir: Path = VECTOR_INDEX_DIR) -> tuple[list[dict[str, Any]], np.ndarray, dict[str, Any]]:
-    chunks_path = index_dir / CHUNKS_PATH.name
-    embeddings_path = index_dir / EMBEDDINGS_PATH.name
-    metadata_path = index_dir / METADATA_PATH.name
+    chunks_name, embeddings_name, metadata_name = _index_filenames(index_dir)
+    chunks_path = index_dir / chunks_name
+    embeddings_path = index_dir / embeddings_name
+    metadata_path = index_dir / metadata_name
 
     if not chunks_path.exists() or not embeddings_path.exists() or not metadata_path.exists():
         raise FileNotFoundError(

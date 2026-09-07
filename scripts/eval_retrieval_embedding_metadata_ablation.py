@@ -14,25 +14,19 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from app.tools.retrieval.embeddings import get_embedding_model_name
-from app.tools.retrieval.retrievers.embedding_metadata_retriever import (
-    get_cached_vector_index_metadata,
-    retrieve_by_embedding_metadata,
-)
-from app.tools.retrieval.retrievers.embedding_retriever import (
+from app.tools.retrieval.retrievers.embedding import (
     get_cached_vector_index,
     retrieve_by_embedding,
 )
-from app.tools.retrieval.retrievers.hybrid_retriever import (
+from app.tools.retrieval.retrievers.hybrid_linear import (
     CANDIDATE_MULTIPLIER,
     EMBEDDING_WEIGHT,
     KEYWORD_WEIGHT,
     MIN_CANDIDATES,
-    normalize_scores,
-    result_key,
     hybrid_retrieve,
 )
-from app.tools.retrieval.retrievers.keyword_retriever import retrieve_by_keyword
-from app.tools.retrieval.retrievers.keyword_retriever import get_cached_bm25_index
+from app.tools.retrieval.retrievers.bm25 import retrieve_by_bm25 as retrieve_by_keyword
+from app.tools.retrieval.retrievers.bm25 import get_cached_bm25_index
 from app.tools.retrieval.vector_store import (
     BASE_VECTOR_INDEX_DIR,
     SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR,
@@ -45,62 +39,7 @@ Retriever = Callable[[str, int], list[dict[str, Any]]]
 
 
 def retrieve_linear_hybrid_metadata(query: str, top_k: int = 5) -> list[dict[str, Any]]:
-    candidate_k = max(top_k * CANDIDATE_MULTIPLIER, MIN_CANDIDATES)
-    keyword_results = retrieve_by_keyword(query, top_k=candidate_k)
-    embedding_results = retrieve_by_embedding_metadata(query, top_k=candidate_k)
-
-    normalize_scores(keyword_results, "keyword_score", "normalized_keyword_score")
-    normalize_scores(embedding_results, "embedding_score", "normalized_embedding_score")
-    for item in keyword_results:
-        item["normalized_bm25_score"] = item.get("normalized_keyword_score", 0.0)
-    for item in embedding_results:
-        item["normalized_embedding_cosine_score"] = item.get(
-            "normalized_embedding_score", 0.0
-        )
-
-    merged: dict[str, dict[str, Any]] = {}
-    for item in keyword_results:
-        merged[result_key(item)] = dict(item)
-    for item in embedding_results:
-        key = result_key(item)
-        existing = merged.get(key)
-        if existing is None:
-            merged[key] = dict(item)
-            continue
-        existing.update(
-            {
-                "embedding_score": item.get("embedding_score"),
-                "embedding_cosine_score": item.get("embedding_cosine_score"),
-                "normalized_embedding_score": item.get("normalized_embedding_score"),
-                "normalized_embedding_cosine_score": item.get(
-                    "normalized_embedding_cosine_score"
-                ),
-            }
-        )
-        existing["retrieval_method"] = "hybrid"
-
-    results: list[dict[str, Any]] = []
-    for item in merged.values():
-        keyword_score = float(item.get("normalized_keyword_score", 0.0))
-        embedding_score = float(item.get("normalized_embedding_score", 0.0))
-        final_score = KEYWORD_WEIGHT * keyword_score + EMBEDDING_WEIGHT * embedding_score
-        item["hybrid_score"] = final_score
-        item["score"] = final_score
-        item.setdefault("bm25_score", item.get("keyword_score", 0.0))
-        item.setdefault("embedding_cosine_score", item.get("embedding_score", 0.0))
-        item.setdefault("normalized_bm25_score", item.get("normalized_keyword_score", 0.0))
-        item.setdefault(
-            "normalized_embedding_cosine_score",
-            item.get("normalized_embedding_score", 0.0),
-        )
-        if item.get("retrieval_method") != "hybrid":
-            item["retrieval_method"] = "hybrid"
-        results.append(item)
-
-    results.sort(key=lambda item: item["hybrid_score"], reverse=True)
-    for rank, item in enumerate(results, start=1):
-        item["rank"] = rank
-    return results[:top_k]
+    return hybrid_retrieve(query, top_k, embedding_index_dir=SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR)
 
 
 def load_cases(path: Path) -> list[dict[str, Any]]:
@@ -238,12 +177,11 @@ def main() -> None:
         raise ValueError(f"Expected 16 retrieval cases, found {len(cases)}")
 
     get_cached_vector_index.cache_clear()
-    get_cached_vector_index_metadata.cache_clear()
     get_cached_bm25_index.cache_clear()
 
     experiments = {
         "base_embedding": (retrieve_by_embedding, "base_embedding", BASE_VECTOR_INDEX_DIR, False),
-        "metadata_embedding": (retrieve_by_embedding_metadata, "metadata_embedding", SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR, False),
+        "metadata_embedding": (lambda query, top_k: retrieve_by_embedding(query, top_k, index_dir=SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR), "metadata_embedding", SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR, False),
         "linear_hybrid_base": (hybrid_retrieve, "linear_hybrid", BASE_VECTOR_INDEX_DIR, True),
         "linear_hybrid_metadata": (retrieve_linear_hybrid_metadata, "linear_hybrid", SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR, True),
     }

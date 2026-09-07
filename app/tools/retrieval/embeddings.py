@@ -8,25 +8,23 @@ import numpy as np
 
 
 from app.core.config import (
-    DEFAULT_EMBEDDING_CACHE_DIR as DEFAULT_CACHE_DIR,
-    DEFAULT_EMBEDDING_MODEL as DEFAULT_MODEL_NAME,
-    DEFAULT_TORCH_CACHE_DIR,
+    EMBEDDING_MODEL,
+    HF_CACHE_DIR,
+    TORCH_CACHE_DIR,
 )
-PROJECT_ROOT = DEFAULT_CACHE_DIR.parents[0]
 
-os.environ.setdefault("HF_HOME", str(DEFAULT_CACHE_DIR))
-os.environ.setdefault("TORCH_HOME", str(DEFAULT_TORCH_CACHE_DIR))
+os.environ.setdefault("HF_HOME", str(HF_CACHE_DIR))
+os.environ.setdefault("TORCH_HOME", str(TORCH_CACHE_DIR))
 
 from sentence_transformers import SentenceTransformer
 
 
 def get_embedding_model_name() -> str:
-    return os.getenv("EMBEDDING_MODEL", DEFAULT_MODEL_NAME).strip() or DEFAULT_MODEL_NAME
+    return EMBEDDING_MODEL
 
 
 def get_embedding_cache_dir() -> Path:
-    return Path(os.getenv("HF_HOME", DEFAULT_CACHE_DIR)).resolve()
-
+    return HF_CACHE_DIR.resolve()
 
 def should_use_local_files_only() -> bool:
     value = os.getenv("EMBEDDING_LOCAL_FILES_ONLY", "true").lower().strip()

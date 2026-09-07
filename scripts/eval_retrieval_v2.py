@@ -12,13 +12,13 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from app.tools.retrieval.retrievers.embedding_retriever import get_cached_vector_index, retrieve_by_embedding
-from app.tools.retrieval.retrievers.keyword_retriever import (
+from app.tools.retrieval.retrievers.embedding import get_cached_vector_index, retrieve_by_embedding
+from app.tools.retrieval.retrievers.bm25 import (
     clear_bm25_caches,
     get_cached_bm25_index,
     load_semantic_metadata_by_source,
     load_semantic_metadata_by_source_unweighted,
-    retrieve_by_keyword,
+    retrieve_by_bm25,
 )
 from scripts.eval_retrieval import STRATEGIES, atomic_write_json, evaluate_case as _old_case, strategy_config
 
@@ -91,7 +91,7 @@ def candidate_coverage(cases: list[dict[str, Any]], final_results: dict[str, lis
     per_case = []
     for case in dev_cases:
         expected = set(case["expected_sources"])
-        bm25 = retrieve_by_keyword(case["query"], top_k=50)
+        bm25 = retrieve_by_bm25(case["query"], top_k=50)
         embedding = retrieve_by_embedding(case["query"], top_k=50)
         bm25_sources = [str(item["source"]) for item in bm25]
         embedding_sources = [str(item["source"]) for item in embedding]

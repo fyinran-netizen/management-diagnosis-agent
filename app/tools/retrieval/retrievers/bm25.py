@@ -9,14 +9,13 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-from app.tools.retrieval.ingest import PRIVATE_KNOWLEDGE_DIR, iter_markdown_files, load_chunks_from_path
+from app.tools.retrieval.knowledge_loader import PRIVATE_KNOWLEDGE_DIR, iter_markdown_files, load_chunks_from_path
+from app.tools.retrieval.schemas import RetrievedChunk
 
 
 EXCLUDED_SOURCES = {"99_private_test.md"}
 PRIVATE_INDEX_PATH = PRIVATE_KNOWLEDGE_DIR / "_index.json"
-SEMANTIC_METADATA_PATH = (
-    PRIVATE_KNOWLEDGE_DIR / "codex_metadata" / "semantic_metadata_merged.jsonl"
-)
+SEMANTIC_METADATA_PATH = PRIVATE_KNOWLEDGE_DIR / "semantic_metadata.jsonl"
 BM25_METADATA_MODES = {"base", "unweighted", "weighted"}
 PRODUCTION_BM25_METADATA_MODE = "unweighted"
 
@@ -399,10 +398,10 @@ def retrieve_by_keyword(
     query: str,
     top_k: int = 5,
     metadata_mode: str = PRODUCTION_BM25_METADATA_MODE,
-) -> list[dict[str, Any]]:
+) -> list[RetrievedChunk]:
     index = get_cached_bm25_index(metadata_mode)
     query_terms = tokenize_for_bm25(query)
-    scored_chunks: list[dict[str, Any]] = []
+    scored_chunks: list[RetrievedChunk] = []
 
     for document in index["documents"]:
         chunk = document["chunk"]
@@ -429,3 +428,12 @@ def retrieve_by_keyword(
         item["keyword_rank"] = rank
 
     return scored_chunks[:top_k]
+
+
+def retrieve_by_bm25(
+    query: str,
+    top_k: int = 5,
+    metadata_mode: str = PRODUCTION_BM25_METADATA_MODE,
+) -> list[RetrievedChunk]:
+    """Named BM25 entry point; metadata behavior is controlled by a parameter."""
+    return retrieve_by_keyword(query, top_k=top_k, metadata_mode=metadata_mode)

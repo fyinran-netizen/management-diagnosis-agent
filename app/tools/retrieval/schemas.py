@@ -18,15 +18,34 @@ class RetrievedChunk(TypedDict, total=False):
     normalized_embedding_cosine_score: float
     hybrid_score: float
     rrf_score: float
+    rerank_score: float
     keyword_rank: int
     embedding_rank: int
     rank: int
     retrieval_method: str
+    chunk_index: int
+    chapter_title: str
+    section_title: str
+    embedding_text: str
+    rrf_sources: list[str]
+
+
+class RetrievalChunkObservation(TypedDict, total=False):
+    rank: int
+    retrieval_method: str
+    bm25_score: float
+    embedding_cosine_score: float
+    normalized_bm25_score: float
+    normalized_embedding_cosine_score: float
+    hybrid_score: float
+    rrf_score: float
+    keyword_rank: int
+    embedding_rank: int
 
 
 class RetrievalObservation(TypedDict, total=False):
     status: str
     chunk_count: int
-    chunks: list[dict[str, object]]
+    chunks: list[RetrievalChunkObservation]
     top_score: float
     top_embedding_score: float

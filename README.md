@@ -18,7 +18,7 @@ LangGraph only coordinates these five stages and passes `AgentState`; the LLM is
 uv run streamlit run streamlit_app.py
 ```
 
-Ollama must be running for report generation. Defaults are `OLLAMA_BASE_URL=http://localhost:11434` and `OLLAMA_MODEL=qwen3`; override them in `.env`.
+Ollama must be running for report generation. Configure `OLLAMA_BASE_URL`, `GENERATION_MODEL`, and `EMBEDDING_MODEL` in `.env`.
 
 ## Application logging
 
@@ -37,7 +37,7 @@ uv run python scripts\eval_retrieval.py
 ## Tests
 
 ```powershell
-uv run python -m pytest
+uv run streamlit run streamlit_app.py
 ```
 
 ## Project structure

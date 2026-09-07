@@ -7,9 +7,9 @@ from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
-from app.tools.retrieval.retrievers.embedding_retriever import retrieve_by_embedding
-from app.tools.retrieval.retrievers.hybrid_retriever import hybrid_retrieve
-from app.tools.retrieval.retrievers.keyword_retriever import retrieve_by_keyword
+from app.tools.retrieval.retrievers.embedding import retrieve_by_embedding
+from app.tools.retrieval.retrievers.hybrid_linear import hybrid_retrieve
+from app.tools.retrieval.retrievers.keyword import retrieve_by_keyword
 
 
 def print_results(title: str, results: list[dict[str, Any]], preview_chars: int) -> None:

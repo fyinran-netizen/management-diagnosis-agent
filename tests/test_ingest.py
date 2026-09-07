@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from app.tools.retrieval import ingest
+from app.tools.retrieval import knowledge_loader
 
 
 def test_load_knowledge_base_reads_nested_private_markdown(tmp_path, monkeypatch):
@@ -30,10 +30,10 @@ def test_load_knowledge_base_reads_nested_private_markdown(tmp_path, monkeypatch
         encoding="utf-8",
     )
 
-    monkeypatch.setattr(ingest, "SAMPLE_KNOWLEDGE_DIR", sample_dir)
-    monkeypatch.setattr(ingest, "PRIVATE_KNOWLEDGE_DIR", private_dir)
+    monkeypatch.setattr(knowledge_loader, "SAMPLE_KNOWLEDGE_DIR", sample_dir)
+    monkeypatch.setattr(knowledge_loader, "PRIVATE_KNOWLEDGE_DIR", private_dir)
 
-    chunks = ingest.load_knowledge_base(include_private=True)
+    chunks = knowledge_loader.load_knowledge_base(include_private=True)
 
     sources = {chunk.source for chunk in chunks}
     titles = {chunk.title for chunk in chunks}
@@ -64,10 +64,10 @@ def test_load_knowledge_base_skips_private_when_disabled(tmp_path, monkeypatch):
         encoding="utf-8",
     )
 
-    monkeypatch.setattr(ingest, "SAMPLE_KNOWLEDGE_DIR", sample_dir)
-    monkeypatch.setattr(ingest, "PRIVATE_KNOWLEDGE_DIR", private_dir)
+    monkeypatch.setattr(knowledge_loader, "SAMPLE_KNOWLEDGE_DIR", sample_dir)
+    monkeypatch.setattr(knowledge_loader, "PRIVATE_KNOWLEDGE_DIR", private_dir)
 
-    chunks = ingest.load_knowledge_base(include_private=False)
+    chunks = knowledge_loader.load_knowledge_base(include_private=False)
 
     sources = {chunk.source for chunk in chunks}
 

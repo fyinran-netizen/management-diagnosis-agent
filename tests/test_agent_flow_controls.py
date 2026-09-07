@@ -1,6 +1,6 @@
 from app.agent.graph import run_diagnosis_workflow
 from app.tools.understanding.problem_check import check_problem_clarity
-from app.tools.retrieval.quality import evaluate_retrieval_quality
+from app.tools.retrieval.retrieval_observation import build_retrieval_observation
 
 
 def test_problem_check_flags_unclear_input():
@@ -21,7 +21,7 @@ def test_problem_check_accepts_specific_management_input():
 
 
 def test_retrieval_quality_flags_empty_results():
-    result = evaluate_retrieval_quality([])
+    result = build_retrieval_observation([])
 
     assert result["status"] == "observation"
     assert result["chunk_count"] == 0
@@ -30,7 +30,7 @@ def test_retrieval_quality_flags_empty_results():
 
 
 def test_retrieval_quality_records_observation_without_confidence_or_gate():
-    result = evaluate_retrieval_quality(
+    result = build_retrieval_observation(
         [
             {"score": 0.8, "embedding_score": 0.7},
             {"score": 0.4, "embedding_score": 0.6},

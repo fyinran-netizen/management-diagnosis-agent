@@ -21,7 +21,7 @@ from app.llm.ollama_client import get_ollama_config
 
 KNOWLEDGE_DIR = PROJECT_ROOT / "data" / "private_knowledge_base"
 INDEX_PATH = KNOWLEDGE_DIR / "_index.json"
-OUTPUT_PATH = KNOWLEDGE_DIR / "semantic_metadata.jsonl"
+OUTPUT_PATH = KNOWLEDGE_DIR / "semantic_metadata_raw.jsonl"
 
 ENGLISH_DIAGNOSIS_TAGS = [
     "customer_value_misalignment",

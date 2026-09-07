@@ -13,12 +13,12 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from app.tools.retrieval.retrievers.keyword_retriever import (
+from app.tools.retrieval.retrievers.bm25 import (
     BM25_B,
     BM25_K1,
     SEMANTIC_METADATA_PATH,
     get_cached_bm25_index,
-    retrieve_by_keyword,
+    retrieve_by_bm25,
 )
 
 DEFAULT_CASES_PATH = PROJECT_ROOT / "tests" / "evals" / "retrieval_cases.json"
@@ -46,7 +46,7 @@ def evaluate_case(case: dict[str, Any], metadata_mode: str, top_k: int) -> dict[
     expected_sources = list(dict.fromkeys(str(source) for source in case["expected_sources"]))
     expected = set(expected_sources)
     started = time.perf_counter()
-    results = retrieve_by_keyword(case["query"], top_k=top_k, metadata_mode=metadata_mode)
+    results = retrieve_by_bm25(case["query"], top_k=top_k, metadata_mode=metadata_mode)
     elapsed_ms = (time.perf_counter() - started) * 1000.0
 
     chunks = [
