@@ -7,6 +7,7 @@ import numpy as np
 
 from app.core.config import HF_CACHE_DIR, RERANKER_MODEL, TORCH_CACHE_DIR
 from app.tools.retrieval.schemas import RetrievedChunk
+from app.tools.retrieval.retrievers.embedding import chunk_to_embedding_text
 
 os.environ.setdefault("HF_HOME", str(HF_CACHE_DIR))
 os.environ.setdefault("TORCH_HOME", str(TORCH_CACHE_DIR))
@@ -36,13 +37,12 @@ def get_reranker_model() -> CrossEncoder:
     )
 
 
-def rerank(
+def score_candidates(
     query: str,
     candidates: list[RetrievedChunk],
-    top_k: int,
 ) -> list[RetrievedChunk]:
-    """Score candidate chunks with BGE and return the highest scoring chunks."""
-    if top_k <= 0 or not candidates:
+    """Add BGE rerank scores to candidates without changing pipeline order."""
+    if not candidates:
         return []
 
     pairs = [(query, _candidate_text(candidate)) for candidate in candidates]
@@ -54,17 +54,22 @@ def rerank(
     for candidate, score in zip(candidates, scores, strict=True):
         item = dict(candidate)
         item["rerank_score"] = float(score)
-        item["score"] = float(score)
-        item["retrieval_method"] = "hybrid_rerank"
         scored.append(item)
 
-    results = sorted(scored, key=lambda item: float(item["rerank_score"]), reverse=True)[:top_k]
-    for rank, item in enumerate(results, 1):
-        item["rank"] = rank
-    return results
+    return scored
+
+
+def rerank(
+    query: str,
+    candidates: list[RetrievedChunk],
+) -> list[RetrievedChunk]:
+    """Compatibility wrapper for callers still using the old method name.
+
+    Scoring only is intentional; sorting and Top-K selection belong to the
+    surrounding retrieval pipeline.
+    """
+    return score_candidates(query, candidates)
 
 
 def _candidate_text(candidate: RetrievedChunk) -> str:
-    title = candidate.get("title", "")
-    content = candidate.get("content", "")
-    return f"{title}\n{content}".strip()
+    return chunk_to_embedding_text(candidate)

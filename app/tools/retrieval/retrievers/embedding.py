@@ -28,8 +28,14 @@ def retrieve_by_embedding(query: str, top_k: int = 5, index_dir: Path = VECTOR_I
         chunk: RetrievedChunk = dict(chunks[int(index)])
         score = float(scores[int(index)])
         rank = len(results) + 1
-        chunk.update(score=score, embedding_score=score, embedding_cosine_score=score,
-                     retrieval_method="embedding", rank=rank, embedding_rank=rank,
-                     embedding_text=chunk_to_embedding_text(chunk))
+        chunk.update(
+            score=score,
+            embedding_score=score,
+            embedding_cosine_score=score,
+            retrieval_method="embedding",
+            rank=rank,
+            embedding_rank=rank,
+            embedding_text=chunk_to_embedding_text(chunk),
+        )
         results.append(chunk)
     return results

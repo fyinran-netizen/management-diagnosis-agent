@@ -15,9 +15,18 @@ CANDIDATE_MULTIPLIER = int(os.getenv("HYBRID_CANDIDATE_MULTIPLIER", "5"))
 MIN_CANDIDATES = int(os.getenv("HYBRID_MIN_CANDIDATES", "25"))
 
 
-def hybrid_retrieve(query: str, top_k: int = 5, embedding_index_dir: Path | None = None) -> list[RetrievedChunk]:
-    candidate_k = max(top_k * CANDIDATE_MULTIPLIER, MIN_CANDIDATES)
+def hybrid_retrieve(
+    query: str,
+    hybrid_top_k: int = 5,
+    source_retrieval_k: int | None = None,
+    embedding_index_dir: Path | None = None,
+) -> list[RetrievedChunk]:
+    # Number of chunks retrieved independently by BM25 / Embedding.
+    if source_retrieval_k is None:
+        source_retrieval_k = max(hybrid_top_k * CANDIDATE_MULTIPLIER, MIN_CANDIDATES)
+
+    # Number of chunks retained after Hybrid fusion.
     return linear_fusion(
-        [("bm25", retrieve_by_bm25(query, candidate_k)), ("embedding", retrieve_by_embedding(query, candidate_k, index_dir=embedding_index_dir) if embedding_index_dir is not None else retrieve_by_embedding(query, candidate_k))],
-        weights={"bm25": KEYWORD_WEIGHT, "embedding": EMBEDDING_WEIGHT}, top_k=top_k,
+        [("bm25", retrieve_by_bm25(query, source_retrieval_k)), ("embedding", retrieve_by_embedding(query, source_retrieval_k, index_dir=embedding_index_dir) if embedding_index_dir is not None else retrieve_by_embedding(query, source_retrieval_k))],
+        weights={"bm25": KEYWORD_WEIGHT, "embedding": EMBEDDING_WEIGHT}, top_k=hybrid_top_k,
     )
