@@ -9,6 +9,7 @@ class AgentState(TypedDict, total=False):
     company_context: str
     goal: str | None
     language: str
+    retrieval_query: str
 
     problem_types: list[str]
     diagnosis_hints: list[str]

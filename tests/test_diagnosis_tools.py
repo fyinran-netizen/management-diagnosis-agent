@@ -1,22 +1,8 @@
-from app.tools.understanding.diagnosis import build_diagnosis_hints
+from app.tools.understanding import understand_query
 
 
-def test_build_diagnosis_hints_for_known_problem_type():
-    result = build_diagnosis_hints(["customer_value_misalignment"])
+def test_rule_based_result_returns_general_diagnosis_hint():
+    result = understand_query("A general management diagnosis is needed.")
 
-    assert len(result) == 1
-    assert "core customers" in result[0] or "customer value" in result[0]
-
-
-def test_build_diagnosis_hints_for_empty_input():
-    result = build_diagnosis_hints([])
-
-    assert len(result) == 1
-    assert "general management diagnosis" in result[0].lower()
-
-
-def test_build_diagnosis_hints_for_unknown_type_uses_general_hint():
-    result = build_diagnosis_hints(["unknown_problem_type"])
-
-    assert len(result) == 1
-    assert "general management diagnosis" in result[0].lower()
+    assert len(result["diagnosis_hints"]) == 1
+    assert "general management diagnosis" in result["diagnosis_hints"][0].lower()

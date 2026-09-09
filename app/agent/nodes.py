@@ -13,12 +13,7 @@ from app.tools.generation import generate_report, revise_report
 from app.tools.persistence.diagnosis_history import save_diagnosis_record
 from app.tools.retrieval.retrieval_observation import build_retrieval_observation
 from app.tools.retrieval.tool import retrieve_relevant_chunks
-from app.tools.understanding import (
-    build_diagnosis_hints,
-    check_problem_clarity,
-    detect_output_language,
-    route_problem,
-)
+from app.tools.understanding import understand_query
 from app.tools.validation import verify_report_quality
 
 
@@ -74,8 +69,8 @@ def understanding_node(state: AgentState) -> dict:
         "and provide practical next-step recommendations."
     )
 
-    language = detect_output_language(description)
-    clarity = check_problem_clarity(description)
+    understanding = understand_query(description, goal=goal)
+    clarity = understanding["problem_check"]
 
     if not clarity.get("is_clear", False):
         questions = "\n".join(
@@ -95,8 +90,7 @@ def understanding_node(state: AgentState) -> dict:
         return {
             "company_context": description,
             "goal": goal,
-            "language": language,
-            "problem_check": clarity,
+            **understanding,
             "final_answer": (
                 "目前信息还不足以形成可靠的管理诊断。"
                 f"请先补充以下信息：\n\n{questions}"
@@ -108,22 +102,16 @@ def understanding_node(state: AgentState) -> dict:
             },
         }
 
-    problem_types = route_problem(description, goal)
-    hints = build_diagnosis_hints(problem_types)
-
     logger.info(
         "understanding completed is_clear=true problem_types=%s elapsed_seconds=%.3f",
-        ",".join(problem_types),
+        ",".join(understanding["problem_types"]),
         perf_counter() - started_at,
     )
 
     return {
         "company_context": description,
         "goal": goal,
-        "language": language,
-        "problem_check": clarity,
-        "problem_types": problem_types,
-        "diagnosis_hints": hints,
+        **understanding,
     }
 
 
@@ -132,16 +120,7 @@ def retrieval_node(state: AgentState) -> dict:
     started_at = perf_counter()
     logger.info("retrieval start strategy=linear_hybrid top_k=5")
 
-    query = "\n".join(
-        [
-            state.get("company_context", ""),
-            state.get("goal", ""),
-            " ".join(state.get("problem_types", [])),
-            " ".join(state.get("diagnosis_hints", [])),
-        ]
-    )
-
-    chunks = retrieve_relevant_chunks(query, top_k=5)
+    chunks = retrieve_relevant_chunks(state["retrieval_query"], top_k=5)
     quality = build_retrieval_observation(chunks)
     top_score = quality.get("top_score", 0.0)
 
