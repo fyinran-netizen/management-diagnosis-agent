@@ -4,7 +4,7 @@ from typing import Literal
 from typing_extensions import TypedDict
 
 
-UnderstandingMode = Literal["raw", "rule_based"]
+UnderstandingMode = Literal["raw", "rule_based", "rewrite"]
 
 
 class UnderstandingResult(TypedDict):

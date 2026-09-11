@@ -7,6 +7,7 @@ from app.tools.understanding.strategies.rule_based import (
     check_problem_clarity,
     detect_output_language,
 )
+from app.tools.understanding.strategies.rewrite import build_rewrite_understanding
 
 
 def understand_query(
@@ -21,6 +22,8 @@ def understand_query(
         result = build_raw_understanding(raw_query, goal)
     elif mode == "rule_based":
         result = build_rule_based_understanding(raw_query, goal)
+    elif mode == "rewrite":
+        result = build_rewrite_understanding(raw_query, goal)
     else:
         raise ValueError(f"Unsupported understanding mode: {mode}")
 
