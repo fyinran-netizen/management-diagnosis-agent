@@ -5,11 +5,17 @@ from typing import Any
 
 def format_retrieved_context(retrieved_chunks: list[dict[str, Any]]) -> str:
     if not retrieved_chunks:
-        return "No relevant knowledge base content was retrieved."
+        return "未检索到相关管理知识。"
 
     return "\n\n".join(
         [
-            f"[Knowledge item {index} | Section: {item['title']}]\n{item['content']}"
+            (
+                f"知识项{index}\n"
+                f"章节：{item.get('chapter_title', '')}\n"
+                f"小节：{item.get('section_title', '')}\n"
+                f"标题：{item.get('title', '')}\n"
+                f"正文：\n{item.get('content', '')}"
+            )
             for index, item in enumerate(retrieved_chunks, start=1)
         ]
     )
@@ -31,55 +37,38 @@ def build_generation_messages(
     diagnosis_hints: list[str] | None = None,
     diagnosis_summary: dict[str, Any] | None = None,
 ) -> list[dict[str, str]]:
-    output_language = "Chinese" if language == "zh" else "English"
-    retrieved_context = format_retrieved_context(retrieved_chunks)
+    # 保留这些字段仅用于接口兼容，当前 generation baseline 不使用。
+    del language, problem_types, diagnosis_hints, diagnosis_summary
 
-    problem_types_text = ", ".join(problem_types or ["general_management_diagnosis"])
-    diagnosis_hints_text = format_diagnosis_hints(diagnosis_hints)
-    diagnosis_summary_text = diagnosis_summary or {}
+    retrieved_context = format_retrieved_context(retrieved_chunks)
 
     return [
         {
             "role": "system",
             "content": (
-                "You are a management diagnosis assistant for enterprise managers. "
-                "Use the retrieved management knowledge as the main basis for your diagnosis. "
-                "Do not invent company facts. If information is missing, clearly state the assumptions. "
-                "Do not use hidden reasoning. Give the final answer directly. "
-                "Use a calm, professional consulting style. "
-                "Do not include source file paths, source IDs, or raw filename citations in the final report. "
-                "When grounding claims in retrieved content, cite the item as 知识项1, 知识项2, etc. "
-                "For English output, use Knowledge item 1, Knowledge item 2, etc. Only cite provided items. "
-                "Do not include word count, character count, token count, or any length note."
+                "你是一名面向企业管理者的管理诊断助手。"
+                "请基于用户提供的企业问题和检索到的管理知识进行分析，并始终使用中文输出。"
+                "不得编造用户未提供的企业事实；信息不足时，应明确说明缺失信息或必要假设。"
+                "分析应主要依据检索到的知识，避免空泛建议。"
+                "输出采用以下五个部分："
+                "1. 核心诊断；"
+                "2. 相关管理概念；"
+                "3. 可能的根本原因；"
+                "4. 实际建议；"
+                "5. 缺失信息与假设。"
+                "每个部分如使用了检索知识，应在该部分末尾标注相关知识项，"
+                "例如“依据：知识项1、知识项3”。"
+                "不要求逐句引用，但引用的知识项必须能够支持对应分析。"
+                "不得输出原始文件名、文件路径或内部来源ID。"
             ),
         },
         {
             "role": "user",
             "content": (
                 "/no_think\n"
-                f"Output language: {output_language}\n\n"
-                f"Company context:\n{company_context}\n\n"
-                f"Analysis goal:\n{goal}\n\n"
-                f"Detected problem types:\n{problem_types_text}\n\n"
-                f"Structured diagnosis frame:\n{diagnosis_summary_text}\n\n"
-                f"Diagnosis hints:\n{diagnosis_hints_text}\n\n"
-                f"Retrieved management knowledge:\n{retrieved_context}\n\n"
-                "Please provide a concise structured management diagnosis. "
-                "Keep the report around 600-800 Chinese characters if output is Chinese.\n\n"
-                "Use the following sections:\n"
-                "1. Core diagnosis\n"
-                "2. Related management concepts from the knowledge base\n"
-                "3. Possible root causes\n"
-                "4. Practical recommendations\n"
-                "5. Missing information and assumptions\n\n"
-                "Important requirements:\n"
-                "- Ground your diagnosis in the retrieved management knowledge.\n"
-                "- Cite retrieved knowledge using the required item format (知识项1 for Chinese or Knowledge item 1 for English).\n"
-                "- Use the detected problem types and diagnosis hints to guide the analysis.\n"
-                "- Avoid generic advice.\n"
-                "- Clearly separate known facts from assumptions.\n"
-                "- Refer to the knowledge base concepts naturally, but do not print source file paths or source IDs.\n"
-                "- Do not include any word count or length note."
+                f"企业问题：\n{company_context}\n\n"
+                f"分析目标：\n{goal or '未指定'}\n\n"
+                f"检索到的管理知识：\n{retrieved_context}"
             ),
         },
     ]

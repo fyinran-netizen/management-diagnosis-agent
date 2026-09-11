@@ -16,6 +16,10 @@ def chat_with_ollama(
     model: str,
     temperature: float = 0.2,
     timeout: int = 120,
+    num_predict: int = 1200,
+    num_ctx: int = 4096,
+    think: bool | None = None,
+    format: dict[str, Any] | str | None = None,
 ) -> str:
     payload: dict[str, Any] = {
         "model": model,
@@ -23,10 +27,16 @@ def chat_with_ollama(
         "stream": False,
         "options": {
             "temperature": temperature,
-            "num_predict": 1200,
-            "num_ctx": 4096,
+            "num_predict": num_predict,
+            "num_ctx": num_ctx,
         },
     }
+    # Keep the production payload unchanged unless a caller opts into one of
+    # Ollama's optional request-level controls.
+    if think is not None:
+        payload["think"] = think
+    if format is not None:
+        payload["format"] = format
 
     try:
         response = requests.post(
