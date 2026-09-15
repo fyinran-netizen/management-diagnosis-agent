@@ -137,8 +137,13 @@ def mean(values: list[float]) -> float:
     return sum(values) / len(values) if values else 0.0
 
 
-def ndcg(relevant: list[bool], evidence_count: int, k: int) -> float:
-    gains = [1.0 if value else 0.0 for value in relevant[:k]]
+def ndcg(covered_by_rank: list[set[int]], evidence_count: int, k: int) -> float:
+    newly_covered: set[int] = set()
+    gains: list[float] = []
+    for covered in covered_by_rank[:k]:
+        new_evidence = covered - newly_covered
+        gains.append(1.0 if new_evidence else 0.0)
+        newly_covered.update(covered)
     dcg = sum(gain / math.log2(rank + 1) for rank, gain in enumerate(gains, 1))
     ideal_count = min(evidence_count, k)
     idcg = sum(1.0 / math.log2(rank + 1) for rank in range(1, ideal_count + 1))
@@ -158,7 +163,7 @@ def metrics_for(
         metrics[f"hit@{k}"] = float(any(relevant[:k]))
         metrics[f"recall@{k}"] = covered / evidence_count if evidence_count else 0.0
         metrics[f"precision@{k}"] = sum(relevant[:k]) / k if k else 0.0
-        metrics[f"nDCG@{k}"] = ndcg(relevant, evidence_count, k)
+        metrics[f"nDCG@{k}"] = ndcg(covered_by_rank, evidence_count, k)
     first_relevant = next((rank for rank, value in enumerate(relevant, 1) if value), 0)
     metrics["mrr@5"] = 1.0 / first_relevant if 0 < first_relevant <= 5 else 0.0
     metrics["mrr"] = 1.0 / first_relevant if first_relevant else 0.0

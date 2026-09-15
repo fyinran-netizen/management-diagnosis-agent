@@ -7,10 +7,13 @@ coordinates existing ingestion, vector-index, and benchmark entry points.
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import re
+import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 
@@ -24,6 +27,11 @@ from app.tools.ingestion.loaders import MarkdownLoader
 from app.tools.ingestion.metadata import SourceMetadataBuilder
 from app.tools.ingestion.repositories import FilesystemArtifactRepository
 from app.tools.retrieval.vector_store import BASE_VECTOR_INDEX_DIR
+from evaluation.chunking.diagnostics import (
+    append_diagnostics_markdown,
+    append_experiment_log,
+    collect_chunking_diagnostics,
+)
 
 
 DEFAULT_EXPERIMENT_ROOT = PROJECT_ROOT / "data" / "chunking_strategy_experiments"
@@ -42,6 +50,13 @@ def build_experiment_corpus(source_path: Path, corpus_dir: Path) -> int:
     repository.save_chunks(chunks)
     repository.save_source_metadata(SourceMetadataBuilder().build(chunks))
     return len(chunks)
+
+
+def clean_experiment_artifacts(corpus_dir: Path, index_dir: Path) -> None:
+    """Remove only the selected strategy's derived artifacts before rebuilding."""
+    for artifact_dir in (corpus_dir, index_dir):
+        if artifact_dir.exists():
+            shutil.rmtree(artifact_dir)
 
 
 def run_command(command: list[str], env: dict[str, str]) -> str:
@@ -79,6 +94,7 @@ def main() -> int:
     corpus_dir = args.experiment_root / args.strategy / "corpus"
     index_dir = args.experiment_root / args.strategy / "vector_index"
     args.report_dir.mkdir(parents=True, exist_ok=True)
+    clean_experiment_artifacts(corpus_dir, index_dir)
     chunk_count = build_experiment_corpus(args.source.resolve(), corpus_dir)
     print(f"experiment: {args.strategy}")
     print(f"corpus_dir: {corpus_dir}")
@@ -86,6 +102,7 @@ def main() -> int:
 
     env = os.environ.copy()
     env["EMBEDDING_MODEL"] = EMBEDDING_MODEL
+    build_started = time.perf_counter()
     build_output = run_command(
         [
             sys.executable,
@@ -101,6 +118,7 @@ def main() -> int:
         ],
         env,
     )
+    embedding_index_build_time_ms = (time.perf_counter() - build_started) * 1000
     index_manifest = index_dir / "manifest.json"
     vector_count_match = re.search(r'"chunk_count": (\d+)', build_output)
     vector_count = int(vector_count_match.group(1)) if vector_count_match else chunk_count
@@ -130,8 +148,32 @@ def main() -> int:
         ],
         env,
     )
-    print(f"report_json: {output_path(benchmark_output, 'report')}")
-    print(f"report_markdown: {output_path(benchmark_output, 'markdown')}")
+    report_path = output_path(benchmark_output, "report").resolve()
+    markdown_path = output_path(benchmark_output, "markdown").resolve()
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    primary_summary = report["strategies"]["linear_hybrid"]["summary"]
+    diagnostics = collect_chunking_diagnostics(
+        corpus_dir,
+        embedding_index_build_time_ms=embedding_index_build_time_ms,
+        average_retrieval_time_ms=primary_summary["average_retrieval_time_ms"],
+        # SectionBasedChunker has no overlap; null means not applicable.
+        overlap_ratio=None,
+    )
+    report["chunking_diagnostics"] = diagnostics
+    report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    markdown_path.write_text(
+        append_diagnostics_markdown(markdown_path.read_text(encoding="utf-8"), diagnostics),
+        encoding="utf-8",
+    )
+    append_experiment_log(
+        args.report_dir / "experiments.jsonl",
+        strategy=args.strategy,
+        report_path=report_path,
+        markdown_path=markdown_path,
+        diagnostics=diagnostics,
+    )
+    print(f"report_json: {report_path}")
+    print(f"report_markdown: {markdown_path}")
     print(f"index_manifest: {index_manifest}")
     return 0
 

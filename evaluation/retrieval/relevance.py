@@ -37,11 +37,11 @@ def evidence_matches(content: str, evidence: str) -> bool:
     evidence_norm = normalize_evidence(evidence)
     if not content_norm or not evidence_norm:
         return False
-    if evidence_norm in content_norm or content_norm in evidence_norm:
+    if evidence_norm in content_norm:
         return True
     return any(
         (unit_norm := normalize_evidence(unit))
-        and (unit_norm in content_norm or content_norm in unit_norm)
+        and unit_norm in content_norm
         for unit in _evidence_units(evidence)
     )
 
