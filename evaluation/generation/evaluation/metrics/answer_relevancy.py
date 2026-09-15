@@ -5,15 +5,16 @@ from deepeval.test_case import SingleTurnParams
 
 
 EVALUATION_STEPS = [
-    "Evaluate whether the generated report stays focused on the management problem and question described in the user input.",
-    "Treat diagnosis, management concepts, root-cause analysis, recommendations, missing information, and explicit assumptions as relevant when they help understand or address the user's problem.",
-    "Do not penalize the response merely because it contains analysis before recommendations or because it includes necessary assumptions and missing-information sections.",
-    "Check whether the core diagnosis directly addresses the user's stated problem.",
-    "Check whether the root-cause discussion is meaningfully connected to the user's problem rather than introducing unrelated management topics.",
-    "Check whether the recommendations directly help the company respond to the problem described in the input.",
-    "Penalize irrelevant theory, examples, background information, or recommendations that do not materially contribute to answering the user's question.",
-    "Penalize excessive tangents or knowledge-base content that is included only because it was retrieved, rather than because it is useful for the current problem.",
-    "A perfect score should mean that nearly all substantive parts of the report contribute to diagnosing or addressing the user's actual management problem.",
+    "Evaluate whether the generated report directly addresses the management question, problem, or decision described in the user input.",
+    "Identify the major parts of the user's request and check whether each important part is substantively addressed rather than only mentioned.",
+    "Treat diagnosis, management concepts, root-cause analysis, recommendations, missing information, and assumptions as relevant only when they materially help answer the user's actual request.",
+    "Check whether the core diagnosis or main conclusion responds to the central issue raised by the user.",
+    "Check whether supporting analysis remains connected to the user's problem and contributes to understanding, deciding, or acting on that problem.",
+    "Check whether recommendations, when included, address the problem the user actually raised rather than adjacent management issues.",
+    "Penalize substantial content that is only topically related but does not materially contribute to answering the user's request.",
+    "Penalize unnecessary expansion into diagnosis, theory, background, or recommendations when that expansion adds little value to the question being asked.",
+    "Do not judge whether claims are factually supported or whether causal reasoning is correct; those belong to Faithfulness and Diagnosis Quality.",
+    "A perfect score should require both strong coverage of the user's important requests and strong focus, with nearly all substantive content contributing to the answer."
 ]
 
 

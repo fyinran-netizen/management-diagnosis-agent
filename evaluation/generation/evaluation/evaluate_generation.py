@@ -45,6 +45,15 @@ def load_report(path: Path) -> dict[str, Any]:
     return report
 
 
+def load_case_ids(path: Path) -> list[str]:
+    case_ids = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(case_ids, list) or not case_ids:
+        raise ValueError(f"Case ID file must contain a non-empty JSON list: {path}")
+    if not all(isinstance(case_id, str) and case_id.strip() for case_id in case_ids):
+        raise ValueError(f"Case ID file must contain only non-empty strings: {path}")
+    return [case_id.strip() for case_id in case_ids]
+
+
 def build_metrics(model: OllamaDeepEvalModel) -> dict[str, Any]:
     return {
         "faithfulness": build_faithfulness(model),
@@ -109,7 +118,13 @@ def write_markdown(report: dict[str, Any], path: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Evaluate saved generation output with DeepEval.")
-    parser.add_argument("--case-id", help="Evaluate only this case ID.")
+    case_selection = parser.add_mutually_exclusive_group()
+    case_selection.add_argument("--case-id", help="Evaluate only this case ID.")
+    case_selection.add_argument(
+        "--case-ids-file",
+        type=Path,
+        help="Evaluate the case IDs listed in this JSON array file.",
+    )
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_REPORT_DIR)
     args = parser.parse_args()
@@ -120,6 +135,15 @@ def main() -> None:
         cases = [case for case in cases if str(case.get("case_id")) == args.case_id]
         if not cases:
             raise ValueError(f"Case ID not found: {args.case_id}")
+    elif args.case_ids_file:
+        requested_ids = load_case_ids(args.case_ids_file)
+        cases_by_id = {str(case.get("case_id")): case for case in cases}
+        missing_ids = [case_id for case_id in requested_ids if case_id not in cases_by_id]
+        if missing_ids:
+            raise ValueError(
+                f"Case IDs not found in generation benchmark: {', '.join(missing_ids)}"
+            )
+        cases = [cases_by_id[case_id] for case_id in requested_ids]
 
     model = OllamaDeepEvalModel()
     metrics = build_metrics(model)

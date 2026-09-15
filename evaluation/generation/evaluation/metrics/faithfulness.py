@@ -5,15 +5,19 @@ from deepeval.test_case import SingleTurnParams
 
 
 EVALUATION_STEPS = [
-    "Evaluate whether the generated report is faithful to the evidence available in the user input and retrieval context.",
-    "Distinguish between: facts explicitly stated in the user input, general management knowledge from the retrieval context, and hypotheses inferred by the generated report.",
-    "Do not penalize the report for omitting information from the retrieval context. Missing a knowledge point is not a faithfulness error.",
-    "Penalize claims about the specific company when they are presented as confirmed facts but are only hypotheses or general management possibilities.",
-    "Penalize invented or unsupported numerical values, percentages, thresholds, causal relationships, operational conditions, or company-specific facts.",
-    "Penalize conclusions that are stronger or more certain than the evidence supports, such as turning a possible cause into a confirmed root cause.",
-    "General management principles from the retrieval context may support recommendations or hypotheses, but they do not by themselves prove that the specific company has that condition.",
-    "Do not penalize reasonable wording differences or synthesis when the underlying meaning is supported by the available evidence.",
-    "A perfect score should require that all meaningful factual and causal claims are supported by the input or retrieval context, with uncertainty handled appropriately.",
+    "Evaluate whether the generated report is faithful to the evidence available in the user input and the retrieval context.",
+    "Distinguish among: company-specific facts stated in the user input, general management knowledge provided by the retrieval context, and hypotheses or interpretations introduced by the generated report.",
+    "Treat the retrieval context as valid evidence that the report may use for management principles, analytical frameworks, examples, recommendations, and reasonable hypotheses.",
+    "Do not assume that a general condition described in the retrieval context is confirmed to exist in the specific company unless the user input or other available evidence establishes that condition.",
+    "Allow reasonable hypotheses and diagnostic possibilities when they are clearly expressed with uncertainty appropriate to the available evidence.",
+    "Check whether factual, causal, numerical, and company-specific claims are supported by the user input or retrieval context, and whether the strength of each conclusion matches the strength of that evidence.",
+    "Pay particular attention to claims that convert a possible explanation into an established company condition, root cause, or causal conclusion without sufficient evidence.",
+    "Check unsupported specificity such as numerical values, percentages, thresholds, timelines, operational conditions, or other precise prescriptions when they are introduced as if established by the available evidence.",
+    "Before treating a claim, number, example, or causal relationship as unsupported, check whether equivalent supporting information appears anywhere in the retrieval context.",
+    "Do not penalize the report for omitting retrieved information, examples, or details; faithfulness evaluates unsupported additions or overstatement, not completeness.",
+    "Do not penalize reasonable paraphrasing, synthesis, or general recommendations when their underlying meaning is supported by the available evidence.",
+    "Do not judge whether the response is sufficiently relevant, useful, comprehensive, or diagnostically insightful except where those qualities affect evidential support.",
+    "A perfect score should require that meaningful factual and causal claims are supported and that uncertainty is calibrated appropriately to the available evidence."
 ]
 
 

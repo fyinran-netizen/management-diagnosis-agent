@@ -1,0 +1,58 @@
+{
+  "schema_version": "generation_deepeval_evaluation_v1",
+  "timestamp_utc": "2026-09-15T05:06:44Z",
+  "input_path": "D:\\management_diagnosis_agent\\evaluation\\generation\\generation_benchmark.json",
+  "case_count": 1,
+  "judge": {
+    "provider": "ollama",
+    "model": "qwen3:8b",
+    "ollama_base_url": "http://127.0.0.1:11434"
+  },
+  "metrics": [
+    "faithfulness",
+    "answer_relevancy",
+    "diagnosis_quality"
+  ],
+  "elapsed_seconds": 169.2179076000466,
+  "summary": {
+    "faithfulness": {
+      "mean": 0.9,
+      "median": 0.9,
+      "min": 0.9,
+      "max": 0.9,
+      "count": 1
+    },
+    "answer_relevancy": {
+      "mean": 0.9,
+      "median": 0.9,
+      "min": 0.9,
+      "max": 0.9,
+      "count": 1
+    },
+    "diagnosis_quality": {
+      "mean": 1.0,
+      "median": 1.0,
+      "min": 1.0,
+      "max": 1.0,
+      "count": 1
+    }
+  },
+  "cases": [
+    {
+      "case_id": "entrepreneurship_002",
+      "query": "领导者在短期压力下犹豫不决，价值观摇摆，怎样建立决策勇气和人文精神？",
+      "metrics": {
+        "score": {
+          "faithfulness": 0.9,
+          "answer_relevancy": 0.9,
+          "diagnosis_quality": 1.0
+        },
+        "reason": {
+          "faithfulness": "The Actual Output aligns well with the evaluation steps by distinguishing between user input facts, retrieval context knowledge, and generated hypotheses. It clearly attributes claims to specific knowledge items and avoids overstatement by acknowledging missing information and assumptions. The report supports its claims with the retrieval context, avoids unsupported specificity, and appropriately calibrates uncertainty. However, it could improve by more explicitly distinguishing between company-specific facts (which are not provided in the input) and general management knowledge from the retrieval context.",
+          "answer_relevancy": "The response directly addresses the user's question about building decision courage and humanistic spirit in leaders under short-term pressure. It provides a core diagnosis, relevant management concepts, possible root causes, and actionable recommendations that are all tied to the user's request. The suggestions are specific and connected to the problem, with clear references to knowledge items. However, the response could have been more concise by reducing unnecessary elaboration on theoretical concepts and assumptions, which slightly detracts from the focus on the central issue.",
+          "diagnosis_quality": "The response provides a clear diagnosis of the core management problem, identifying that the leader's hesitation stems from a lack of internalized values as a decision filter. It distinguishes symptoms (hesitation, indecision) from root causes (values not being internalized, lack of decision mechanisms, failure culture). The causal reasoning is coherent, linking these factors to the observed problem. Recommendations are specific, practical, and logically derived from the diagnosis, such as 'values具象化' and the '48小时规则'. The report also acknowledges missing information and assumptions, showing thoughtful prioritization of key issues. These strengths align well with the evaluation criteria."
+        }
+      }
+    }
+  ]
+}

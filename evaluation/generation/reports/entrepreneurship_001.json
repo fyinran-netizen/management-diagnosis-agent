@@ -1,0 +1,58 @@
+{
+  "schema_version": "generation_deepeval_evaluation_v1",
+  "timestamp_utc": "2026-09-15T05:06:27Z",
+  "input_path": "D:\\management_diagnosis_agent\\evaluation\\generation\\generation_benchmark.json",
+  "case_count": 1,
+  "judge": {
+    "provider": "ollama",
+    "model": "qwen3:8b",
+    "ollama_base_url": "http://127.0.0.1:11434"
+  },
+  "metrics": [
+    "faithfulness",
+    "answer_relevancy",
+    "diagnosis_quality"
+  ],
+  "elapsed_seconds": 152.20858630002476,
+  "summary": {
+    "faithfulness": {
+      "mean": 0.8,
+      "median": 0.8,
+      "min": 0.8,
+      "max": 0.8,
+      "count": 1
+    },
+    "answer_relevancy": {
+      "mean": 0.9,
+      "median": 0.9,
+      "min": 0.9,
+      "max": 0.9,
+      "count": 1
+    },
+    "diagnosis_quality": {
+      "mean": 1.0,
+      "median": 1.0,
+      "min": 1.0,
+      "max": 1.0,
+      "count": 1
+    }
+  },
+  "cases": [
+    {
+      "case_id": "entrepreneurship_001",
+      "query": "企业家面对复杂问题时，不能只修补局部，要如何用系统思考看清因果和整体最优？",
+      "metrics": {
+        "score": {
+          "faithfulness": 0.8,
+          "answer_relevancy": 0.9,
+          "diagnosis_quality": 1.0
+        },
+        "reason": {
+          "faithfulness": "The actual output aligns well with the retrieval context, using concepts like system thinking, root cause analysis, and balancing local and global perspectives. It correctly distinguishes between company-specific facts (not present in the input) and general management knowledge from the retrieval context. The output avoids unsupported specificity and clearly expresses uncertainty where appropriate. However, it introduces some assumptions about the company's stage and existing processes that are not supported by the user input or retrieval context, which slightly reduces its fidelity to the evidence.",
+          "answer_relevancy": "The response directly addresses the user's question about how entrepreneurs should use systems thinking to see causality and achieve overall optimization in complex problems. It covers core diagnosis, relevant management concepts, possible root causes, and practical recommendations, all of which are substantively connected to the user's request. The content is focused and avoids unnecessary expansion, with each section contributing meaningfully to answering the question. However, the final section on missing information and assumptions is incomplete, which slightly reduces the score.",
+          "diagnosis_quality": "The response provides a clear diagnosis of the core management problem—entrepreneurs' reliance on local fixes due to a lack of system thinking. It distinguishes symptoms (e.g., short-term fixes) from root causes (e.g., systemic thinking gaps) and explains how these factors interconnect. The recommendations are specific, practical, and logically derived from the diagnosis, such as using 'five whys' and cross-departmental KPIs. The report prioritizes key issues and avoids generic advice, demonstrating strong alignment with the evaluation steps."
+        }
+      }
+    }
+  ]
+}
