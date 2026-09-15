@@ -1,6 +1,7 @@
 from pathlib import Path
 
-from app.tools.retrieval import knowledge_loader
+from app.tools.ingestion import pipeline
+from app.tools.ingestion.repositories import FilesystemArtifactRepository
 
 
 def test_load_knowledge_base_reads_nested_private_markdown(tmp_path, monkeypatch):
@@ -30,10 +31,11 @@ def test_load_knowledge_base_reads_nested_private_markdown(tmp_path, monkeypatch
         encoding="utf-8",
     )
 
-    monkeypatch.setattr(knowledge_loader, "SAMPLE_KNOWLEDGE_DIR", sample_dir)
-    monkeypatch.setattr(knowledge_loader, "PRIVATE_KNOWLEDGE_DIR", private_dir)
+    monkeypatch.setattr(pipeline, "SAMPLE_KNOWLEDGE_DIR", sample_dir)
+    monkeypatch.setattr(pipeline, "PRIVATE_KNOWLEDGE_DIR", private_dir)
 
-    chunks = knowledge_loader.load_knowledge_base(include_private=True)
+    repository = FilesystemArtifactRepository(tmp_path / "artifacts")
+    chunks = pipeline.IngestionPipeline(repository=repository).ingest(include_private=True).chunks
 
     sources = {chunk.source for chunk in chunks}
     titles = {chunk.title for chunk in chunks}
@@ -64,10 +66,11 @@ def test_load_knowledge_base_skips_private_when_disabled(tmp_path, monkeypatch):
         encoding="utf-8",
     )
 
-    monkeypatch.setattr(knowledge_loader, "SAMPLE_KNOWLEDGE_DIR", sample_dir)
-    monkeypatch.setattr(knowledge_loader, "PRIVATE_KNOWLEDGE_DIR", private_dir)
+    monkeypatch.setattr(pipeline, "SAMPLE_KNOWLEDGE_DIR", sample_dir)
+    monkeypatch.setattr(pipeline, "PRIVATE_KNOWLEDGE_DIR", private_dir)
 
-    chunks = knowledge_loader.load_knowledge_base(include_private=False)
+    repository = FilesystemArtifactRepository(tmp_path / "artifacts")
+    chunks = pipeline.IngestionPipeline(repository=repository).ingest(include_private=False).chunks
 
     sources = {chunk.source for chunk in chunks}
 

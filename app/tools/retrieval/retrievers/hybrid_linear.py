@@ -20,13 +20,21 @@ def hybrid_retrieve(
     hybrid_top_k: int = 5,
     source_retrieval_k: int | None = None,
     embedding_index_dir: Path | None = None,
+    *,
+    corpus_dir: Path | None = None,
+    bm25_metadata_mode: str | None = None,
 ) -> list[RetrievedChunk]:
     # Number of chunks retrieved independently by BM25 / Embedding.
     if source_retrieval_k is None:
         source_retrieval_k = max(hybrid_top_k * CANDIDATE_MULTIPLIER, MIN_CANDIDATES)
 
     # Number of chunks retained after Hybrid fusion.
+    bm25_kwargs = {}
+    if corpus_dir is not None:
+        bm25_kwargs["corpus_dir"] = corpus_dir
+    if bm25_metadata_mode is not None:
+        bm25_kwargs["metadata_mode"] = bm25_metadata_mode
     return linear_fusion(
-        [("bm25", retrieve_by_bm25(query, source_retrieval_k)), ("embedding", retrieve_by_embedding(query, source_retrieval_k, index_dir=embedding_index_dir) if embedding_index_dir is not None else retrieve_by_embedding(query, source_retrieval_k))],
+        [("bm25", retrieve_by_bm25(query, source_retrieval_k, **bm25_kwargs)), ("embedding", retrieve_by_embedding(query, source_retrieval_k, index_dir=embedding_index_dir) if embedding_index_dir is not None else retrieve_by_embedding(query, source_retrieval_k))],
         weights={"bm25": KEYWORD_WEIGHT, "embedding": EMBEDDING_WEIGHT}, top_k=hybrid_top_k,
     )

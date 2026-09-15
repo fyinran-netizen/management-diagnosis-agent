@@ -36,6 +36,9 @@ from app.tools.retrieval.retrievers.hybrid_rrf import (
     hybrid_retrieve_rrf,
 )
 from app.tools.retrieval.retrievers.bm25 import retrieve_by_bm25
+from evaluation.retrieval.relevance import relevance_for
+from evaluation.retrieval.evidence import load_cases as load_cases_with_evidence
+from scripts.run_retrieval_benchmark import metrics_for
 
 DEFAULT_CASES_PATH = PROJECT_ROOT / "tests" / "evals" / "retrieval_cases.json"
 DEFAULT_REPORT_PATH = PROJECT_ROOT / "tests" / "evals" / "reports" / "retrieval_eval_report.json"
@@ -51,10 +54,7 @@ STRATEGIES: dict[str, Retriever] = {
 
 
 def load_cases(path: Path) -> list[dict[str, Any]]:
-    cases = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(cases, list):
-        raise ValueError(f"Cases file must contain a JSON list: {path}")
-    return cases
+    return load_cases_with_evidence(path)
 
 
 def load_report(path: Path) -> dict[str, Any]:
@@ -113,28 +113,20 @@ def annotate_chunks(results: list[dict[str, Any]], method: str, top_k: int) -> l
 
 
 def evaluate_case(case: dict[str, Any], retriever: Retriever, method: str, top_k: int) -> dict[str, Any]:
-    expected_sources = list(dict.fromkeys(str(source) for source in case["expected_sources"]))
-    expected = set(expected_sources)
+    gold_evidence = [str(evidence) for evidence in case["gold_evidence"]]
     started = time.perf_counter()
     results = retriever(str(case["query"]), top_k)
     elapsed_ms = (time.perf_counter() - started) * 1000.0
     chunks = annotate_chunks(results, method, top_k)
     retrieved_sources = [chunk["source"] for chunk in chunks]
-    top_3 = retrieved_sources[:3]
-    top_5 = retrieved_sources[:5]
-    first_rank = next(
-        (rank for rank, source in enumerate(top_5, start=1) if source in expected), 0
-    )
+    relevant, covered_by_rank = relevance_for(results[:top_k], gold_evidence)
     return {
         "case_id": str(case["id"]),
         "topic": case.get("topic", ""),
         "query": case["query"],
-        "expected_sources": expected_sources,
+        "gold_evidence": gold_evidence,
         "retrieved_sources": retrieved_sources,
-        "hit@3": 1.0 if any(source in expected for source in top_3) else 0.0,
-        "hit@5": 1.0 if any(source in expected for source in top_5) else 0.0,
-        "recall@5": len(set(source for source in top_5 if source in expected)) / len(expected) if expected else 0.0,
-        "mrr@5": 1.0 / first_rank if first_rank else 0.0,
+        **metrics_for(relevant, covered_by_rank, len(gold_evidence), (3, 5)),
         "retrieval_time_ms": elapsed_ms,
         "top_k_chunks": chunks,
     }

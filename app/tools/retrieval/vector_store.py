@@ -7,7 +7,7 @@ from typing import Any
 
 import numpy as np
 
-from app.tools.retrieval.chunker import TextChunk
+from app.tools.ingestion.schemas import Chunk
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
@@ -32,17 +32,17 @@ def _index_filenames(index_dir: Path) -> tuple[str, str, str]:
     return CHUNKS_PATH.name, EMBEDDINGS_PATH.name, METADATA_PATH.name
 
 
-def chunk_to_embedding_text(chunk: TextChunk | dict[str, Any]) -> str:
-    title = chunk.title if isinstance(chunk, TextChunk) else chunk.get("title", "")
-    content = chunk.content if isinstance(chunk, TextChunk) else chunk.get("content", "")
+def chunk_to_embedding_text(chunk: Chunk | dict[str, Any]) -> str:
+    title = chunk.title if isinstance(chunk, Chunk) else chunk.get("title", "")
+    content = chunk.content if isinstance(chunk, Chunk) else chunk.get("content", "")
     chapter_title = (
         chunk.chapter_title
-        if isinstance(chunk, TextChunk)
+        if isinstance(chunk, Chunk)
         else chunk.get("chapter_title")
     )
     section_title = (
         chunk.section_title
-        if isinstance(chunk, TextChunk)
+        if isinstance(chunk, Chunk)
         else chunk.get("section_title")
     )
 
@@ -55,26 +55,21 @@ def chunk_to_embedding_text(chunk: TextChunk | dict[str, Any]) -> str:
 
 
 def save_vector_index(
-    chunks: list[TextChunk],
+    chunks: list[Chunk],
     embeddings: np.ndarray,
     metadata: dict[str, Any],
     index_dir: Path = VECTOR_INDEX_DIR,
 ) -> None:
     index_dir.mkdir(parents=True, exist_ok=True)
 
-    chunk_dicts = [asdict(chunk) for chunk in chunks]
+    chunk_dicts = [
+        {key: value for key, value in asdict(chunk).items() if key != "source_id"}
+        for chunk in chunks
+    ]
     chunks_name, embeddings_name, metadata_name = _index_filenames(index_dir)
-    (index_dir / chunks_name).write_text(
-        json.dumps(chunk_dicts, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-        newline="\n",
-    )
+    (index_dir / chunks_name).write_text(json.dumps(chunk_dicts, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     np.save(index_dir / embeddings_name, embeddings)
-    (index_dir / metadata_name).write_text(
-        json.dumps(metadata, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-        newline="\n",
-    )
+    (index_dir / metadata_name).write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
 
 
 def load_vector_index(index_dir: Path = VECTOR_INDEX_DIR) -> tuple[list[dict[str, Any]], np.ndarray, dict[str, Any]]:

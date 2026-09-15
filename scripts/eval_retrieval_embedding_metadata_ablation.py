@@ -31,6 +31,10 @@ from app.tools.retrieval.vector_store import (
     BASE_VECTOR_INDEX_DIR,
     SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR,
 )
+from app.core.config import PRIVATE_KNOWLEDGE_DIR
+from evaluation.retrieval.relevance import relevance_for
+from evaluation.retrieval.evidence import load_cases as load_cases_with_evidence
+from scripts.run_retrieval_benchmark import metrics_for
 
 DEFAULT_CASES_PATH = PROJECT_ROOT / "tests" / "evals" / "retrieval_cases.json"
 DEFAULT_REPORT_PATH = PROJECT_ROOT / "tests" / "evals" / "reports" / "retrieval_embedding_metadata_ablation_report.json"
@@ -38,15 +42,23 @@ DEFAULT_REPORT_PATH = PROJECT_ROOT / "tests" / "evals" / "reports" / "retrieval_
 Retriever = Callable[[str, int], list[dict[str, Any]]]
 
 
-def retrieve_linear_hybrid_metadata(query: str, top_k: int = 5) -> list[dict[str, Any]]:
-    return hybrid_retrieve(query, top_k, embedding_index_dir=SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR)
+def retrieve_linear_hybrid_metadata(
+    query: str,
+    top_k: int = 5,
+    *,
+    corpus_dir: Path = PRIVATE_KNOWLEDGE_DIR,
+) -> list[dict[str, Any]]:
+    return hybrid_retrieve(
+        query,
+        top_k,
+        corpus_dir=corpus_dir,
+        embedding_index_dir=SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR,
+        bm25_metadata_mode="unweighted",
+    )
 
 
 def load_cases(path: Path) -> list[dict[str, Any]]:
-    cases = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(cases, list):
-        raise ValueError(f"Cases file must contain a JSON list: {path}")
-    return cases
+    return load_cases_with_evidence(path)
 
 
 def number(value: Any) -> float:
@@ -80,25 +92,21 @@ def diagnostics(item: dict[str, Any], method: str, rank: int) -> dict[str, Any]:
 
 
 def evaluate_case(case: dict[str, Any], retriever: Retriever, method: str, top_k: int) -> dict[str, Any]:
-    expected_sources = list(dict.fromkeys(str(source) for source in case["expected_sources"]))
-    expected = set(expected_sources)
+    gold_evidence = [str(evidence) for evidence in case["gold_evidence"]]
     started = time.perf_counter()
     results = retriever(case["query"], top_k)
     elapsed_ms = (time.perf_counter() - started) * 1000.0
     chunks = [diagnostics(item, method, rank) for rank, item in enumerate(results[:top_k], 1)]
     retrieved_sources = [item["source"] for item in chunks]
-    top_3, top_5 = retrieved_sources[:3], retrieved_sources[:5]
-    first_rank = next((rank for rank, source in enumerate(top_5, 1) if source in expected), 0)
+    relevant, covered_by_rank = relevance_for(results[:top_k], gold_evidence)
+    metrics = metrics_for(relevant, covered_by_rank, len(gold_evidence), (3, 5))
     return {
         "case_id": str(case["id"]),
         "topic": case.get("topic", ""),
         "query": case["query"],
-        "expected_sources": expected_sources,
+        "gold_evidence": gold_evidence,
         "retrieved_sources": retrieved_sources,
-        "hit@3": 1.0 if any(source in expected for source in top_3) else 0.0,
-        "hit@5": 1.0 if any(source in expected for source in top_5) else 0.0,
-        "recall@5": len(set(source for source in top_5 if source in expected)) / len(expected) if expected else 0.0,
-        "mrr@5": 1.0 / first_rank if first_rank else 0.0,
+        **metrics,
         "retrieval_time_ms": elapsed_ms,
         "top_k_chunks": chunks,
     }
@@ -169,6 +177,8 @@ def main() -> None:
     parser.add_argument("--cases", type=Path, default=DEFAULT_CASES_PATH)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT_PATH)
     parser.add_argument("--top-k", type=int, default=5)
+    parser.add_argument("--corpus-dir", type=Path, default=PRIVATE_KNOWLEDGE_DIR)
+    parser.add_argument("--index-dir", type=Path, default=BASE_VECTOR_INDEX_DIR)
     args = parser.parse_args()
     if args.top_k < 1:
         parser.error("--top-k must be >= 1")
@@ -180,10 +190,10 @@ def main() -> None:
     get_cached_bm25_index.cache_clear()
 
     experiments = {
-        "base_embedding": (retrieve_by_embedding, "base_embedding", BASE_VECTOR_INDEX_DIR, False),
+        "base_embedding": (lambda query, top_k: retrieve_by_embedding(query, top_k, index_dir=args.index_dir), "base_embedding", args.index_dir, False),
         "metadata_embedding": (lambda query, top_k: retrieve_by_embedding(query, top_k, index_dir=SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR), "metadata_embedding", SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR, False),
-        "linear_hybrid_base": (hybrid_retrieve, "linear_hybrid", BASE_VECTOR_INDEX_DIR, True),
-        "linear_hybrid_metadata": (retrieve_linear_hybrid_metadata, "linear_hybrid", SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR, True),
+        "linear_hybrid_base": (lambda query, top_k: hybrid_retrieve(query, top_k, corpus_dir=args.corpus_dir, embedding_index_dir=args.index_dir, bm25_metadata_mode="base"), "linear_hybrid", args.index_dir, True),
+        "linear_hybrid_metadata": (lambda query, top_k: retrieve_linear_hybrid_metadata(query, top_k, corpus_dir=args.corpus_dir), "linear_hybrid", SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR, True),
     }
     report: dict[str, Any] = {}
     for name, (retriever, method, index_dir, uses_hybrid) in experiments.items():

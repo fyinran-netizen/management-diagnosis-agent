@@ -17,6 +17,7 @@ class AgentState(TypedDict, total=False):
     retrieval_quality: dict[str, Any]
     diagnosis_summary: dict[str, Any]
     trace: list[dict[str, Any]]
+    ingestion_status: dict[str, Any]
 
     retrieved_chunks: list[dict[str, Any]]
     report: str

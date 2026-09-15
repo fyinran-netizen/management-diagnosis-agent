@@ -30,6 +30,7 @@ from scripts.run_retrieval_benchmark import (  # noqa: E402
     serializable_chunk,
     summarize,
 )
+from evaluation.retrieval.relevance import relevance_for  # noqa: E402
 
 import importlib  # noqa: E402
 
@@ -108,13 +109,13 @@ def evaluate_case(
     results = retriever(retrieval_query, top_k)
     elapsed_ms = (time.perf_counter() - started) * 1000.0
 
-    expected_sources = list(dict.fromkeys(str(source) for source in case["expected_sources"]))
-    expected = set(expected_sources)
+    gold_evidence = [str(evidence) for evidence in case["gold_evidence"]]
     chunks = [
         serializable_chunk(item, rank, retriever_name)
         for rank, item in enumerate(results[:top_k], 1)
     ]
     retrieved_sources = [chunk["source"] for chunk in chunks]
+    relevant, covered_by_rank = relevance_for(results[:top_k], gold_evidence)
     return {
         "case_id": str(case["id"]),
         "topic": case.get("topic", ""),
@@ -123,9 +124,9 @@ def evaluate_case(
         "original_query": original_query,
         "understanding": understanding,
         "retrieval_query": retrieval_query,
-        "expected_sources": expected_sources,
+        "gold_evidence": gold_evidence,
         "retrieved_sources": retrieved_sources,
-        "metrics": metrics_for(retrieved_sources, expected, ks),
+        "metrics": metrics_for(relevant, covered_by_rank, len(gold_evidence), ks),
         "retrieval_time_ms": elapsed_ms,
         "top_k_chunks": chunks,
     }

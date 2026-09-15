@@ -11,11 +11,10 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from app.tools.retrieval.embeddings import embed_texts, get_embedding_cache_dir, get_embedding_model_name
-from app.tools.retrieval.knowledge_loader import PRIVATE_KNOWLEDGE_DIR, load_chunks_from_path, iter_markdown_files
-from app.tools.retrieval.retrievers.bm25 import (
-    SEMANTIC_METADATA_PATH,
-    load_semantic_metadata_by_source_unweighted,
-)
+from app.tools.ingestion import ingest
+from app.tools.ingestion.repositories import FilesystemArtifactRepository
+from app.core.config import SAMPLE_KNOWLEDGE_DIR, PRIVATE_KNOWLEDGE_DIR
+from app.tools.retrieval.retrievers.bm25 import load_semantic_metadata_by_source_unweighted
 from app.tools.retrieval.vector_store import (
     SEMANTIC_METADATA_UNWEIGHTED_INDEX_DIR,
     VECTOR_INDEX_DIR,
@@ -36,6 +35,7 @@ def main() -> None:
     )
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--index-dir", type=Path, default=VECTOR_INDEX_DIR)
+    parser.add_argument("--corpus-dir", type=Path, default=PRIVATE_KNOWLEDGE_DIR)
     parser.add_argument(
         "--metadata-mode",
         choices=["base", "unweighted"],
@@ -44,25 +44,17 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    chunks = []
+    chunks = FilesystemArtifactRepository(args.corpus_dir).load_chunks()
     if args.include_sample:
-        from app.tools.retrieval.knowledge_loader import SAMPLE_KNOWLEDGE_DIR
-
-        if SAMPLE_KNOWLEDGE_DIR.exists():
-            for path in iter_markdown_files(SAMPLE_KNOWLEDGE_DIR):
-                chunks.extend(load_chunks_from_path(path, SAMPLE_KNOWLEDGE_DIR))
-
-    if PRIVATE_KNOWLEDGE_DIR.exists():
-        for path in iter_markdown_files(
-            PRIVATE_KNOWLEDGE_DIR,
-            recursive=True,
-            skipped_top_level_dirs={"ch00"},
-        ):
-            chunks.extend(load_chunks_from_path(path, PRIVATE_KNOWLEDGE_DIR))
+        sample_paths = sorted(SAMPLE_KNOWLEDGE_DIR.glob("*.md"))
+        chunks = [
+            *chunks,
+            *ingest(input_paths=sample_paths, persist=False).chunks,
+        ]
 
     chunks = [chunk for chunk in chunks if chunk.source not in EXCLUDED_SOURCES]
     metadata_by_source = (
-        load_semantic_metadata_by_source_unweighted()
+        load_semantic_metadata_by_source_unweighted(args.corpus_dir)
         if args.metadata_mode == "unweighted"
         else {}
     )
@@ -82,7 +74,7 @@ def main() -> None:
         "include_sample": args.include_sample,
         "knowledge_scope": "sample+private" if args.include_sample else "private",
         "metadata_mode": args.metadata_mode,
-        "metadata_path": str(SEMANTIC_METADATA_PATH) if args.metadata_mode == "unweighted" else None,
+        "metadata_path": str(args.corpus_dir / "semantic_metadata.jsonl") if args.metadata_mode == "unweighted" else None,
         "embedding_text": "chunk structure + unweighted semantic metadata" if args.metadata_mode == "unweighted" else "chunk structure",
         "chunk_count": len(chunks),
         "embedding_dim": int(embeddings.shape[1]) if embeddings.size else 0,

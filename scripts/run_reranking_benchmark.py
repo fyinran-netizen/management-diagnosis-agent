@@ -21,15 +21,19 @@ from app.tools.retrieval.retrievers.hybrid_linear import (  # noqa: E402
     KEYWORD_WEIGHT,
     hybrid_retrieve,
 )
+from app.tools.retrieval.retrievers.bm25 import PRODUCTION_BM25_METADATA_MODE  # noqa: E402
+from app.tools.retrieval.vector_store import BASE_VECTOR_INDEX_DIR  # noqa: E402
+from app.core.config import PRIVATE_KNOWLEDGE_DIR  # noqa: E402
 from scripts.run_retrieval_benchmark import (  # noqa: E402
     DEFAULT_CASES,
     DEFAULT_REPORT_DIR,
     DEFAULT_EXPERIMENTS,
     load_cases,
-    metrics_for,
     serializable_chunk,
     summarize,
+    metrics_for,
 )
+from evaluation.retrieval.relevance import relevance_for  # noqa: E402
 
 
 DEFAULT_CANDIDATE_TOP_K = 100
@@ -85,13 +89,16 @@ def evaluate_case(
     candidate_retrieval_ms: float,
     rerank_scoring_ms: float,
 ) -> dict[str, Any]:
-    expected_sources = list(dict.fromkeys(str(source) for source in case["expected_sources"]))
-    expected = set(expected_sources)
+    gold_evidence = [str(evidence) for evidence in case["gold_evidence"]]
     candidate_sources = [str(item.get("source", "")) for item in candidates]
-    candidate_relevant = {source for source in candidate_sources if source in expected}
+    candidate_relevance, candidate_coverage = relevance_for(candidates, gold_evidence)
+    candidate_relevant = [item for item, relevant in zip(candidates, candidate_relevance, strict=True) if relevant]
     candidate_pool_metrics = {
         "candidate_pool_hit": float(bool(candidate_relevant)),
-        "candidate_pool_recall": len(candidate_relevant) / len(expected) if expected else 0.0,
+        "candidate_pool_recall": (
+            len(candidate_coverage[-1]) / len(gold_evidence)
+            if candidates and gold_evidence else 0.0
+        ),
     }
     results = candidates[:final_top_k]
     chunks = [
@@ -102,7 +109,8 @@ def evaluate_case(
         if "rerank_score" in item:
             chunk["rerank_score"] = item["rerank_score"]
     retrieved_sources = [chunk["source"] for chunk in chunks]
-    all_metrics = metrics_for(retrieved_sources, expected, (1, 3, 5, 10))
+    relevance, coverage = relevance_for(results, gold_evidence)
+    all_metrics = metrics_for(relevance, coverage, len(gold_evidence), (1, 3, 5, 10))
     all_metrics.update(candidate_pool_metrics)
     return {
         "case_id": str(case["id"]),
@@ -110,7 +118,7 @@ def evaluate_case(
         "query_type": case.get("query_type", ""),
         "difficulty": case.get("difficulty", ""),
         "query": str(case["query"]),
-        "expected_sources": expected_sources,
+        "gold_evidence": gold_evidence,
         "retrieved_sources": retrieved_sources,
         "metrics": {key: all_metrics[key] for key in CASE_METRIC_KEYS},
         "retrieval_time_ms": candidate_retrieval_ms + rerank_scoring_ms,
@@ -127,6 +135,9 @@ def strategy_config(
     hybrid_candidate_k: int,
     final_k: int,
     source_retrieval_k: int | None,
+    corpus_dir: Path,
+    index_dir: Path,
+    bm25_metadata_mode: str,
 ) -> dict[str, Any]:
     config: dict[str, Any] = {
         "hybrid_candidate_k": hybrid_candidate_k,
@@ -135,6 +146,9 @@ def strategy_config(
         "keyword_weight": KEYWORD_WEIGHT,
         "embedding_weight": EMBEDDING_WEIGHT,
         "use_reranker": use_reranker,
+        "corpus_dir": str(corpus_dir),
+        "index_dir": str(index_dir),
+        "bm25_metadata_mode": bm25_metadata_mode,
     }
     if use_reranker:
         config["reranker"] = get_reranker_model_name()
@@ -210,6 +224,9 @@ def main() -> None:
     parser.add_argument("--hybrid-candidate-k", type=int, default=DEFAULT_CANDIDATE_TOP_K)
     parser.add_argument("--final-k", type=int, default=DEFAULT_FINAL_TOP_K)
     parser.add_argument("--source-retrieval-k", type=int, default=None)
+    parser.add_argument("--corpus-dir", type=Path, default=PRIVATE_KNOWLEDGE_DIR)
+    parser.add_argument("--index-dir", type=Path, default=BASE_VECTOR_INDEX_DIR)
+    parser.add_argument("--bm25-metadata-mode", choices=("base", "unweighted", "weighted"), default=PRODUCTION_BM25_METADATA_MODE)
     args = parser.parse_args()
     if args.hybrid_candidate_k < 1 or args.final_k < 1:
         parser.error("--hybrid-candidate-k and --final-k must be >= 1")
@@ -229,6 +246,9 @@ def main() -> None:
             query=str(case["query"]),
             hybrid_top_k=args.hybrid_candidate_k,
             source_retrieval_k=args.source_retrieval_k,
+            corpus_dir=args.corpus_dir,
+            embedding_index_dir=args.index_dir,
+            bm25_metadata_mode=args.bm25_metadata_mode,
         )
         candidate_retrieval_ms = (time.perf_counter() - retrieval_started) * 1000.0
 
@@ -265,6 +285,9 @@ def main() -> None:
                 args.hybrid_candidate_k,
                 args.final_k,
                 args.source_retrieval_k,
+                args.corpus_dir,
+                args.index_dir,
+                args.bm25_metadata_mode,
             ),
             "summary": summarize_strategy(evaluated_by_strategy[name]),
             "cases": evaluated_by_strategy[name],

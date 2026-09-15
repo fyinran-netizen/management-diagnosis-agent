@@ -1,4 +1,4 @@
-from scripts.merge_semantic_tags import merge_diagnosis_tags, merge_records
+from app.tools.ingestion.metadata.semantic import merge_diagnosis_tags, merge_records
 
 
 METRICS_LABEL = "\u6307\u6807\u4f53\u7cfb\u9519\u4f4d"

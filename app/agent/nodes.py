@@ -10,6 +10,7 @@ from app.agent.state import AgentState
 from app.core.config import GENERATION_MODEL
 from app.core.logging import get_logger
 from app.tools.generation import generate_report, revise_report
+from app.tools.ingestion import ingest
 from app.tools.persistence.diagnosis_history import save_diagnosis_record
 from app.tools.retrieval.retrieval_observation import build_retrieval_observation
 from app.tools.retrieval.tool import retrieve_relevant_chunks
@@ -56,6 +57,13 @@ def _summarize_issues(
         summaries.append(f"... and {len(issues) - limit} more")
 
     return "; ".join(summaries)
+
+
+@_logged_node("ingestion")
+def ingestion_node(state: AgentState) -> dict:
+    """Thin graph boundary; artifacts/chunks never enter AgentState."""
+    result = ingest(include_private=True, include_sample=False)
+    return {"ingestion_status": {"skipped": result.skipped, "reason": result.reason or "processed", "chunk_count": len(result.chunks)}}
 
 
 @_logged_node("understanding")

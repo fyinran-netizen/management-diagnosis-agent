@@ -68,7 +68,7 @@ def render_top10(label: str, result: dict[str, Any]) -> list[str]:
 
 
 def render_case(case_id: str, baseline: dict[str, Any], rerank: dict[str, Any]) -> list[str]:
-    expected = baseline["expected_sources"]
+    gold_evidence = baseline.get("gold_evidence", [])
     base_items = baseline["top_k_chunks"][:10]
     rerank_items = rerank["top_k_chunks"][:10]
     base_ranks = rank_map(base_items)
@@ -83,9 +83,9 @@ def render_case(case_id: str, baseline: dict[str, Any], rerank: dict[str, Any]) 
         f"| Difficulty | `{cell(baseline.get('difficulty', '—'))}` |",
         f"| Query | {cell(baseline.get('query', '—'))} |",
         "",
-        "### Expected sources",
+        "### Gold evidence",
         "",
-        ", ".join(f"`{cell(source)}`" for source in expected),
+        "<br>".join(cell(evidence) for evidence in gold_evidence),
         "",
         "### 主要 metrics（final Top 10）",
         "",

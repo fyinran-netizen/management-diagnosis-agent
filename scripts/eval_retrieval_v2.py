@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import math
 import sys
 import time
 from collections import defaultdict
@@ -21,6 +20,9 @@ from app.tools.retrieval.retrievers.bm25 import (
     retrieve_by_bm25,
 )
 from scripts.eval_retrieval import STRATEGIES, atomic_write_json, evaluate_case as _old_case, strategy_config
+from scripts.run_retrieval_benchmark import metrics_for
+from evaluation.retrieval.relevance import relevance_for
+from evaluation.retrieval.evidence import load_cases as load_cases_with_evidence
 
 CASES = PROJECT_ROOT / "tests/evals/retrieval_cases_v2.json"
 SPLIT = PROJECT_ROOT / "tests/evals/retrieval_cases_v2_split.json"
@@ -32,17 +34,8 @@ def mean(values: list[float]) -> float:
     return sum(values) / len(values) if values else 0.0
 
 
-def ndcg(retrieved: list[str], expected: set[str], k: int) -> float:
-    gains = [1.0 if source in expected else 0.0 for source in retrieved[:k]]
-    dcg = sum(gain / math.log2(rank + 1) for rank, gain in enumerate(gains, 1))
-    ideal = min(len(expected), k)
-    idcg = sum(1.0 / math.log2(rank + 1) for rank in range(1, ideal + 1))
-    return dcg / idcg if idcg else 0.0
-
-
 def case_result(case: dict[str, Any], retriever: Any, method: str) -> dict[str, Any]:
-    expected_sources = list(dict.fromkeys(str(s) for s in case["expected_sources"]))
-    expected = set(expected_sources)
+    gold_evidence = [str(evidence) for evidence in case["gold_evidence"]]
     started = time.perf_counter()
     results = retriever(str(case["query"]), 20)
     elapsed = (time.perf_counter() - started) * 1000.0
@@ -54,20 +47,12 @@ def case_result(case: dict[str, Any], retriever: Any, method: str) -> dict[str, 
                 chunk[key] = item[key]
         chunks.append(chunk)
     retrieved = [c["source"] for c in chunks]
-    metrics: dict[str, float] = {}
-    for k in (1, 3, 5, 10):
-        metrics[f"hit@{k}"] = float(any(s in expected for s in retrieved[:k]))
-    for k in (5, 10, 20):
-        metrics[f"recall@{k}"] = len({s for s in retrieved[:k] if s in expected}) / len(expected) if expected else 0.0
-    first = next((rank for rank, source in enumerate(retrieved[:5], 1) if source in expected), 0)
-    metrics["mrr@5"] = 1.0 / first if first else 0.0
-    metrics["precision@5"] = len({s for s in retrieved[:5] if s in expected}) / 5.0
-    metrics["nDCG@5"] = ndcg(retrieved, expected, 5)
-    metrics["nDCG@10"] = ndcg(retrieved, expected, 10)
+    relevant, covered_by_rank = relevance_for(results[:20], gold_evidence)
+    metrics = metrics_for(relevant, covered_by_rank, len(gold_evidence), (1, 3, 5, 10, 20))
     return {
         "case_id": str(case["id"]), "split": case["split"], "topic": case["topic"],
         "query_type": case.get("query_type", ""), "difficulty": case.get("difficulty", ""),
-        "query": case["query"], "expected_sources": expected_sources,
+        "query": case["query"], "gold_evidence": gold_evidence,
         "retrieved_sources": retrieved, "top_k_chunks": chunks, "metrics": metrics,
         "retrieval_time_ms": elapsed,
     }
@@ -90,7 +75,7 @@ def candidate_coverage(cases: list[dict[str, Any]], final_results: dict[str, lis
     dev_cases = [case for case in cases if case["split"] == "dev"]
     per_case = []
     for case in dev_cases:
-        expected = set(case["expected_sources"])
+        gold_evidence = [str(evidence) for evidence in case["gold_evidence"]]
         bm25 = retrieve_by_bm25(case["query"], top_k=50)
         embedding = retrieve_by_embedding(case["query"], top_k=50)
         bm25_sources = [str(item["source"]) for item in bm25]
@@ -99,30 +84,34 @@ def candidate_coverage(cases: list[dict[str, Any]], final_results: dict[str, lis
             bm25_sources.index(source) + 1 if source in bm25_sources else 10**9,
             embedding_sources.index(source) + 1 if source in embedding_sources else 10**9,
         ))
-        ranks = lambda sources: {source: (sources.index(source) + 1 if source in sources else None) for source in expected}
+        items_by_source = {str(item["source"]): item for item in bm25 + embedding}
+        union_items = [items_by_source[source] for source in union_sources]
+        def evidence_coverage(items: list[dict[str, Any]], limit: int) -> int:
+            _, coverage = relevance_for(items[:limit], gold_evidence)
+            return len(coverage[-1]) if coverage else 0
+        ranks = lambda sources: {source: index + 1 for index, source in enumerate(sources)}
         final_ranks = {}
         for method in ("linear_hybrid", "rrf_hybrid"):
             sources = [str(item["source"]) for item in final_results[method][case["id"]]]
             final_ranks[method] = ranks(sources)
         per_case.append({
             "case_id": case["id"], "topic": case["topic"], "query_type": case.get("query_type", ""), "difficulty": case.get("difficulty", ""),
-            "query": case["query"], "expected_sources": sorted(expected),
+            "query": case["query"], "gold_evidence": gold_evidence,
             "bm25_top50": [{"source": str(item["source"]), "rank": rank, "score": item.get("bm25_score", item.get("keyword_score"))} for rank, item in enumerate(bm25, 1)],
             "embedding_top50": [{"source": str(item["source"]), "rank": rank, "score": item.get("embedding_cosine_score", item.get("embedding_score"))} for rank, item in enumerate(embedding, 1)],
-            "expected_ranks": {"bm25_top50": ranks(bm25_sources), "embedding_top50": ranks(embedding_sources), "candidate_union_top50": ranks(union_sources), "linear_hybrid_final_top20": final_ranks["linear_hybrid"], "rrf_hybrid_final_top20": final_ranks["rrf_hybrid"]},
-            "candidate_recall@20": {"bm25": len(expected & set(bm25_sources[:20])) / len(expected), "embedding": len(expected & set(embedding_sources[:20])) / len(expected), "union": len(expected & (set(bm25_sources[:20]) | set(embedding_sources[:20]))) / len(expected)},
-            "candidate_recall@50": {"bm25": len(expected & set(bm25_sources[:50])) / len(expected), "embedding": len(expected & set(embedding_sources[:50])) / len(expected), "union": len(expected & (set(bm25_sources[:50]) | set(embedding_sources[:50]))) / len(expected)},
+            "evidence_coverage@20": {"bm25": evidence_coverage(bm25, 20), "embedding": evidence_coverage(embedding, 20), "union": evidence_coverage(union_items, 20)},
+            "evidence_coverage@50": {"bm25": evidence_coverage(bm25, 50), "embedding": evidence_coverage(embedding, 50), "union": evidence_coverage(union_items, 50)},
         })
     return {
         "scope": "dev",
         "cases": per_case,
-        "summary": {"cases": len(per_case), "recall@20": {name: mean([c["candidate_recall@20"][name] for c in per_case]) for name in ("bm25", "embedding", "union")}, "recall@50": {name: mean([c["candidate_recall@50"][name] for c in per_case]) for name in ("bm25", "embedding", "union")}},
+        "summary": {"cases": len(per_case), "evidence_coverage@20": {name: mean([c["evidence_coverage@20"][name] for c in per_case]) for name in ("bm25", "embedding", "union")}, "evidence_coverage@50": {name: mean([c["evidence_coverage@50"][name] for c in per_case]) for name in ("bm25", "embedding", "union")}},
         "focus_cases": {case_id: next(c for c in per_case if c["case_id"] == case_id) for case_id in ("metrics_005", "self_drive_005", "self_drive_006")},
     }
 
 
 def main() -> None:
-    cases = json.loads(CASES.read_text(encoding="utf-8"))
+    cases = load_cases_with_evidence(CASES)
     split = json.loads(SPLIT.read_text(encoding="utf-8"))
     assignments = split["assignments"]
     for case in cases:

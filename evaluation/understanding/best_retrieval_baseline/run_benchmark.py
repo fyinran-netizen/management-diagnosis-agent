@@ -24,6 +24,7 @@ from scripts.run_retrieval_benchmark import (  # noqa: E402
     serializable_chunk,
     summarize,
 )
+from evaluation.retrieval.relevance import relevance_for  # noqa: E402
 
 
 DEFAULT_CASES = PROJECT_ROOT / "evaluation" / "retrieval" / "cases" / "retrieval_cases.json"
@@ -74,13 +75,13 @@ def evaluate_case(case: dict[str, Any], mode: str, top_k: int) -> dict[str, Any]
     chunks = retrieve_relevant_chunks(retrieval_query, top_k=top_k)
     elapsed_ms = (time.perf_counter() - started) * 1000.0
 
-    expected_sources = list(dict.fromkeys(str(source) for source in case["expected_sources"]))
-    expected = set(expected_sources)
+    gold_evidence = [str(evidence) for evidence in case["gold_evidence"]]
     serialized = [
         serializable_chunk(item, rank, "linear_hybrid")
         for rank, item in enumerate(chunks[:top_k], 1)
     ]
     retrieved_sources = [item["source"] for item in serialized]
+    relevant, covered_by_rank = relevance_for(chunks[:top_k], gold_evidence)
     return {
         "case_id": str(case["id"]),
         "topic": case.get("topic", ""),
@@ -89,9 +90,9 @@ def evaluate_case(case: dict[str, Any], mode: str, top_k: int) -> dict[str, Any]
         "query": query,
         "understanding": understanding,
         "retrieval_query": retrieval_query,
-        "expected_sources": expected_sources,
+        "gold_evidence": gold_evidence,
         "retrieved_sources": retrieved_sources,
-        "metrics": metrics_for(retrieved_sources, expected, tuple(k for k in DEFAULT_KS if k <= top_k)),
+        "metrics": metrics_for(relevant, covered_by_rank, len(gold_evidence), tuple(k for k in DEFAULT_KS if k <= top_k)),
         "retrieval_time_ms": elapsed_ms,
         "top_k_chunks": serialized,
     }

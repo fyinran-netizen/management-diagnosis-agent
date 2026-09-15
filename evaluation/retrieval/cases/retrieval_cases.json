@@ -1,58 +1,1328 @@
 [
-  {"id":"customer_value_001","topic":"customer_value","query":"公司越来越关注利润和内部效率，但客户复购下降，新客户增长也变慢了，应该从哪里诊断？","expected_sources":["ch01/s02.md","ch01/s06_chunk_01.md","ch01/s08_chunk_01.md"],"notes":"企业目的、利润与顾客价值、把理念落到行动","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"customer_value_002","topic":"customer_value","query":"产品功能越来越多，但客户觉得没有解决真实痛点，团队应该如何重新创造客户价值？","expected_sources":["ch01/s07_chunk_01.md","ch01/s07_chunk_03.md","ch01/s07_chunk_04.md"],"notes":"创造顾客的路径、价值创新、降低客户成本","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"sales_marketing_001","topic":"sales_vs_marketing","query":"公司销售动作很多，促销和回款压力很大，但品牌和客户洞察越来越弱，营销应该怎么回归？","expected_sources":["ch02/s02.md","ch02/s03.md","ch02/s06_chunk_01.md"],"notes":"销售占据舞台、营销与销售区别、营销复归","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"sales_marketing_002","topic":"sales_vs_marketing","query":"管理层总是把增长问题交给销售冲业绩，却很少讨论客户选择、价值定义和长期品牌。","expected_sources":["ch02/s05_chunk_01.md","ch02/s06_chunk_03.md","ch02/s07_chunk_01.md"],"notes":"销售至上的现实张力、战略选择、回归路径","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"opportunity_001","topic":"opportunity","query":"团队每天都在处理问题和救火，但很少寻找未来增长机会和新客户需求。","expected_sources":["ch03/s01.md","ch03/s03.md","ch03/s04.md"],"notes":"问题海洋、问题为什么占上风、注意力守门人","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"opportunity_002","topic":"opportunity","query":"公司看到很多风口就想追，但不知道哪些机会和自己的能力、长期愿景真正相关。","expected_sources":["ch03/s05_chunk_01.md","ch03/s05_chunk_02.md","ch03/s06_chunk_02.md"],"notes":"机会与机会主义、能力边界、风口中保持清醒","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"strategy_org_001","topic":"strategy_organization","query":"公司有战略口号，但部门各做各的，资源和组织结构没有真正承接战略。","expected_sources":["ch04/s02.md","ch04/s04_chunk_01.md","ch04/s05_chunk_01.md"],"notes":"组织设计偏离战略、战略决定结构知易行难、组织服务战略","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"strategy_org_002","topic":"strategy_organization","query":"跨部门协同很差，战略目标传不到日常行动，如何识别组织偏离战略的信号？","expected_sources":["ch04/s06_chunk_01.md","ch04/s06_chunk_02.md","ch04/s07.md"],"notes":"组织偏离战略的信号、企业家能做什么","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"metrics_001","topic":"metrics","query":"团队为了完成KPI牺牲客户价值，短期数据好看但客户流失和复购下降。","expected_sources":["ch05/s04_chunk_01.md","ch05/s04_chunk_03.md","ch05/s05_chunk_02.md"],"notes":"指标偏离的代价、短期指标、激励相容缺失","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"metrics_002","topic":"metrics","query":"公司指标越来越多，但大家不知道真正目标是什么，衡量体系应该怎么重新设计？","expected_sources":["ch05/s01.md","ch05/s03_chunk_01.md","ch05/s06_chunk_01.md"],"notes":"指标陷阱、目标与指标、衡量回归正途","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"self_drive_001","topic":"self_drive","query":"员工只等指令，管理层不断增加审批和过程监控，目标管理变成了目标控制。","expected_sources":["ch06/s01.md","ch06/s03_chunk_01.md","ch06/s03_chunk_02.md"],"notes":"目标管理困惑、目标控制偏离路径","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"self_drive_002","topic":"self_drive","query":"公司想减少管控、提高员工责任感和主动性，如何实现真正的自我控制？","expected_sources":["ch06/s02_chunk_01.md","ch06/s06_chunk_01.md","ch06/s06_chunk_03.md"],"notes":"目标管理与自我控制、回归之路、从控制到赋能","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"long_term_decision_001","topic":"long_term_decision","query":"公司为了季度业绩削减长期投入，担心错过未来机会，如何平衡短期生存和长期建设？","expected_sources":["ch07/s03_chunk_01.md","ch07/s03_chunk_03.md","ch07/s06_chunk_01.md"],"notes":"长期建构与短期生存、分层投资、组织能力","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"long_term_decision_002","topic":"long_term_decision","query":"决策总是依赖预测和行业报告，一旦环境变化就很被动，怎样做面向未来的清醒决策？","expected_sources":["ch07/s02_chunk_01.md","ch07/s02_chunk_03.md","ch07/s05_chunk_01.md"],"notes":"预测不是决策本质、好决策从哪里来","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"entrepreneurship_001","topic":"entrepreneurship","query":"企业家面对复杂问题时，不能只修补局部，要如何用系统思考看清因果和整体最优？","expected_sources":["ch08/s01_chunk_01.md","ch08/s01_chunk_04.md","ch08/s01_chunk_07.md"],"notes":"系统思考、整体最优、追问根本因","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"entrepreneurship_002","topic":"entrepreneurship","query":"领导者在短期压力下犹豫不决，价值观摇摆，怎样建立决策勇气和人文精神？","expected_sources":["ch08/s02_chunk_01.md","ch08/s02_chunk_03.md","ch08/s03_chunk_01.md"],"notes":"决策勇气、长期正确、人文精神","query_type":"semantic_rewrite","difficulty":"medium"},
-
-  {"id":"customer_value_003","topic":"customer_value","query":"企业存在的首要任务是什么，利润在其中应当扮演什么角色？","expected_sources":["ch01/s01.md","ch01/s02.md","ch01/s09.md"],"notes":"直接询问企业存在目的、利润与顾客价值的关系","query_type":"direct_concept","difficulty":"easy"},
-  {"id":"customer_value_004","topic":"customer_value","query":"我们不断加功能、做折扣，客户却仍然觉得麻烦没有减少；该怎样重新观察客户从购买到使用的完整过程？","expected_sources":["ch01/s07_chunk_03.md","ch01/s07_chunk_04.md","ch01/s08_chunk_02.md"],"notes":"从局部产品改良转向客户旅程与实际体验","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"customer_value_005","topic":"customer_value","query":"毛利率提升了但续约变差，研发排期也被内部效率项目占满；如何同时判断公司目的、客户价值和当期现金安全？","expected_sources":["ch01/s02.md","ch01/s06_chunk_01.md","ch01/s08_chunk_01.md"],"notes":"利润、客户价值、内部行动与现金约束的组合诊断","query_type":"multi_issue","difficulty":"hard"},
-  {"id":"customer_value_006","topic":"customer_value","query":"竞争对手降价后我们准备立刻跟进，销售说客户只看价格，但一线反馈是交付和使用成本更高；这究竟是定价问题还是价值创造出了偏差？","expected_sources":["ch01/s05_chunk_01.md","ch01/s07_chunk_02.md","ch01/s07_chunk_03.md"],"notes":"混淆价格竞争、价值原点与客户总成本","query_type":"hard_confusion","difficulty":"hard"},
-
-  {"id":"sales_marketing_003","topic":"sales_vs_marketing","query":"营销的核心职责是什么，它与销售促成交易的工作有何不同？","expected_sources":["ch02/s03.md","ch02/s04_chunk_01.md","ch02/s06_chunk_01.md"],"notes":"直接区分营销、销售与市场理解","query_type":"direct_concept","difficulty":"easy"},
-  {"id":"sales_marketing_004","topic":"sales_vs_marketing","query":"销售团队每周都在追单和催回款，客户为什么选择我们却没人说得清；应从哪些外部事实重建增长逻辑？","expected_sources":["ch02/s02.md","ch02/s06_chunk_01.md","ch02/s06_chunk_02.md"],"notes":"将销售忙碌改写为市场事实与客户理解缺失","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"sales_marketing_005","topic":"sales_vs_marketing","query":"营收目标压得很紧，品牌承诺与产品体验不一致，研发和销售各自解释客户流失；如何让市场、价值定义和跨职能行动重新对齐？","expected_sources":["ch02/s04_chunk_03.md","ch02/s06_chunk_03.md","ch02/s06_chunk_04.md"],"notes":"组合考查品牌价值、价值体系与跨职能协同","query_type":"multi_issue","difficulty":"hard"},
-  {"id":"sales_marketing_006","topic":"sales_vs_marketing","query":"销售额还在增长所以管理层认为营销有效，但客户投诉增加、品牌溢价消失；应继续加大促销，还是回到市场和客户价值？","expected_sources":["ch02/s03.md","ch02/s04_chunk_02.md","ch02/s08.md"],"notes":"混淆短期销售结果与营销有效性、品牌和客户价值","query_type":"hard_confusion","difficulty":"hard"},
-
-  {"id":"opportunity_003","topic":"opportunity","query":"为什么组织总被紧急问题牵着走，无法把注意力留给真正的机会？","expected_sources":["ch03/s01.md","ch03/s03.md","ch03/s04.md"],"notes":"直接询问问题占用注意力与机会识别","query_type":"direct_concept","difficulty":"easy"},
-  {"id":"opportunity_004","topic":"opportunity","query":"客服工单和内部故障不断增加，管理者每天只安排补救；怎样把视线从修复眼前问题转向发现尚未满足的需求？","expected_sources":["ch03/s01.md","ch03/s03.md","ch03/s04.md"],"notes":"从救火症状改写为注意力分配与机会发现","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"opportunity_005","topic":"opportunity","query":"新技术、海外市场和大客户项目同时出现，团队既缺人又缺验证时间；如何筛选机会、识别能力边界，并决定先做哪一个？","expected_sources":["ch03/s05_chunk_01.md","ch03/s05_chunk_02.md","ch03/s06_chunk_02.md"],"notes":"机会组合、能力边界和选择顺序的多问题场景","query_type":"multi_issue","difficulty":"hard"},
-  {"id":"opportunity_006","topic":"opportunity","query":"竞争者都在追某个热点，董事会要求马上跟进；如果不追就怕落后，跟进又可能偏离长期方向，如何区分机会判断和跟风？","expected_sources":["ch03/s05_chunk_01.md","ch03/s05_chunk_02.md","ch03/s06_chunk_02.md"],"notes":"混淆真实机会与机会主义、能力匹配与长期方向","query_type":"hard_confusion","difficulty":"hard"},
-
-  {"id":"strategy_org_003","topic":"strategy_organization","query":"组织结构为什么必须服务于战略，战略变化时应观察哪些结构性后果？","expected_sources":["ch04/s02.md","ch04/s04_chunk_01.md","ch04/s05_chunk_01.md"],"notes":"直接询问战略与组织设计的关系","query_type":"direct_concept","difficulty":"easy"},
-  {"id":"strategy_org_004","topic":"strategy_organization","query":"公司宣布聚焦高价值客户，但预算、汇报线和岗位职责仍按旧业务划分；这说明战略落地卡在什么地方？","expected_sources":["ch04/s02.md","ch04/s04_chunk_01.md","ch04/s05_chunk_01.md"],"notes":"把战略口号改写为资源、结构与职责不匹配","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"strategy_org_005","topic":"strategy_organization","query":"总部要求增长，区域团队追求利润，产品团队追求功能数量，会议越来越多却没有共同取舍；如何诊断决策结构、协同机制和战略执行的断点？","expected_sources":["ch04/s05_chunk_01.md","ch04/s06_chunk_01.md","ch04/s06_chunk_02.md"],"notes":"多部门目标冲突、决策结构与执行断点","query_type":"multi_issue","difficulty":"hard"},
-  {"id":"strategy_org_006","topic":"strategy_organization","query":"大家都说协同差，于是准备再建一个跨部门委员会；但真正的问题可能是组织结构不支持战略，也可能只是沟通不足，怎样区分两者？","expected_sources":["ch04/s06_chunk_01.md","ch04/s06_chunk_02.md","ch04/s07.md"],"notes":"混淆沟通症状与组织偏离战略的根因","query_type":"hard_confusion","difficulty":"hard"},
-
-  {"id":"metrics_003","topic":"metrics","query":"目标、指标和行动之间应当如何建立关系，避免把指标本身当成目标？","expected_sources":["ch05/s01.md","ch05/s03_chunk_01.md","ch05/s06_chunk_01.md"],"notes":"直接询问目标与衡量体系的基本关系","query_type":"direct_concept","difficulty":"easy"},
-  {"id":"metrics_004","topic":"metrics","query":"客服为了降低平均处理时长而草草结案，数字变漂亮了但投诉和流失上升；应该怎样重看这个指标？","expected_sources":["ch05/s04_chunk_01.md","ch05/s04_chunk_03.md","ch05/s05_chunk_02.md"],"notes":"单一短期指标诱导错误行为的语义改写","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"metrics_005","topic":"metrics","query":"管理层同时要求收入、利润、交付速度和客户留存改善，但奖金只看季度收入；如何重建衡量、激励和长期价值之间的闭环？","expected_sources":["ch05/s03_chunk_01.md","ch05/s04_chunk_03.md","ch05/s06_chunk_01.md"],"notes":"指标组合、激励设计与长期价值的联动","query_type":"multi_issue","difficulty":"hard"},
-  {"id":"metrics_006","topic":"metrics","query":"销售团队完成签约数就被评为高绩效，即使客户很快取消；问题是销售不够努力，还是衡量方式把错误行为奖励出来了？","expected_sources":["ch05/s04_chunk_01.md","ch05/s04_chunk_03.md","ch05/s05_chunk_02.md"],"notes":"混淆人员努力不足与指标和激励机制失真","query_type":"hard_confusion","difficulty":"hard"},
-
-  {"id":"self_drive_003","topic":"self_drive","query":"目标管理如何在不增加层层审批的情况下，让员工对结果负责？","expected_sources":["ch06/s01.md","ch06/s02_chunk_01.md","ch06/s06_chunk_01.md"],"notes":"直接询问目标管理、自我控制与责任的关系","query_type":"direct_concept","difficulty":"easy"},
-  {"id":"self_drive_004","topic":"self_drive","query":"主管要求每一步都先报备，员工因此不再主动判断；怎样把管理从盯过程改成支持员工自我校正？","expected_sources":["ch06/s03_chunk_01.md","ch06/s03_chunk_02.md","ch06/s06_chunk_03.md"],"notes":"从审批控制改写为自我控制与赋能","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"self_drive_005","topic":"self_drive","query":"团队目标模糊、经理频繁插手、员工害怕承担风险，结果是所有决定都上收；如何同时处理目标清晰度、授权边界和责任感？","expected_sources":["ch06/s01.md","ch06/s02_chunk_01.md","ch06/s06_chunk_01.md"],"notes":"目标、授权与责任感的组合症状","query_type":"multi_issue","difficulty":"hard"},
-  {"id":"self_drive_006","topic":"self_drive","query":"公司取消打卡和审批后效率反而下降，管理层据此认为员工需要更严密控制；这真能说明自我管理无效吗？","expected_sources":["ch06/s02_chunk_01.md","ch06/s06_chunk_01.md","ch06/s06_chunk_03.md"],"notes":"混淆放松控制与建立自我控制机制","query_type":"hard_confusion","difficulty":"hard"},
-
-  {"id":"long_term_decision_003","topic":"long_term_decision","query":"面对不确定的未来，好的长期决策依靠什么，而不是依靠什么？","expected_sources":["ch07/s02_chunk_01.md","ch07/s02_chunk_03.md","ch07/s05_chunk_01.md"],"notes":"直接询问预测、判断与未来决策的关系","query_type":"direct_concept","difficulty":"easy"},
-  {"id":"long_term_decision_004","topic":"long_term_decision","query":"财务预测显示明年需求会下降，团队因此暂停人才培养和技术积累；怎样在看不清远方时仍保留建设未来的能力？","expected_sources":["ch07/s03_chunk_01.md","ch07/s03_chunk_03.md","ch07/s06_chunk_01.md"],"notes":"从预测驱动暂停投入改写为长期能力建设","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"long_term_decision_005","topic":"long_term_decision","query":"现金流只够支持一个方向，公司要在核心业务优化、下一代产品试验和组织能力建设之间取舍；如何分层投入并兼顾今天与未来？","expected_sources":["ch07/s03_chunk_01.md","ch07/s03_chunk_03.md","ch07/s07_chunk_02.md"],"notes":"短期现金约束、探索投入与组织能力的组合决策","query_type":"multi_issue","difficulty":"hard"},
-  {"id":"long_term_decision_006","topic":"long_term_decision","query":"行业报告一致看好某赛道，团队准备重仓；但自身能力、客户价值和长期资源承诺都不清楚，应该相信预测还是先做价值判断？","expected_sources":["ch07/s02_chunk_01.md","ch07/s05_chunk_01.md","ch07/s05_chunk_02.md"],"notes":"混淆外部预测、机会热度与面向未来的判断","query_type":"hard_confusion","difficulty":"hard"},
-
-  {"id":"entrepreneurship_003","topic":"entrepreneurship","query":"系统思考在企业诊断中要解决什么问题，为什么不能只处理眼前症状？","expected_sources":["ch08/s01_chunk_01.md","ch08/s01_chunk_05.md","ch08/s01_chunk_07.md"],"notes":"直接询问系统视角、症状与根因","query_type":"direct_concept","difficulty":"easy"},
-  {"id":"entrepreneurship_004","topic":"entrepreneurship","query":"一次次优化流程却没有改善整体结果，甚至让别的部门更忙；管理者应如何看见局部改进造成的连锁反应？","expected_sources":["ch08/s01_chunk_01.md","ch08/s01_chunk_02.md","ch08/s01_chunk_04.md"],"notes":"局部优化、因果联系与整体结果的语义改写","query_type":"semantic_rewrite","difficulty":"medium"},
-  {"id":"entrepreneurship_005","topic":"entrepreneurship","query":"重大项目延期、客户流失和员工离职同时发生，负责人想分别追责；如何从系统关系、组织机制和领导行为寻找共同原因？","expected_sources":["ch08/s01_chunk_05.md","ch08/s01_chunk_07.md","ch08/s04.md"],"notes":"多个表象事件、系统根因与领导责任的组合诊断","query_type":"multi_issue","difficulty":"hard"},
-  {"id":"entrepreneurship_006","topic":"entrepreneurship","query":"事故发生后立刻加一条审批规则，短期事故减少就认为问题解决；怎样判断这是系统性改进，还是把风险转移到了别处？","expected_sources":["ch08/s01_chunk_01.md","ch08/s01_chunk_03.md","ch08/s01_chunk_07.md"],"notes":"混淆局部补丁与系统改进、表面结果与潜在后果","query_type":"hard_confusion","difficulty":"hard"}
+  {
+    "id": "customer_value_001",
+    "topic": "customer_value",
+    "query": "公司越来越关注利润和内部效率，但客户复购下降，新客户增长也变慢了，应该从哪里诊断？",
+    "notes": "企业目的、利润与顾客价值、把理念落到行动",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch01",
+        "section_id": "s02",
+        "start": 4,
+        "end": 5
+      },
+      {
+        "chapter_id": "ch01",
+        "section_id": "s06",
+        "start": 2,
+        "end": 3
+      },
+      {
+        "chapter_id": "ch01",
+        "section_id": "s08",
+        "start": 5,
+        "end": 6
+      }
+    ]
+  },
+  {
+    "id": "customer_value_002",
+    "topic": "customer_value",
+    "query": "产品功能越来越多，但客户觉得没有解决真实痛点，团队应该如何重新创造客户价值？",
+    "notes": "创造顾客的路径、价值创新、降低客户成本",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch01",
+        "section_id": "s07",
+        "start": 3,
+        "end": 4
+      },
+      {
+        "chapter_id": "ch01",
+        "section_id": "s07",
+        "start": 15,
+        "end": 16
+      },
+      {
+        "chapter_id": "ch01",
+        "section_id": "s07",
+        "start": 18,
+        "end": 19
+      }
+    ]
+  },
+  {
+    "id": "sales_marketing_001",
+    "topic": "sales_vs_marketing",
+    "query": "公司销售动作很多，促销和回款压力很大，但品牌和客户洞察越来越弱，营销应该怎么回归？",
+    "notes": "销售占据舞台、营销与销售区别、营销复归",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch02",
+        "section_id": "s02",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch02",
+        "section_id": "s03",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch02",
+        "section_id": "s06",
+        "start": 0,
+        "end": 1
+      }
+    ]
+  },
+  {
+    "id": "sales_marketing_002",
+    "topic": "sales_vs_marketing",
+    "query": "管理层总是把增长问题交给销售冲业绩，却很少讨论客户选择、价值定义和长期品牌。",
+    "notes": "销售至上的现实张力、战略选择、回归路径",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch02",
+        "section_id": "s05",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch02",
+        "section_id": "s06",
+        "start": 7,
+        "end": 8
+      },
+      {
+        "chapter_id": "ch02",
+        "section_id": "s07",
+        "start": 0,
+        "end": 1
+      }
+    ]
+  },
+  {
+    "id": "opportunity_001",
+    "topic": "opportunity",
+    "query": "团队每天都在处理问题和救火，但很少寻找未来增长机会和新客户需求。",
+    "notes": "问题海洋、问题为什么占上风、注意力守门人",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch03",
+        "section_id": "s01",
+        "start": 2,
+        "end": 3
+      },
+      {
+        "chapter_id": "ch03",
+        "section_id": "s03",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch03",
+        "section_id": "s04",
+        "start": 3,
+        "end": 4
+      }
+    ]
+  },
+  {
+    "id": "opportunity_002",
+    "topic": "opportunity",
+    "query": "公司看到很多风口就想追，但不知道哪些机会和自己的能力、长期愿景真正相关。",
+    "notes": "机会与机会主义、能力边界、风口中保持清醒",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch03",
+        "section_id": "s05",
+        "start": 3,
+        "end": 4
+      },
+      {
+        "chapter_id": "ch03",
+        "section_id": "s06",
+        "start": 4,
+        "end": 5
+      }
+    ]
+  },
+  {
+    "id": "strategy_org_001",
+    "topic": "strategy_organization",
+    "query": "公司有战略口号，但部门各做各的，资源和组织结构没有真正承接战略。",
+    "notes": "组织设计偏离战略、战略决定结构知易行难、组织服务战略",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch04",
+        "section_id": "s02",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch04",
+        "section_id": "s04",
+        "start": 4,
+        "end": 5
+      },
+      {
+        "chapter_id": "ch04",
+        "section_id": "s05",
+        "start": 6,
+        "end": 7
+      }
+    ]
+  },
+  {
+    "id": "strategy_org_002",
+    "topic": "strategy_organization",
+    "query": "跨部门协同很差，战略目标传不到日常行动，如何识别组织偏离战略的信号？",
+    "notes": "组织偏离战略的信号、企业家能做什么",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch04",
+        "section_id": "s06",
+        "start": 1,
+        "end": 2
+      },
+      {
+        "chapter_id": "ch04",
+        "section_id": "s06",
+        "start": 5,
+        "end": 6
+      },
+      {
+        "chapter_id": "ch04",
+        "section_id": "s07",
+        "start": 2,
+        "end": 3
+      }
+    ]
+  },
+  {
+    "id": "metrics_001",
+    "topic": "metrics",
+    "query": "团队为了完成KPI牺牲客户价值，短期数据好看但客户流失和复购下降。",
+    "notes": "指标偏离的代价、短期指标、激励相容缺失",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch05",
+        "section_id": "s04",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch05",
+        "section_id": "s04",
+        "start": 26,
+        "end": 27
+      },
+      {
+        "chapter_id": "ch05",
+        "section_id": "s05",
+        "start": 15,
+        "end": 16
+      }
+    ]
+  },
+  {
+    "id": "metrics_002",
+    "topic": "metrics",
+    "query": "公司指标越来越多，但大家不知道真正目标是什么，衡量体系应该怎么重新设计？",
+    "notes": "指标陷阱、目标与指标、衡量回归正途",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch05",
+        "section_id": "s01",
+        "start": 1,
+        "end": 2
+      },
+      {
+        "chapter_id": "ch05",
+        "section_id": "s03",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch05",
+        "section_id": "s06",
+        "start": 0,
+        "end": 1
+      }
+    ]
+  },
+  {
+    "id": "self_drive_001",
+    "topic": "self_drive",
+    "query": "员工只等指令，管理层不断增加审批和过程监控，目标管理变成了目标控制。",
+    "notes": "目标管理困惑、目标控制偏离路径",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch06",
+        "section_id": "s01",
+        "start": 7,
+        "end": 8
+      },
+      {
+        "chapter_id": "ch06",
+        "section_id": "s03",
+        "start": 1,
+        "end": 2
+      },
+      {
+        "chapter_id": "ch06",
+        "section_id": "s03",
+        "start": 3,
+        "end": 4
+      }
+    ]
+  },
+  {
+    "id": "self_drive_002",
+    "topic": "self_drive",
+    "query": "公司想减少管控、提高员工责任感和主动性，如何实现真正的自我控制？",
+    "notes": "目标管理与自我控制、回归之路、从控制到赋能",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch06",
+        "section_id": "s02",
+        "start": 2,
+        "end": 3
+      },
+      {
+        "chapter_id": "ch06",
+        "section_id": "s06",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch06",
+        "section_id": "s06",
+        "start": 13,
+        "end": 14
+      }
+    ]
+  },
+  {
+    "id": "long_term_decision_001",
+    "topic": "long_term_decision",
+    "query": "公司为了季度业绩削减长期投入，担心错过未来机会，如何平衡短期生存和长期建设？",
+    "notes": "长期建构与短期生存、分层投资、组织能力",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch07",
+        "section_id": "s03",
+        "start": 2,
+        "end": 3
+      },
+      {
+        "chapter_id": "ch07",
+        "section_id": "s03",
+        "start": 10,
+        "end": 11
+      },
+      {
+        "chapter_id": "ch07",
+        "section_id": "s06",
+        "start": 0,
+        "end": 1
+      }
+    ]
+  },
+  {
+    "id": "long_term_decision_002",
+    "topic": "long_term_decision",
+    "query": "决策总是依赖预测和行业报告，一旦环境变化就很被动，怎样做面向未来的清醒决策？",
+    "notes": "预测不是决策本质、好决策从哪里来",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch07",
+        "section_id": "s02",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch07",
+        "section_id": "s02",
+        "start": 10,
+        "end": 11
+      },
+      {
+        "chapter_id": "ch07",
+        "section_id": "s05",
+        "start": 0,
+        "end": 1
+      }
+    ]
+  },
+  {
+    "id": "entrepreneurship_001",
+    "topic": "entrepreneurship",
+    "query": "企业家面对复杂问题时，不能只修补局部，要如何用系统思考看清因果和整体最优？",
+    "notes": "系统思考、整体最优、追问根本因",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch08",
+        "section_id": "s01",
+        "start": 7,
+        "end": 8
+      },
+      {
+        "chapter_id": "ch08",
+        "section_id": "s01",
+        "start": 13,
+        "end": 14
+      },
+      {
+        "chapter_id": "ch08",
+        "section_id": "s01",
+        "start": 27,
+        "end": 28
+      }
+    ]
+  },
+  {
+    "id": "entrepreneurship_002",
+    "topic": "entrepreneurship",
+    "query": "领导者在短期压力下犹豫不决，价值观摇摆，怎样建立决策勇气和人文精神？",
+    "notes": "决策勇气、长期正确、人文精神",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch08",
+        "section_id": "s02",
+        "start": 5,
+        "end": 6
+      },
+      {
+        "chapter_id": "ch08",
+        "section_id": "s02",
+        "start": 12,
+        "end": 13
+      },
+      {
+        "chapter_id": "ch08",
+        "section_id": "s03",
+        "start": 7,
+        "end": 8
+      }
+    ]
+  },
+  {
+    "id": "customer_value_003",
+    "topic": "customer_value",
+    "query": "企业存在的首要任务是什么，利润在其中应当扮演什么角色？",
+    "notes": "直接询问企业存在目的、利润与顾客价值的关系",
+    "query_type": "direct_concept",
+    "difficulty": "easy",
+    "expected_sources": [
+      {
+        "chapter_id": "ch01",
+        "section_id": "s01",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch01",
+        "section_id": "s02",
+        "start": 3,
+        "end": 4
+      },
+      {
+        "chapter_id": "ch01",
+        "section_id": "s09",
+        "start": 0,
+        "end": 1
+      }
+    ]
+  },
+  {
+    "id": "customer_value_004",
+    "topic": "customer_value",
+    "query": "我们不断加功能、做折扣，客户却仍然觉得麻烦没有减少；该怎样重新观察客户从购买到使用的完整过程？",
+    "notes": "从局部产品改良转向客户旅程与实际体验",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch01",
+        "section_id": "s07",
+        "start": 15,
+        "end": 16
+      },
+      {
+        "chapter_id": "ch01",
+        "section_id": "s07",
+        "start": 16,
+        "end": 17
+      },
+      {
+        "chapter_id": "ch01",
+        "section_id": "s08",
+        "start": 12,
+        "end": 13
+      }
+    ]
+  },
+  {
+    "id": "customer_value_005",
+    "topic": "customer_value",
+    "query": "毛利率提升了但续约变差，研发排期也被内部效率项目占满；如何同时判断公司目的、客户价值和当期现金安全？",
+    "notes": "利润、客户价值、内部行动与现金约束的组合诊断",
+    "query_type": "multi_issue",
+    "difficulty": "hard",
+    "expected_sources": [
+      {
+        "chapter_id": "ch01",
+        "section_id": "s02",
+        "start": 3,
+        "end": 4
+      },
+      {
+        "chapter_id": "ch01",
+        "section_id": "s06",
+        "start": 2,
+        "end": 3
+      },
+      {
+        "chapter_id": "ch01",
+        "section_id": "s08",
+        "start": 5,
+        "end": 6
+      }
+    ]
+  },
+  {
+    "id": "customer_value_006",
+    "topic": "customer_value",
+    "query": "竞争对手降价后我们准备立刻跟进，销售说客户只看价格，但一线反馈是交付和使用成本更高；这究竟是定价问题还是价值创造出了偏差？",
+    "notes": "混淆价格竞争、价值原点与客户总成本",
+    "query_type": "hard_confusion",
+    "difficulty": "hard",
+    "expected_sources": [
+      {
+        "chapter_id": "ch01",
+        "section_id": "s05",
+        "start": 7,
+        "end": 8
+      },
+      {
+        "chapter_id": "ch01",
+        "section_id": "s07",
+        "start": 8,
+        "end": 9
+      },
+      {
+        "chapter_id": "ch01",
+        "section_id": "s07",
+        "start": 10,
+        "end": 11
+      }
+    ]
+  },
+  {
+    "id": "sales_marketing_003",
+    "topic": "sales_vs_marketing",
+    "query": "营销的核心职责是什么，它与销售促成交易的工作有何不同？",
+    "notes": "直接区分营销、销售与市场理解",
+    "query_type": "direct_concept",
+    "difficulty": "easy",
+    "expected_sources": [
+      {
+        "chapter_id": "ch02",
+        "section_id": "s03",
+        "start": 1,
+        "end": 2
+      },
+      {
+        "chapter_id": "ch02",
+        "section_id": "s04",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch02",
+        "section_id": "s06",
+        "start": 0,
+        "end": 1
+      }
+    ]
+  },
+  {
+    "id": "sales_marketing_004",
+    "topic": "sales_vs_marketing",
+    "query": "销售团队每周都在追单和催回款，客户为什么选择我们却没人说得清；应从哪些外部事实重建增长逻辑？",
+    "notes": "将销售忙碌改写为市场事实与客户理解缺失",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch02",
+        "section_id": "s02",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch02",
+        "section_id": "s06",
+        "start": 2,
+        "end": 3
+      },
+      {
+        "chapter_id": "ch02",
+        "section_id": "s06",
+        "start": 4,
+        "end": 5
+      }
+    ]
+  },
+  {
+    "id": "sales_marketing_005",
+    "topic": "sales_vs_marketing",
+    "query": "营收目标压得很紧，品牌承诺与产品体验不一致，研发和销售各自解释客户流失；如何让市场、价值定义和跨职能行动重新对齐？",
+    "notes": "组合考查品牌价值、价值体系与跨职能协同",
+    "query_type": "multi_issue",
+    "difficulty": "hard",
+    "expected_sources": [
+      {
+        "chapter_id": "ch02",
+        "section_id": "s04",
+        "start": 15,
+        "end": 16
+      },
+      {
+        "chapter_id": "ch02",
+        "section_id": "s06",
+        "start": 9,
+        "end": 10
+      }
+    ]
+  },
+  {
+    "id": "sales_marketing_006",
+    "topic": "sales_vs_marketing",
+    "query": "销售额还在增长所以管理层认为营销有效，但客户投诉增加、品牌溢价消失；应继续加大促销，还是回到市场和客户价值？",
+    "notes": "混淆短期销售结果与营销有效性、品牌和客户价值",
+    "query_type": "hard_confusion",
+    "difficulty": "hard",
+    "expected_sources": [
+      {
+        "chapter_id": "ch02",
+        "section_id": "s03",
+        "start": 5,
+        "end": 6
+      },
+      {
+        "chapter_id": "ch02",
+        "section_id": "s04",
+        "start": 10,
+        "end": 11
+      },
+      {
+        "chapter_id": "ch02",
+        "section_id": "s08",
+        "start": 2,
+        "end": 3
+      }
+    ]
+  },
+  {
+    "id": "opportunity_003",
+    "topic": "opportunity",
+    "query": "为什么组织总被紧急问题牵着走，无法把注意力留给真正的机会？",
+    "notes": "直接询问问题占用注意力与机会识别",
+    "query_type": "direct_concept",
+    "difficulty": "easy",
+    "expected_sources": [
+      {
+        "chapter_id": "ch03",
+        "section_id": "s01",
+        "start": 3,
+        "end": 4
+      },
+      {
+        "chapter_id": "ch03",
+        "section_id": "s03",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch03",
+        "section_id": "s04",
+        "start": 0,
+        "end": 1
+      }
+    ]
+  },
+  {
+    "id": "opportunity_004",
+    "topic": "opportunity",
+    "query": "客服工单和内部故障不断增加，管理者每天只安排补救；怎样把视线从修复眼前问题转向发现尚未满足的需求？",
+    "notes": "从救火症状改写为注意力分配与机会发现",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch03",
+        "section_id": "s01",
+        "start": 2,
+        "end": 3
+      },
+      {
+        "chapter_id": "ch03",
+        "section_id": "s03",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch03",
+        "section_id": "s04",
+        "start": 3,
+        "end": 4
+      }
+    ]
+  },
+  {
+    "id": "opportunity_005",
+    "topic": "opportunity",
+    "query": "新技术、海外市场和大客户项目同时出现，团队既缺人又缺验证时间；如何筛选机会、识别能力边界，并决定先做哪一个？",
+    "notes": "机会组合、能力边界和选择顺序的多问题场景",
+    "query_type": "multi_issue",
+    "difficulty": "hard",
+    "expected_sources": [
+      {
+        "chapter_id": "ch03",
+        "section_id": "s05",
+        "start": 1,
+        "end": 2
+      },
+      {
+        "chapter_id": "ch03",
+        "section_id": "s05",
+        "start": 5,
+        "end": 6
+      },
+      {
+        "chapter_id": "ch03",
+        "section_id": "s06",
+        "start": 4,
+        "end": 5
+      }
+    ]
+  },
+  {
+    "id": "opportunity_006",
+    "topic": "opportunity",
+    "query": "竞争者都在追某个热点，董事会要求马上跟进；如果不追就怕落后，跟进又可能偏离长期方向，如何区分机会判断和跟风？",
+    "notes": "混淆真实机会与机会主义、能力匹配与长期方向",
+    "query_type": "hard_confusion",
+    "difficulty": "hard",
+    "expected_sources": [
+      {
+        "chapter_id": "ch03",
+        "section_id": "s05",
+        "start": 3,
+        "end": 4
+      },
+      {
+        "chapter_id": "ch03",
+        "section_id": "s06",
+        "start": 4,
+        "end": 5
+      }
+    ]
+  },
+  {
+    "id": "strategy_org_003",
+    "topic": "strategy_organization",
+    "query": "组织结构为什么必须服务于战略，战略变化时应观察哪些结构性后果？",
+    "notes": "直接询问战略与组织设计的关系",
+    "query_type": "direct_concept",
+    "difficulty": "easy",
+    "expected_sources": [
+      {
+        "chapter_id": "ch04",
+        "section_id": "s02",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch04",
+        "section_id": "s04",
+        "start": 4,
+        "end": 5
+      },
+      {
+        "chapter_id": "ch04",
+        "section_id": "s05",
+        "start": 6,
+        "end": 7
+      }
+    ]
+  },
+  {
+    "id": "strategy_org_004",
+    "topic": "strategy_organization",
+    "query": "公司宣布聚焦高价值客户，但预算、汇报线和岗位职责仍按旧业务划分；这说明战略落地卡在什么地方？",
+    "notes": "把战略口号改写为资源、结构与职责不匹配",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch04",
+        "section_id": "s02",
+        "start": 3,
+        "end": 4
+      },
+      {
+        "chapter_id": "ch04",
+        "section_id": "s04",
+        "start": 1,
+        "end": 2
+      },
+      {
+        "chapter_id": "ch04",
+        "section_id": "s05",
+        "start": 6,
+        "end": 7
+      }
+    ]
+  },
+  {
+    "id": "strategy_org_005",
+    "topic": "strategy_organization",
+    "query": "总部要求增长，区域团队追求利润，产品团队追求功能数量，会议越来越多却没有共同取舍；如何诊断决策结构、协同机制和战略执行的断点？",
+    "notes": "多部门目标冲突、决策结构与执行断点",
+    "query_type": "multi_issue",
+    "difficulty": "hard",
+    "expected_sources": [
+      {
+        "chapter_id": "ch04",
+        "section_id": "s05",
+        "start": 6,
+        "end": 7
+      },
+      {
+        "chapter_id": "ch04",
+        "section_id": "s06",
+        "start": 2,
+        "end": 3
+      },
+      {
+        "chapter_id": "ch04",
+        "section_id": "s06",
+        "start": 3,
+        "end": 4
+      }
+    ]
+  },
+  {
+    "id": "strategy_org_006",
+    "topic": "strategy_organization",
+    "query": "大家都说协同差，于是准备再建一个跨部门委员会；但真正的问题可能是组织结构不支持战略，也可能只是沟通不足，怎样区分两者？",
+    "notes": "混淆沟通症状与组织偏离战略的根因",
+    "query_type": "hard_confusion",
+    "difficulty": "hard",
+    "expected_sources": [
+      {
+        "chapter_id": "ch04",
+        "section_id": "s06",
+        "start": 1,
+        "end": 2
+      },
+      {
+        "chapter_id": "ch04",
+        "section_id": "s06",
+        "start": 3,
+        "end": 4
+      },
+      {
+        "chapter_id": "ch04",
+        "section_id": "s07",
+        "start": 4,
+        "end": 5
+      }
+    ]
+  },
+  {
+    "id": "metrics_003",
+    "topic": "metrics",
+    "query": "目标、指标和行动之间应当如何建立关系，避免把指标本身当成目标？",
+    "notes": "直接询问目标与衡量体系的基本关系",
+    "query_type": "direct_concept",
+    "difficulty": "easy",
+    "expected_sources": [
+      {
+        "chapter_id": "ch05",
+        "section_id": "s01",
+        "start": 3,
+        "end": 4
+      },
+      {
+        "chapter_id": "ch05",
+        "section_id": "s03",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch05",
+        "section_id": "s06",
+        "start": 12,
+        "end": 13
+      }
+    ]
+  },
+  {
+    "id": "metrics_004",
+    "topic": "metrics",
+    "query": "客服为了降低平均处理时长而草草结案，数字变漂亮了但投诉和流失上升；应该怎样重看这个指标？",
+    "notes": "单一短期指标诱导错误行为的语义改写",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch05",
+        "section_id": "s04",
+        "start": 11,
+        "end": 12
+      },
+      {
+        "chapter_id": "ch05",
+        "section_id": "s04",
+        "start": 26,
+        "end": 27
+      },
+      {
+        "chapter_id": "ch05",
+        "section_id": "s05",
+        "start": 18,
+        "end": 19
+      }
+    ]
+  },
+  {
+    "id": "metrics_005",
+    "topic": "metrics",
+    "query": "管理层同时要求收入、利润、交付速度和客户留存改善，但奖金只看季度收入；如何重建衡量、激励和长期价值之间的闭环？",
+    "notes": "指标组合、激励设计与长期价值的联动",
+    "query_type": "multi_issue",
+    "difficulty": "hard",
+    "expected_sources": [
+      {
+        "chapter_id": "ch05",
+        "section_id": "s03",
+        "start": 5,
+        "end": 6
+      },
+      {
+        "chapter_id": "ch05",
+        "section_id": "s04",
+        "start": 26,
+        "end": 27
+      },
+      {
+        "chapter_id": "ch05",
+        "section_id": "s06",
+        "start": 1,
+        "end": 2
+      }
+    ]
+  },
+  {
+    "id": "metrics_006",
+    "topic": "metrics",
+    "query": "销售团队完成签约数就被评为高绩效，即使客户很快取消；问题是销售不够努力，还是衡量方式把错误行为奖励出来了？",
+    "notes": "混淆人员努力不足与指标和激励机制失真",
+    "query_type": "hard_confusion",
+    "difficulty": "hard",
+    "expected_sources": [
+      {
+        "chapter_id": "ch05",
+        "section_id": "s04",
+        "start": 2,
+        "end": 3
+      },
+      {
+        "chapter_id": "ch05",
+        "section_id": "s04",
+        "start": 36,
+        "end": 37
+      },
+      {
+        "chapter_id": "ch05",
+        "section_id": "s05",
+        "start": 14,
+        "end": 15
+      }
+    ]
+  },
+  {
+    "id": "self_drive_003",
+    "topic": "self_drive",
+    "query": "目标管理如何在不增加层层审批的情况下，让员工对结果负责？",
+    "notes": "直接询问目标管理、自我控制与责任的关系",
+    "query_type": "direct_concept",
+    "difficulty": "easy",
+    "expected_sources": [
+      {
+        "chapter_id": "ch06",
+        "section_id": "s01",
+        "start": 1,
+        "end": 2
+      },
+      {
+        "chapter_id": "ch06",
+        "section_id": "s02",
+        "start": 1,
+        "end": 2
+      },
+      {
+        "chapter_id": "ch06",
+        "section_id": "s06",
+        "start": 4,
+        "end": 5
+      }
+    ]
+  },
+  {
+    "id": "self_drive_004",
+    "topic": "self_drive",
+    "query": "主管要求每一步都先报备，员工因此不再主动判断；怎样把管理从盯过程改成支持员工自我校正？",
+    "notes": "从审批控制改写为自我控制与赋能",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch06",
+        "section_id": "s03",
+        "start": 2,
+        "end": 3
+      },
+      {
+        "chapter_id": "ch06",
+        "section_id": "s03",
+        "start": 3,
+        "end": 4
+      },
+      {
+        "chapter_id": "ch06",
+        "section_id": "s06",
+        "start": 15,
+        "end": 16
+      }
+    ]
+  },
+  {
+    "id": "self_drive_005",
+    "topic": "self_drive",
+    "query": "团队目标模糊、经理频繁插手、员工害怕承担风险，结果是所有决定都上收；如何同时处理目标清晰度、授权边界和责任感？",
+    "notes": "目标、授权与责任感的组合症状",
+    "query_type": "multi_issue",
+    "difficulty": "hard",
+    "expected_sources": [
+      {
+        "chapter_id": "ch06",
+        "section_id": "s01",
+        "start": 1,
+        "end": 2
+      },
+      {
+        "chapter_id": "ch06",
+        "section_id": "s02",
+        "start": 1,
+        "end": 2
+      },
+      {
+        "chapter_id": "ch06",
+        "section_id": "s06",
+        "start": 4,
+        "end": 5
+      }
+    ]
+  },
+  {
+    "id": "self_drive_006",
+    "topic": "self_drive",
+    "query": "公司取消打卡和审批后效率反而下降，管理层据此认为员工需要更严密控制；这真能说明自我管理无效吗？",
+    "notes": "混淆放松控制与建立自我控制机制",
+    "query_type": "hard_confusion",
+    "difficulty": "hard",
+    "expected_sources": [
+      {
+        "chapter_id": "ch06",
+        "section_id": "s02",
+        "start": 2,
+        "end": 3
+      },
+      {
+        "chapter_id": "ch06",
+        "section_id": "s06",
+        "start": 4,
+        "end": 5
+      },
+      {
+        "chapter_id": "ch06",
+        "section_id": "s06",
+        "start": 14,
+        "end": 15
+      }
+    ]
+  },
+  {
+    "id": "long_term_decision_003",
+    "topic": "long_term_decision",
+    "query": "面对不确定的未来，好的长期决策依靠什么，而不是依靠什么？",
+    "notes": "直接询问预测、判断与未来决策的关系",
+    "query_type": "direct_concept",
+    "difficulty": "easy",
+    "expected_sources": [
+      {
+        "chapter_id": "ch07",
+        "section_id": "s02",
+        "start": 2,
+        "end": 3
+      },
+      {
+        "chapter_id": "ch07",
+        "section_id": "s02",
+        "start": 8,
+        "end": 9
+      },
+      {
+        "chapter_id": "ch07",
+        "section_id": "s05",
+        "start": 2,
+        "end": 3
+      }
+    ]
+  },
+  {
+    "id": "long_term_decision_004",
+    "topic": "long_term_decision",
+    "query": "财务预测显示明年需求会下降，团队因此暂停人才培养和技术积累；怎样在看不清远方时仍保留建设未来的能力？",
+    "notes": "从预测驱动暂停投入改写为长期能力建设",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch07",
+        "section_id": "s03",
+        "start": 2,
+        "end": 3
+      },
+      {
+        "chapter_id": "ch07",
+        "section_id": "s03",
+        "start": 11,
+        "end": 12
+      },
+      {
+        "chapter_id": "ch07",
+        "section_id": "s06",
+        "start": 0,
+        "end": 1
+      }
+    ]
+  },
+  {
+    "id": "long_term_decision_005",
+    "topic": "long_term_decision",
+    "query": "现金流只够支持一个方向，公司要在核心业务优化、下一代产品试验和组织能力建设之间取舍；如何分层投入并兼顾今天与未来？",
+    "notes": "短期现金约束、探索投入与组织能力的组合决策",
+    "query_type": "multi_issue",
+    "difficulty": "hard",
+    "expected_sources": [
+      {
+        "chapter_id": "ch07",
+        "section_id": "s03",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch07",
+        "section_id": "s03",
+        "start": 11,
+        "end": 12
+      },
+      {
+        "chapter_id": "ch07",
+        "section_id": "s07",
+        "start": 6,
+        "end": 7
+      }
+    ]
+  },
+  {
+    "id": "long_term_decision_006",
+    "topic": "long_term_decision",
+    "query": "行业报告一致看好某赛道，团队准备重仓；但自身能力、客户价值和长期资源承诺都不清楚，应该相信预测还是先做价值判断？",
+    "notes": "混淆外部预测、机会热度与面向未来的判断",
+    "query_type": "hard_confusion",
+    "difficulty": "hard",
+    "expected_sources": [
+      {
+        "chapter_id": "ch07",
+        "section_id": "s02",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch07",
+        "section_id": "s05",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "chapter_id": "ch07",
+        "section_id": "s05",
+        "start": 3,
+        "end": 4
+      }
+    ]
+  },
+  {
+    "id": "entrepreneurship_003",
+    "topic": "entrepreneurship",
+    "query": "系统思考在企业诊断中要解决什么问题，为什么不能只处理眼前症状？",
+    "notes": "直接询问系统视角、症状与根因",
+    "query_type": "direct_concept",
+    "difficulty": "easy",
+    "expected_sources": [
+      {
+        "chapter_id": "ch08",
+        "section_id": "s01",
+        "start": 7,
+        "end": 8
+      },
+      {
+        "chapter_id": "ch08",
+        "section_id": "s01",
+        "start": 20,
+        "end": 21
+      },
+      {
+        "chapter_id": "ch08",
+        "section_id": "s01",
+        "start": 27,
+        "end": 28
+      }
+    ]
+  },
+  {
+    "id": "entrepreneurship_004",
+    "topic": "entrepreneurship",
+    "query": "一次次优化流程却没有改善整体结果，甚至让别的部门更忙；管理者应如何看见局部改进造成的连锁反应？",
+    "notes": "局部优化、因果联系与整体结果的语义改写",
+    "query_type": "semantic_rewrite",
+    "difficulty": "medium",
+    "expected_sources": [
+      {
+        "chapter_id": "ch08",
+        "section_id": "s01",
+        "start": 2,
+        "end": 3
+      },
+      {
+        "chapter_id": "ch08",
+        "section_id": "s01",
+        "start": 10,
+        "end": 11
+      },
+      {
+        "chapter_id": "ch08",
+        "section_id": "s01",
+        "start": 14,
+        "end": 15
+      }
+    ]
+  },
+  {
+    "id": "entrepreneurship_005",
+    "topic": "entrepreneurship",
+    "query": "重大项目延期、客户流失和员工离职同时发生，负责人想分别追责；如何从系统关系、组织机制和领导行为寻找共同原因？",
+    "notes": "多个表象事件、系统根因与领导责任的组合诊断",
+    "query_type": "multi_issue",
+    "difficulty": "hard",
+    "expected_sources": [
+      {
+        "chapter_id": "ch08",
+        "section_id": "s01",
+        "start": 19,
+        "end": 20
+      },
+      {
+        "chapter_id": "ch08",
+        "section_id": "s01",
+        "start": 27,
+        "end": 28
+      },
+      {
+        "chapter_id": "ch08",
+        "section_id": "s04",
+        "start": 1,
+        "end": 2
+      }
+    ]
+  },
+  {
+    "id": "entrepreneurship_006",
+    "topic": "entrepreneurship",
+    "query": "事故发生后立刻加一条审批规则，短期事故减少就认为问题解决；怎样判断这是系统性改进，还是把风险转移到了别处？",
+    "notes": "混淆局部补丁与系统改进、表面结果与潜在后果",
+    "query_type": "hard_confusion",
+    "difficulty": "hard",
+    "expected_sources": [
+      {
+        "chapter_id": "ch08",
+        "section_id": "s01",
+        "start": 4,
+        "end": 5
+      },
+      {
+        "chapter_id": "ch08",
+        "section_id": "s01",
+        "start": 12,
+        "end": 13
+      },
+      {
+        "chapter_id": "ch08",
+        "section_id": "s01",
+        "start": 27,
+        "end": 28
+      }
+    ]
+  }
 ]

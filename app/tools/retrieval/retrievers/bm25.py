@@ -1,20 +1,17 @@
 from __future__ import annotations
 
-import json
 import math
 import re
 from collections import Counter
-from dataclasses import asdict
 from functools import lru_cache
-from pathlib import Path
 from typing import Any
 
-from app.tools.retrieval.knowledge_loader import PRIVATE_KNOWLEDGE_DIR, iter_markdown_files, load_chunks_from_path
+from app.tools.ingestion.repositories import FilesystemArtifactRepository
+from app.core.config import PRIVATE_KNOWLEDGE_DIR
 from app.tools.retrieval.schemas import RetrievedChunk
 
 
 EXCLUDED_SOURCES = {"99_private_test.md"}
-PRIVATE_INDEX_PATH = PRIVATE_KNOWLEDGE_DIR / "_index.json"
 SEMANTIC_METADATA_PATH = PRIVATE_KNOWLEDGE_DIR / "semantic_metadata.jsonl"
 BM25_METADATA_MODES = {"base", "unweighted", "weighted"}
 PRODUCTION_BM25_METADATA_MODE = "unweighted"
@@ -86,37 +83,22 @@ SEMANTIC_METADATA_FIELD_WEIGHTS = {
 }
 
 
-@lru_cache(maxsize=1)
-def get_cached_chunks() -> tuple:
-    chunks = []
-    if PRIVATE_KNOWLEDGE_DIR.exists():
-        for path in iter_markdown_files(
-            PRIVATE_KNOWLEDGE_DIR,
-            recursive=True,
-            skipped_top_level_dirs={"ch00"},
-        ):
-            chunks.extend(load_chunks_from_path(path, PRIVATE_KNOWLEDGE_DIR))
-
-    return tuple(
-        chunk
-        for chunk in chunks
-        if chunk.source not in EXCLUDED_SOURCES
-    )
+@lru_cache(maxsize=8)
+def get_cached_chunks(corpus_dir: Path = PRIVATE_KNOWLEDGE_DIR) -> tuple:
+    chunks = FilesystemArtifactRepository(corpus_dir).load_chunks()
+    return tuple({
+        "source": chunk.source,
+        "title": chunk.title,
+        "content": chunk.content,
+        "chapter_title": chunk.chapter_title,
+        "section_title": chunk.section_title,
+        "chunk_index": chunk.chunk_index,
+        "chunk_count": chunk.chunk_count,
+    } for chunk in chunks if chunk.source not in EXCLUDED_SOURCES)
 
 
 def normalize_text(text: str) -> str:
     return text.lower().strip()
-
-
-def read_jsonl(path: Path) -> list[dict[str, Any]]:
-    records: list[dict[str, Any]] = []
-    for line in path.read_text(encoding="utf-8").splitlines():
-        if not line.strip():
-            continue
-        item = json.loads(line)
-        if isinstance(item, dict):
-            records.append(item)
-    return records
 
 
 def nested_value(item: dict[str, Any], path: tuple[str, ...]) -> Any:
@@ -156,12 +138,9 @@ def semantic_metadata_to_search_text(
     return "\n".join(parts)
 
 
-@lru_cache(maxsize=1)
-def load_source_id_to_path() -> dict[str, str]:
-    if not PRIVATE_INDEX_PATH.exists():
-        return {}
-
-    records = json.loads(PRIVATE_INDEX_PATH.read_text(encoding="utf-8"))
+@lru_cache(maxsize=8)
+def load_source_id_to_path(corpus_dir: Path = PRIVATE_KNOWLEDGE_DIR) -> dict[str, str]:
+    records = FilesystemArtifactRepository(corpus_dir).load_source_metadata()
     if not isinstance(records, list):
         return {}
 
@@ -176,14 +155,12 @@ def load_source_id_to_path() -> dict[str, str]:
     return mapping
 
 
-@lru_cache(maxsize=1)
-def load_semantic_metadata_by_source() -> dict[str, str]:
-    if not SEMANTIC_METADATA_PATH.exists():
-        return {}
-
-    source_id_to_path = load_source_id_to_path()
+@lru_cache(maxsize=8)
+def load_semantic_metadata_by_source(corpus_dir: Path = PRIVATE_KNOWLEDGE_DIR) -> dict[str, str]:
+    artifacts = FilesystemArtifactRepository(corpus_dir)
+    source_id_to_path = load_source_id_to_path(corpus_dir)
     metadata_by_source: dict[str, str] = {}
-    for record in read_jsonl(SEMANTIC_METADATA_PATH):
+    for record in artifacts.load_semantic_metadata():
         source_id = record.get("source_id")
         if not isinstance(source_id, str):
             continue
@@ -196,14 +173,12 @@ def load_semantic_metadata_by_source() -> dict[str, str]:
     return metadata_by_source
 
 
-@lru_cache(maxsize=1)
-def load_semantic_metadata_by_source_unweighted() -> dict[str, str]:
-    if not SEMANTIC_METADATA_PATH.exists():
-        return {}
-
-    source_id_to_path = load_source_id_to_path()
+@lru_cache(maxsize=8)
+def load_semantic_metadata_by_source_unweighted(corpus_dir: Path = PRIVATE_KNOWLEDGE_DIR) -> dict[str, str]:
+    artifacts = FilesystemArtifactRepository(corpus_dir)
+    source_id_to_path = load_source_id_to_path(corpus_dir)
     metadata_by_source: dict[str, str] = {}
-    for record in read_jsonl(SEMANTIC_METADATA_PATH):
+    for record in artifacts.load_semantic_metadata():
         source_id = record.get("source_id")
         if not isinstance(source_id, str):
             continue
@@ -217,12 +192,13 @@ def load_semantic_metadata_by_source_unweighted() -> dict[str, str]:
 
 
 def build_bm25_document_text(chunk: Any, semantic_text: str = "") -> str:
+    get = chunk.get if isinstance(chunk, dict) else lambda key: getattr(chunk, key, None)
     parts = [
-        chunk.chapter_title,
-        chunk.section_title,
-        chunk.title,
-        chunk.title,
-        chunk.content,
+        get("chapter_title"),
+        get("section_title"),
+        get("title"),
+        get("title"),
+        get("content"),
         semantic_text,
     ]
     return "\n".join(str(part).strip() for part in parts if part)
@@ -301,26 +277,28 @@ def score_chunk(query: str, chunk_text: str) -> float:
 @lru_cache(maxsize=3)
 def get_cached_bm25_index(
     metadata_mode: str = PRODUCTION_BM25_METADATA_MODE,
+    *,
+    corpus_dir: Path = PRIVATE_KNOWLEDGE_DIR,
 ) -> dict[str, Any]:
     if metadata_mode not in BM25_METADATA_MODES:
         raise ValueError(
             f"Unsupported BM25 metadata mode: {metadata_mode!r}. "
             f"Expected one of {sorted(BM25_METADATA_MODES)}."
         )
-    chunks = get_cached_chunks()
+    chunks = get_cached_chunks(corpus_dir)
     if metadata_mode == "base":
         semantic_metadata_by_source: dict[str, str] = {}
     elif metadata_mode == "unweighted":
-        semantic_metadata_by_source = load_semantic_metadata_by_source_unweighted()
+        semantic_metadata_by_source = load_semantic_metadata_by_source_unweighted(corpus_dir)
     else:
-        semantic_metadata_by_source = load_semantic_metadata_by_source()
+        semantic_metadata_by_source = load_semantic_metadata_by_source(corpus_dir)
     documents = []
     document_frequency: Counter[str] = Counter()
 
     for chunk in chunks:
         combined_text = build_bm25_document_text(
             chunk,
-            semantic_metadata_by_source.get(chunk.source, ""),
+            semantic_metadata_by_source.get(chunk.get("source", ""), ""),
         )
         term_frequencies = Counter(tokenize_for_bm25(combined_text))
         documents.append(
@@ -398,8 +376,10 @@ def retrieve_by_keyword(
     query: str,
     top_k: int = 5,
     metadata_mode: str = PRODUCTION_BM25_METADATA_MODE,
+    *,
+    corpus_dir: Path = PRIVATE_KNOWLEDGE_DIR,
 ) -> list[RetrievedChunk]:
-    index = get_cached_bm25_index(metadata_mode)
+    index = get_cached_bm25_index(metadata_mode, corpus_dir=corpus_dir)
     query_terms = tokenize_for_bm25(query)
     scored_chunks: list[RetrievedChunk] = []
 
@@ -415,7 +395,7 @@ def retrieve_by_keyword(
         )
 
         if score > 0:
-            chunk_dict = asdict(chunk)
+            chunk_dict = dict(chunk)
             chunk_dict["score"] = score
             chunk_dict["keyword_score"] = score
             chunk_dict["bm25_score"] = score
@@ -434,6 +414,8 @@ def retrieve_by_bm25(
     query: str,
     top_k: int = 5,
     metadata_mode: str = PRODUCTION_BM25_METADATA_MODE,
+    *,
+    corpus_dir: Path = PRIVATE_KNOWLEDGE_DIR,
 ) -> list[RetrievedChunk]:
     """Named BM25 entry point; metadata behavior is controlled by a parameter."""
-    return retrieve_by_keyword(query, top_k=top_k, metadata_mode=metadata_mode)
+    return retrieve_by_keyword(query, top_k=top_k, metadata_mode=metadata_mode, corpus_dir=corpus_dir)

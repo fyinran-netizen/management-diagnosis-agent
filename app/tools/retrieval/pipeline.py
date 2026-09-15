@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+from pathlib import Path
 
 from app.tools.retrieval.rerankers.bge_reranker import score_candidates
 from app.tools.retrieval.retrievers.hybrid_linear import hybrid_retrieve
@@ -18,6 +19,9 @@ def retrieve_pipeline(
     hybrid_candidate_k: int | None = None,
     final_k: int = 5,
     source_retrieval_k: int | None = None,
+    corpus_dir: Path | None = None,
+    embedding_index_dir: Path | None = None,
+    bm25_metadata_mode: str | None = None,
 ) -> list[RetrievedChunk]:
     """Retrieve chunks using hybrid retrieval, optionally followed by reranking."""
     if mode not in {"hybrid", "hybrid_rerank"}:
@@ -30,6 +34,9 @@ def retrieve_pipeline(
             query=query,
             hybrid_top_k=final_k,
             source_retrieval_k=source_retrieval_k,
+            corpus_dir=corpus_dir,
+            embedding_index_dir=embedding_index_dir,
+            bm25_metadata_mode=bm25_metadata_mode,
         )
 
     candidate_k = (
@@ -41,6 +48,9 @@ def retrieve_pipeline(
         query=query,
         hybrid_top_k=candidate_k,
         source_retrieval_k=source_retrieval_k,
+        corpus_dir=corpus_dir,
+        embedding_index_dir=embedding_index_dir,
+        bm25_metadata_mode=bm25_metadata_mode,
     )
 
     scored_candidates = score_candidates(

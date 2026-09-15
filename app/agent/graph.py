@@ -6,6 +6,7 @@ from app.agent.checkpoints import checkpoint_saver
 from app.agent.constants import MAX_REVISIONS
 from app.agent.nodes import (
     generation_node,
+    ingestion_node,
     persistence_node,
     retrieval_node,
     understanding_node,
@@ -39,12 +40,14 @@ def after_validation(state: AgentState) -> str:
 workflow = StateGraph(AgentState)
 
 workflow.add_node("understanding", understanding_node)
+workflow.add_node("ingestion", ingestion_node)
 workflow.add_node("retrieval", retrieval_node)
 workflow.add_node("generation", generation_node)
 workflow.add_node("validation", validation_node)
 workflow.add_node("persistence", persistence_node)
 
-workflow.add_edge(START, "understanding")
+workflow.add_edge(START, "ingestion")
+workflow.add_edge("ingestion", "understanding")
 
 workflow.add_conditional_edges(
     "understanding",
