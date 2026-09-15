@@ -1,6 +1,6 @@
 {
   "schema_version": "generation_deepeval_evaluation_v1",
-  "timestamp_utc": "2026-09-15T05:05:17Z",
+  "timestamp_utc": "2026-09-15T05:25:50Z",
   "input_path": "D:\\management_diagnosis_agent\\evaluation\\generation\\generation_benchmark.json",
   "case_count": 1,
   "judge": {
@@ -13,13 +13,13 @@
     "answer_relevancy",
     "diagnosis_quality"
   ],
-  "elapsed_seconds": 81.82096750003984,
+  "elapsed_seconds": 75.74549639999168,
   "summary": {
     "faithfulness": {
-      "mean": 0.8,
-      "median": 0.8,
-      "min": 0.8,
-      "max": 0.8,
+      "mean": 0.9,
+      "median": 0.9,
+      "min": 0.9,
+      "max": 0.9,
       "count": 1
     },
     "answer_relevancy": {
@@ -43,14 +43,14 @@
       "query": "公司有战略口号，但部门各做各的，资源和组织结构没有真正承接战略。",
       "metrics": {
         "score": {
-          "faithfulness": 0.8,
+          "faithfulness": 0.9,
           "answer_relevancy": 0.9,
           "diagnosis_quality": 1.0
         },
         "reason": {
-          "faithfulness": "The actual output aligns well with the evaluation steps by distinguishing between company-specific facts from the input, general management knowledge from the retrieval context, and reasonable hypotheses. It correctly attributes the issue to strategic misalignment and power configuration, supported by the retrieval context. However, it introduces specific recommendations and causal relationships (e.g., 'power should follow responsibility') that are not explicitly confirmed by the input, which could be seen as overstatement. The output also includes detailed steps and mechanisms (e.g., 'strategic collaboration map') that are not directly supported by the input, though they are grounded in the retrieval context. The score is not penalized for completeness or omission, but the strength of some claims exceeds the evidence provided.",
+          "faithfulness": "The Actual Output aligns well with the input and retrieval context, accurately identifying the core issue of strategic misalignment and providing supported recommendations based on the retrieval knowledge. It distinguishes between company-specific facts (e.g., departmental silos) and general management concepts (e.g., power configuration, collaboration mechanisms). The claims are calibrated with appropriate certainty, and the report avoids unsupported hypotheses. However, it could have been more explicit in referencing specific retrieval items for certain claims, which slightly reduces its evidential clarity.",
           "answer_relevancy": "The response directly addresses the user's issue of misalignment between the company's strategic slogan and departmental actions. It identifies the core diagnosis of strategic and structural misalignment, provides relevant management concepts, and offers actionable recommendations. The content is focused and substantively addresses the problem without unnecessary expansion. However, the score is not maximized due to the incomplete 'Missing Information' section, which leaves some critical details unresolved.",
-          "diagnosis_quality": "The response provides a clear diagnosis of the core management problem—strategic misalignment due to power and coordination issues—and explains the root causes with coherent reasoning. It distinguishes symptoms from deeper causes, such as power misallocation and lack of collaboration mechanisms. The recommendations are specific, practical, and logically derived from the diagnosis, addressing the identified root causes. The structure and depth of analysis align well with the evaluation criteria, demonstrating a strong understanding of the issue and actionable solutions."
+          "diagnosis_quality": "The response provides a strong diagnosis of the core management problem, identifying the misalignment between the company's strategic slogan and its operational structure. It explains the issue as a combination of power imbalance and lack of coordination, which goes beyond restating symptoms. The proposed causes are prioritized and logically connected, showing a clear understanding of the root issues. The recommendations are directly tied to the diagnosed problems, offering actionable steps that address the underlying mechanisms. The overall diagnosis is coherent, well-structured, and demonstrates explanatory depth and practical usefulness."
         }
       }
     }

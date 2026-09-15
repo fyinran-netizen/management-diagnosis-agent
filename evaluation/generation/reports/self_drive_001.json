@@ -1,6 +1,6 @@
 {
   "schema_version": "generation_deepeval_evaluation_v1",
-  "timestamp_utc": "2026-09-15T05:05:52Z",
+  "timestamp_utc": "2026-09-15T05:26:19Z",
   "input_path": "D:\\management_diagnosis_agent\\evaluation\\generation\\generation_benchmark.json",
   "case_count": 1,
   "judge": {
@@ -13,7 +13,7 @@
     "answer_relevancy",
     "diagnosis_quality"
   ],
-  "elapsed_seconds": 116.87524820002727,
+  "elapsed_seconds": 104.81755669997074,
   "summary": {
     "faithfulness": {
       "mean": 0.9,
@@ -30,10 +30,10 @@
       "count": 1
     },
     "diagnosis_quality": {
-      "mean": 0.9,
-      "median": 0.9,
-      "min": 0.9,
-      "max": 0.9,
+      "mean": 1.0,
+      "median": 1.0,
+      "min": 1.0,
+      "max": 1.0,
       "count": 1
     }
   },
@@ -45,12 +45,12 @@
         "score": {
           "faithfulness": 0.9,
           "answer_relevancy": 1.0,
-          "diagnosis_quality": 0.9
+          "diagnosis_quality": 1.0
         },
         "reason": {
-          "faithfulness": "The actual output aligns well with the retrieval context and user input, accurately identifying the core issue of 'target control' and its consequences. It correctly distinguishes between company-specific facts (e.g., the trap of target control, the impact of process monitoring) and general management knowledge (e.g., MBO, strategic dialogue). The report introduces reasonable hypotheses with appropriate uncertainty, such as assuming the existence of specific issues like 'target decomposition into numbers' and 'approval process dilution.' It supports claims with references to the retrieval context and avoids unsupported specificity. However, it does introduce some numerical specifics (e.g., '70% of effort on results') that are not explicitly supported by the input or retrieval context, which slightly reduces the score.",
+          "faithfulness": "The Actual Output aligns well with the input and retrieval context, accurately reflecting the core diagnosis of 'target control' and its consequences. It correctly distinguishes between company-specific facts from the input and general management knowledge from the retrieval context. The claims are supported by the evidence, and the certainty of each claim is appropriately calibrated. However, some assumptions are made about the company's practices (e.g., specific industry features, employee behavior data), which are not explicitly supported by the input. These assumptions, while reasonable, could be seen as minor faithfulness errors due to their peripheral nature.",
           "answer_relevancy": "The response directly addresses the management question about employees passively following instructions due to excessive control mechanisms. It identifies the core issue of target management turning into target control, and provides relevant management concepts, root causes, and actionable recommendations. The analysis remains focused on the user's problem, with all content contributing to understanding and solving the issue. The response also acknowledges missing information, which shows thoroughness without unnecessary expansion.",
-          "diagnosis_quality": "The response provides a clear diagnosis of the core management problem, identifying the shift from 'goal management' to 'goal control' and explaining how process monitoring and digital tools distort employee behavior. It distinguishes symptoms (e.g., excessive reporting, rigid approvals) from root causes (e.g., mistrust, control anxiety). The causal reasoning is coherent, linking control mechanisms to reduced innovation and trust. Recommendations are specific, practical, and logically derived from the diagnosis, such as restructuring goal-setting and calibrating technology tools. However, the score is not maximized due to the lack of industry-specific customization and the assumption of certain behaviors without explicit data support."
+          "diagnosis_quality": "The Actual Output demonstrates strong alignment with the evaluation steps. It identifies the central management problem of 'target control' and explains how it arises from the distortion of goals into metrics, leading to passive execution and loss of innovation. The proposed causes are prioritized and logically connected to the diagnosed issue, such as goal simplification and control anxiety. Recommendations are directly tied to these causes, such as restructuring goal-setting and reducing process monitoring. The diagnosis is coherent, internally consistent, and practically useful, showing depth and clarity in addressing the root issues."
         }
       }
     }

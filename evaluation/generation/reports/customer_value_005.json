@@ -1,6 +1,6 @@
 {
   "schema_version": "generation_deepeval_evaluation_v1",
-  "timestamp_utc": "2026-09-15T05:04:30Z",
+  "timestamp_utc": "2026-09-15T05:25:08Z",
   "input_path": "D:\\management_diagnosis_agent\\evaluation\\generation\\generation_benchmark.json",
   "case_count": 1,
   "judge": {
@@ -13,13 +13,13 @@
     "answer_relevancy",
     "diagnosis_quality"
   ],
-  "elapsed_seconds": 35.48760759999277,
+  "elapsed_seconds": 33.871854899975006,
   "summary": {
     "faithfulness": {
-      "mean": 0.8,
-      "median": 0.8,
-      "min": 0.8,
-      "max": 0.8,
+      "mean": 0.9,
+      "median": 0.9,
+      "min": 0.9,
+      "max": 0.9,
       "count": 1
     },
     "answer_relevancy": {
@@ -43,14 +43,14 @@
       "query": "毛利率提升了但续约变差，研发排期也被内部效率项目占满；如何同时判断公司目的、客户价值和当期现金安全？",
       "metrics": {
         "score": {
-          "faithfulness": 0.8,
+          "faithfulness": 0.9,
           "answer_relevancy": 0.9,
           "diagnosis_quality": 1.0
         },
         "reason": {
-          "faithfulness": "The report aligns well with the evaluation steps by distinguishing between company-specific facts from the input, general management knowledge from the retrieval context, and reasonable hypotheses. It correctly identifies the conflict between short-term survival and long-term value creation, supported by the retrieval context. It avoids assuming specific company conditions without evidence and appropriately expresses uncertainty where needed. However, it introduces some specific claims (e.g., 'profit红线') that are not explicitly supported by the input or retrieval context, which slightly reduces its alignment with the evaluation steps.",
+          "faithfulness": "The response aligns well with the evaluation steps by accurately reflecting the retrieval context and avoiding unsupported claims. It correctly identifies the conflict between short-term survival and long-term value creation, and ties this to concepts like 'survival mode' and 'profit causality' from the retrieval context. It also introduces reasonable hypotheses with appropriate uncertainty, such as distinguishing between 'wise profit' and 'stupid profit,' which are supported by the context. However, the response could have been more precise in explicitly referencing specific retrieval items (e.g., knowledge item 1, 2, or 3) to strengthen evidential support. The score is weighted higher due to the strong alignment with the core diagnosis and causal explanation, but minor improvements in explicit citation would enhance faithfulness.",
           "answer_relevancy": "The response directly addresses the user's question by diagnosing the conflict between short-term survival and long-term value creation, and provides actionable recommendations. It substantively covers the key parts of the request: evaluating company purpose, customer value, and cash safety. The analysis is focused and connected to the problem, with recommendations that target the core issues rather than adjacent topics. However, the response could be more concise and could better integrate the specific test case parameters into the analysis.",
-          "diagnosis_quality": "The response provides a clear diagnosis of the core management problem, identifying the conflict between short-term survival strategies and long-term value creation. It distinguishes symptoms (e.g., improved gross margin but declining renewal rates) from root causes (e.g., misaligned incentives, profit type confusion). The causal reasoning is coherent, linking internal efficiency projects to resource misallocation and short-term profit prioritization. Recommendations are specific, practical, and logically derived from the diagnosis, such as re-evaluating profit types and implementing a balanced scorecard. The response avoids generic advice and aligns with the retrieval context by referencing key concepts like 'survival mode,' 'profit红线,' and 'balance scorecard.'"
+          "diagnosis_quality": "The response provides a coherent diagnosis of the core management problem, identifying the conflict between short-term survival strategies and long-term value creation. It explains how short-term cost-cutting and misaligned incentives lead to reduced renewal rates and resource misallocation. The proposed causes are prioritized and logically connected to the observed symptoms, and the recommendations are directly tied to the diagnosed issues, such as re-evaluating profit types and optimizing internal incentives. The analysis demonstrates explanatory depth and practical relevance, aligning well with the evaluation steps."
         }
       }
     }
