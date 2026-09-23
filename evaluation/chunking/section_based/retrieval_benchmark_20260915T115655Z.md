@@ -6,7 +6,7 @@
 - Cases: `48`
 - Top K: `20`
 - Case file: `D:\management_diagnosis_agent\evaluation\retrieval\cases\retrieval_cases.json`
-- JSON report: `D:\management_diagnosis_agent\evaluation\chunking\retrieval_benchmark_20260915T115655Z.json`
+- JSON report: `D:\management_diagnosis_agent\evaluation\chunking\section_based\retrieval_benchmark_20260915T115655Z.json`
 
 ## Retrieval method configurations
 

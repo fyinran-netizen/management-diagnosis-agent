@@ -2,11 +2,11 @@
 
 ## Benchmark information
 
-- Timestamp (UTC): `2026-09-15T13:32:35Z`
+- Timestamp (UTC): `2026-09-15T13:01:38Z`
 - Cases: `48`
 - Top K: `20`
 - Case file: `D:\management_diagnosis_agent\evaluation\retrieval\cases\retrieval_cases.json`
-- JSON report: `D:\management_diagnosis_agent\evaluation\chunking\retrieval_benchmark_20260915T133235Z.json`
+- JSON report: `evaluation\chunking\section_based\retrieval_benchmark_20260915T130138Z.json`
 
 ## Retrieval method configurations
 
@@ -22,20 +22,6 @@ Best values are bolded.
 
 | Method | Hit@1 | Hit@3 | Hit@5 | Recall@5 | Recall@10 | MRR@5 | nDCG@5 | nDCG@10 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `bm25` | 0.396 | 0.646 | 0.708 | 0.365 | 0.590 | 0.514 | 0.337 | 0.431 |
-| `embedding` | 0.271 | 0.604 | 0.729 | 0.451 | 0.611 | 0.434 | 0.364 | 0.432 |
-| `linear_hybrid` | **0.417** | **0.771** | **0.854** | **0.549** | **0.681** | **0.594** | **0.467** | **0.523** |
-
-## Chunking diagnostics
-
-| Metric | Value |
-| --- | ---: |
-| Chunk count | 174 |
-| Mean length | 719.11 |
-| Median length | 795.50 |
-| P95 length | 892 |
-| Min length | 91 |
-| Max length | 1189 |
-| Overlap ratio | N/A |
-| Embedding index build time (ms) | 13238.39 |
-| Average retrieval latency (ms) | 11.02 |
+| `bm25` | 0.500 | 0.750 | 0.833 | 0.458 | 0.729 | 0.626 | 0.509 | 0.702 |
+| `embedding` | 0.375 | 0.708 | 0.854 | 0.562 | 0.701 | 0.543 | 0.526 | 0.680 |
+| `linear_hybrid` | **0.521** | **0.833** | **0.896** | **0.597** | **0.792** | **0.679** | **0.665** | **0.809** |

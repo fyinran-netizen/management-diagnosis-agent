@@ -44,7 +44,7 @@ from app.tools.retrieval.vector_store import (  # noqa: E402
 )
 from app.tools.retrieval.embeddings import get_embedding_model_name  # noqa: E402
 from app.core.config import PRIVATE_KNOWLEDGE_DIR  # noqa: E402
-from evaluation.retrieval.relevance import relevance_for  # noqa: E402
+from evaluation.retrieval.relevance import evidence_metrics_for, relevance_for  # noqa: E402
 from evaluation.retrieval.evidence import load_cases as load_cases_with_evidence  # noqa: E402
 
 
@@ -155,6 +155,8 @@ def metrics_for(
     covered_by_rank: list[set[int]],
     evidence_count: int,
     ks: tuple[int, ...],
+    retrieved: list[Any] | None = None,
+    gold_evidence: list[str] | None = None,
 ) -> dict[str, float]:
     """Existing benchmark metric formulas, fed by relevance-layer output."""
     metrics: dict[str, float] = {}
@@ -164,6 +166,10 @@ def metrics_for(
         metrics[f"recall@{k}"] = covered / evidence_count if evidence_count else 0.0
         metrics[f"precision@{k}"] = sum(relevant[:k]) / k if k else 0.0
         metrics[f"nDCG@{k}"] = ndcg(covered_by_rank, evidence_count, k)
+        if retrieved is not None and gold_evidence is not None:
+            evidence_metrics = evidence_metrics_for(retrieved, gold_evidence, k)
+            metrics[f"evidence_coverage@{k}"] = evidence_metrics["evidence_coverage"]
+            metrics[f"evidence_density@{k}"] = evidence_metrics["evidence_density"]
     first_relevant = next((rank for rank, value in enumerate(relevant, 1) if value), 0)
     metrics["mrr@5"] = 1.0 / first_relevant if 0 < first_relevant <= 5 else 0.0
     metrics["mrr"] = 1.0 / first_relevant if first_relevant else 0.0
@@ -209,7 +215,14 @@ def evaluate_case(
         "query": str(case["query"]),
         "gold_evidence": gold_evidence,
         "retrieved_sources": retrieved_sources,
-        "metrics": metrics_for(relevant, covered_by_rank, len(gold_evidence), ks),
+        "metrics": metrics_for(
+            relevant,
+            covered_by_rank,
+            len(gold_evidence),
+            ks,
+            retrieved=results[:top_k],
+            gold_evidence=gold_evidence,
+        ),
         "retrieval_time_ms": elapsed_ms,
         "top_k_chunks": chunks,
     }
@@ -276,6 +289,8 @@ def markdown_summary(
         "mrr@5",
         "nDCG@5",
         "nDCG@10",
+        "evidence_coverage@5",
+        "evidence_density@5",
     )
     summaries = {
         method: result["summary"]
@@ -312,8 +327,8 @@ def markdown_summary(
         "",
         "Best values are bolded.",
         "",
-        "| Method | Hit@1 | Hit@3 | Hit@5 | Recall@5 | Recall@10 | MRR@5 | nDCG@5 | nDCG@10 |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Method | Hit@1 | Hit@3 | Hit@5 | Recall@5 | Recall@10 | MRR@5 | nDCG@5 | nDCG@10 | Evidence Coverage@5 | Evidence Density@5 |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ])
     for method, summary in summaries.items():
         cells = []
@@ -413,14 +428,15 @@ def main() -> None:
     print(f"report: {report_path}")
     print(f"markdown: {markdown_path}")
     print(f"experiments: {args.experiments}")
-    print("| method | cases | hit@5 | recall@5 | precision@5 | mrr | nDCG@5 |")
-    print("| --- | ---: | ---: | ---: | ---: | ---: | ---: |")
+    print("| method | cases | hit@5 | recall@5 | precision@5 | mrr | nDCG@5 | evidence_coverage@5 | evidence_density@5 |")
+    print("| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |")
     for method, result in strategies.items():
         summary = result["summary"]
         print(
             f"| {method} | {summary['cases']} | {summary.get('hit@5', 0):.3f} | "
             f"{summary.get('recall@5', 0):.3f} | {summary.get('precision@5', 0):.3f} | "
-            f"{summary.get('mrr', 0):.3f} | {summary.get('nDCG@5', 0):.3f} |"
+            f"{summary.get('mrr', 0):.3f} | {summary.get('nDCG@5', 0):.3f} | "
+            f"{summary.get('evidence_coverage@5', 0):.3f} | {summary.get('evidence_density@5', 0):.3f} |"
         )
 
 

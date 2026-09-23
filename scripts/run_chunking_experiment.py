@@ -22,7 +22,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from app.core.config import PRIVATE_KNOWLEDGE_DIR
-from app.tools.ingestion.chunkers import SectionBasedChunker
+from app.tools.ingestion.chunkers import FixedSizeChunker, RecursiveChunker, SectionBasedChunker, SectionBasedNoOverlapChunker, SectionRawChunker, SectionRecursiveChunker, SectionRecursiveOverlapChunker, SectionSemanticChunker, SectionSemanticOverlapChunker
 from app.tools.ingestion.loaders import MarkdownLoader
 from app.tools.ingestion.metadata import SourceMetadataBuilder
 from app.tools.ingestion.repositories import FilesystemArtifactRepository
@@ -40,9 +40,21 @@ DEFAULT_SOURCE = PROJECT_ROOT / "source_docs" / "raw_converted.md"
 EMBEDDING_MODEL = "BAAI/bge-small-zh-v1.5"
 
 
-def build_experiment_corpus(source_path: Path, corpus_dir: Path) -> int:
+def build_experiment_corpus(source_path: Path, corpus_dir: Path, strategy: str) -> int:
     document = MarkdownLoader().load(source_path, root_dir=source_path.parent)
-    chunks = SectionBasedChunker().chunk(document)
+    chunker_factory = {
+        "section_based": SectionBasedChunker,
+        "section_based_no_overlap": SectionBasedNoOverlapChunker,
+        "section_raw": SectionRawChunker,
+        "fixed_size_1800": lambda: FixedSizeChunker(1800),
+        "fixed_size_900": lambda: FixedSizeChunker(900),
+        "recursive": RecursiveChunker,
+        "section_recursive": SectionRecursiveChunker,
+        "section_recursive_overlap": SectionRecursiveOverlapChunker,
+        "section_semantic": SectionSemanticChunker,
+        "section_semantic_overlap": SectionSemanticOverlapChunker,
+    }[strategy]
+    chunks = chunker_factory().chunk(document)
     # The existing retrieval baseline is private corpus scope excluding ch00;
     # keep this experiment corpus identical to that scope.
     chunks = [chunk for chunk in chunks if chunk.chapter_id != "ch00"]
@@ -83,8 +95,12 @@ def output_path(output: str, label: str) -> Path:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run the section_based chunking experiment pipeline.")
-    parser.add_argument("--strategy", choices=("section_based",), default="section_based")
+    parser = argparse.ArgumentParser(description="Run a chunking strategy through the experiment pipeline.")
+    parser.add_argument(
+        "--strategy",
+        choices=("section_based", "section_based_no_overlap", "section_raw", "fixed_size_1800", "fixed_size_900", "recursive", "section_recursive", "section_recursive_overlap", "section_semantic", "section_semantic_overlap"),
+        default="section_based",
+    )
     parser.add_argument("--source", type=Path, default=DEFAULT_SOURCE)
     parser.add_argument("--experiment-root", type=Path, default=DEFAULT_EXPERIMENT_ROOT)
     parser.add_argument("--report-dir", type=Path, default=DEFAULT_REPORT_DIR)
@@ -93,9 +109,11 @@ def main() -> int:
 
     corpus_dir = args.experiment_root / args.strategy / "corpus"
     index_dir = args.experiment_root / args.strategy / "vector_index"
-    args.report_dir.mkdir(parents=True, exist_ok=True)
+    strategy_report_dir = args.report_dir / args.strategy
+    experiments_path = args.report_dir / "experiments.jsonl"
+    strategy_report_dir.mkdir(parents=True, exist_ok=True)
     clean_experiment_artifacts(corpus_dir, index_dir)
-    chunk_count = build_experiment_corpus(args.source.resolve(), corpus_dir)
+    chunk_count = build_experiment_corpus(args.source.resolve(), corpus_dir, args.strategy)
     print(f"experiment: {args.strategy}")
     print(f"corpus_dir: {corpus_dir}")
     print(f"generated_chunks: {chunk_count}")
@@ -134,9 +152,9 @@ def main() -> int:
             "--index-dir",
             str(index_dir),
             "--report-dir",
-            str(args.report_dir),
+            str(strategy_report_dir),
             "--experiments",
-            str(args.report_dir / "experiments.jsonl"),
+            str(experiments_path),
             "--bm25-metadata-mode",
             "base",
             "--top-k",
@@ -156,17 +174,23 @@ def main() -> int:
         corpus_dir,
         embedding_index_build_time_ms=embedding_index_build_time_ms,
         average_retrieval_time_ms=primary_summary["average_retrieval_time_ms"],
-        # SectionBasedChunker has no overlap; null means not applicable.
-        overlap_ratio=None,
     )
     report["chunking_diagnostics"] = diagnostics
+    if args.strategy in {"section_semantic", "section_semantic_overlap"}:
+        config_factory = SectionSemanticOverlapChunker if args.strategy == "section_semantic_overlap" else SectionSemanticChunker
+        report["chunking_strategy_config"] = config_factory.config()
     report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    markdown_path.write_text(
-        append_diagnostics_markdown(markdown_path.read_text(encoding="utf-8"), diagnostics),
-        encoding="utf-8",
-    )
+    markdown = append_diagnostics_markdown(markdown_path.read_text(encoding="utf-8"), diagnostics)
+    if args.strategy in {"section_semantic", "section_semantic_overlap"}:
+        config_factory = SectionSemanticOverlapChunker if args.strategy == "section_semantic_overlap" else SectionSemanticChunker
+        config = config_factory.config()
+        markdown += "\n\n## Chunking strategy configuration\n\n"
+        markdown += "| Parameter | Value |\n| --- | --- |\n"
+        for key, value in config.items():
+            markdown += f"| {key} | {value} |\n"
+    markdown_path.write_text(markdown, encoding="utf-8")
     append_experiment_log(
-        args.report_dir / "experiments.jsonl",
+        experiments_path,
         strategy=args.strategy,
         report_path=report_path,
         markdown_path=markdown_path,
