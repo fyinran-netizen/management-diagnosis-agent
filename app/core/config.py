@@ -16,6 +16,13 @@ DATA_DIR = PROJECT_ROOT / "data"
 SAMPLE_KNOWLEDGE_DIR = DATA_DIR / "sample_knowledge_base"
 PRIVATE_KNOWLEDGE_DIR = DATA_DIR / "private_knowledge_base"
 
+# Production retrieval artifacts.  These are generated experiment artifacts;
+# production only reads them and does not rebuild or mutate them.
+PRODUCTION_RETRIEVAL_CORPUS_DIR = DATA_DIR / "chunking_strategy_experiments" / "section_semantic_overlap" / "overlap_180" / "corpus"
+PRODUCTION_RETRIEVAL_EMBEDDING_INDEX_DIR = DATA_DIR / "chunking_strategy_experiments" / "section_semantic_overlap" / "overlap_180" / "vector_index"
+PRODUCTION_RETRIEVAL_BM25_METADATA_MODE = "unweighted"
+PRODUCTION_RETRIEVAL_CANDIDATE_K = 100
+
 DATABASE_DIR = DATA_DIR / "databases"
 DIAGNOSIS_DB_FILE = DATABASE_DIR / "diagnosis.db"
 CHECKPOINT_DB_FILE = DATABASE_DIR / "checkpoints.db"
@@ -24,6 +31,10 @@ CHECKPOINT_DB_FILE = DATABASE_DIR / "checkpoints.db"
 # ---------- Default runtime configuration ----------
 
 DEFAULT_OLLAMA_BASE_URL = "http://127.0.0.1:11434"
+OLLAMA_NUM_PREDICT = 2000
+OLLAMA_NUM_CTX = 8192
+OLLAMA_TEMPERATURE = 0.2
+OLLAMA_TIMEOUT = 120
 DEFAULT_GENERATION_MODEL = "qwen3:8b"
 DEFAULT_GENERATION_EVALUATION_MODEL = "qwen3:8b"
 DEFAULT_EMBEDDING_MODEL = "BAAI/bge-small-zh-v1.5"

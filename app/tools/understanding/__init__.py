@@ -1,3 +1,3 @@
-from app.tools.understanding.tool import understand_query
+from app.tools.understanding.tool import normalize_intake, understand_query
 
-__all__ = ["understand_query"]
+__all__ = ["normalize_intake", "understand_query"]

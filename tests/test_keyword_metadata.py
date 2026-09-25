@@ -6,6 +6,7 @@ from app.tools.retrieval.retrievers.bm25 import (
     get_cached_bm25_index,
     semantic_metadata_to_search_text,
 )
+from app.core.config import PRODUCTION_RETRIEVAL_CORPUS_DIR
 
 
 def test_semantic_metadata_to_search_text_uses_keyword_fields_and_skips_noise():
@@ -40,9 +41,7 @@ def test_semantic_metadata_to_search_text_uses_keyword_fields_and_skips_noise():
 
 
 def test_bm25_metadata_path_is_fixed_and_modes_build_distinct_indexes():
-    assert SEMANTIC_METADATA_PATH.as_posix().endswith(
-        "data/private_knowledge_base/semantic_metadata.jsonl"
-    )
+    assert SEMANTIC_METADATA_PATH == PRODUCTION_RETRIEVAL_CORPUS_DIR / "semantic_metadata.jsonl"
     assert get_cached_bm25_index("base") is not get_cached_bm25_index("weighted")
     assert get_cached_bm25_index("unweighted") is not get_cached_bm25_index("weighted")
     assert get_cached_bm25_index.__wrapped__.__defaults__ == ("unweighted",)

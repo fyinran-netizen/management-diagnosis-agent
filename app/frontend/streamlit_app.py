@@ -10,14 +10,19 @@ import streamlit as st
 from transformers import logging as transformers_logging
 
 from app.core.logging import configure_logging
+from app.tools.understanding.problem_types import (
+    PROBLEM_TYPE_CODES,
+    PROBLEM_TYPE_LABELS,
+)
 
 from app.frontend.components import (
     render_checkpoint_history,
     render_current_state,
+    render_debug_value,
     render_graph_visualization,
     render_report,
-    render_retrieval,
     render_state_summary,
+    render_user_report,
 )
 
 from app.frontend.controls import (
@@ -36,7 +41,6 @@ SAMPLE_DESCRIPTION = (
     "我们公司过去三个月新客户数量持续下降，销售转化率也在下滑。与此同时，管理层为了降本增效增加了 KPI 考核和审批流程，员工每天都很忙，但主动性明显下降，很多人只完成指标、不愿承担额外责任。我们想判断目前主要的管理问题是什么，以及应该优先调整 KPI、流程还是团队管理方式。"
 )
 
-
 def main() -> None:
     configure_logging()
 
@@ -50,23 +54,49 @@ def main() -> None:
 
     st.title("Drucker Diagnosis Debugger")
     st.caption(
-        "LangGraph checkpoint-based step execution and state inspection"
+        "Structured intake · explicit execution controls · checkpoint inspection"
     )
 
-    with st.sidebar:
-        st.header("Run Control")
+    st.markdown(
+        """
+        <style>
+        .stApp { background: #f3f5f9; }
+        [data-testid="stHeader"] { background: rgba(243,245,249,0.9); }
+        div[data-testid="stVerticalBlock"] div[data-testid="stExpander"],
+        div[data-testid="stForm"] { border-radius: 12px; }
+        .block-container { max-width: 1500px; padding-top: 2rem; }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
+    intake_col, execution_col = st.columns([1.55, 1], gap="large")
+    with intake_col:
+        st.subheader("Intake")
+        problem_types = st.multiselect(
+            "Problem types",
+            PROBLEM_TYPE_CODES,
+            default=["general_management_diagnosis"],
+            format_func=PROBLEM_TYPE_LABELS.get,
+            help="Select one or more problem types.",
+        )
+        other_problem_type = None
+        if "other" in problem_types:
+            other_problem_type = st.text_input(
+                "Other problem type",
+                placeholder="Describe the additional problem type",
+            )
         description = st.text_area(
-            "Case Description",
+            "Description *",
             value=SAMPLE_DESCRIPTION,
-            height=240,
+            height=180,
         )
 
-        render_run_controls(description)
+    with execution_col:
+        st.subheader("Execution")
+        render_run_controls(description, problem_types, other_problem_type)
 
-        st.divider()
-
-        st.header("Graph")
+    with st.expander("Production graph", expanded=True):
         render_graph_visualization()
 
     if st.session_state.runtime_error:
@@ -80,25 +110,38 @@ def main() -> None:
         )
         return
 
+    st.subheader("Workflow progress")
     render_state_summary(snapshot)
 
-    tab_state, tab_report, tab_retrieval, tab_history = st.tabs(
+    tab_intake, tab_retrieval, tab_report, tab_verification, tab_final, tab_history = st.tabs(
         [
-            "Current State",
-            "Report",
+            "Intake",
             "Retrieval",
+            "Report",
+            "Verification",
+            "Final answer",
             "Checkpoints",
         ]
     )
 
-    with tab_state:
+    with tab_intake:
+        render_debug_value(snapshot, "intake_validation", "Intake validation")
+        render_debug_value(snapshot, "retrieval_query", "Retrieval query")
         render_current_state(snapshot)
+
+    with tab_retrieval:
+        render_debug_value(snapshot, "retrieved_chunks", "Retrieved chunks")
+        render_debug_value(snapshot, "retrieval_quality", "Retrieval quality")
 
     with tab_report:
         render_report(snapshot)
 
-    with tab_retrieval:
-        render_retrieval(snapshot)
+    with tab_verification:
+        render_debug_value(snapshot, "verification", "Verification")
+
+    with tab_final:
+        render_debug_value(snapshot, "final_answer", "Final answer")
+        render_report(snapshot)
 
     with tab_history:
         checkpoint_id = render_checkpoint_history(
@@ -124,6 +167,10 @@ def main() -> None:
                 ):
                     branch_selected_checkpoint(checkpoint_id)
                     st.rerun()
+
+    report_values = getattr(snapshot, "values", {}) or {}
+    user_report = report_values.get("final_answer") or report_values.get("report")
+    render_user_report(user_report, report_values.get("retrieved_chunks", []))
 
 
 if __name__ == "__main__":

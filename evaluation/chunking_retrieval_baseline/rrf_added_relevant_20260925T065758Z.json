@@ -1,0 +1,109 @@
+{
+  "schema_version": "rrf_added_relevant_diagnostic_v1",
+  "timestamp_utc": "2026-09-25T06:57:58Z",
+  "config": {
+    "rrf_k": 60,
+    "candidate_k": 100,
+    "top_k": 20,
+    "bm25_metadata_mode": "unweighted",
+    "embedding_index": "D:\\management_diagnosis_agent\\data\\chunking_strategy_experiments\\section_semantic_overlap\\overlap_180\\vector_index"
+  },
+  "summary": {
+    "added_chunks": 8,
+    "in_top5": 3,
+    "in_top10": 6,
+    "outside_top10": 2
+  },
+  "per_query": [
+    {
+      "id": "opportunity_005",
+      "query": "新技术、海外市场和大客户项目同时出现，团队既缺人又缺验证时间；如何筛选机会、识别能力边界，并决定先做哪一个？",
+      "added_chunks": [
+        {
+          "chunk": "ch03/s06_chunk_02.md#chunk_2",
+          "rrf_rank": 8,
+          "top5": false,
+          "top10": true
+        }
+      ]
+    },
+    {
+      "id": "opportunity_006",
+      "query": "竞争者都在追某个热点，董事会要求马上跟进；如果不追就怕落后，跟进又可能偏离长期方向，如何区分机会判断和跟风？",
+      "added_chunks": [
+        {
+          "chunk": "ch03/s05_chunk_01.md#chunk_1",
+          "rrf_rank": 5,
+          "top5": true,
+          "top10": true
+        }
+      ]
+    },
+    {
+      "id": "metrics_004",
+      "query": "客服为了降低平均处理时长而草草结案，数字变漂亮了但投诉和流失上升；应该怎样重看这个指标？",
+      "added_chunks": [
+        {
+          "chunk": "ch02/s07_chunk_01.md#chunk_1",
+          "rrf_rank": 15,
+          "top5": false,
+          "top10": false
+        },
+        {
+          "chunk": "ch04/s06_chunk_01.md#chunk_1",
+          "rrf_rank": null,
+          "top5": false,
+          "top10": false
+        }
+      ]
+    },
+    {
+      "id": "self_drive_005",
+      "query": "团队目标模糊、经理频繁插手、员工害怕承担风险，结果是所有决定都上收；如何同时处理目标清晰度、授权边界和责任感？",
+      "added_chunks": [
+        {
+          "chunk": "ch06/s01.md#chunk_1",
+          "rrf_rank": 5,
+          "top5": true,
+          "top10": true
+        }
+      ]
+    },
+    {
+      "id": "long_term_decision_003",
+      "query": "面对不确定的未来，好的长期决策依靠什么，而不是依靠什么？",
+      "added_chunks": [
+        {
+          "chunk": "ch07/s02_chunk_01.md#chunk_1",
+          "rrf_rank": 7,
+          "top5": false,
+          "top10": true
+        }
+      ]
+    },
+    {
+      "id": "long_term_decision_004",
+      "query": "财务预测显示明年需求会下降，团队因此暂停人才培养和技术积累；怎样在看不清远方时仍保留建设未来的能力？",
+      "added_chunks": [
+        {
+          "chunk": "ch07/s03_chunk_03.md#chunk_3",
+          "rrf_rank": 7,
+          "top5": false,
+          "top10": true
+        }
+      ]
+    },
+    {
+      "id": "entrepreneurship_004",
+      "query": "一次次优化流程却没有改善整体结果，甚至让别的部门更忙；管理者应如何看见局部改进造成的连锁反应？",
+      "added_chunks": [
+        {
+          "chunk": "ch08/s01_chunk_01.md#chunk_1",
+          "rrf_rank": 5,
+          "top5": true,
+          "top10": true
+        }
+      ]
+    }
+  ]
+}

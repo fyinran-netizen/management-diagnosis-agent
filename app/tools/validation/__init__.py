@@ -1,4 +1,3 @@
-from app.tools.validation.report import verify_report_quality
+from app.tools.validation.report import validate_generation_report, verify_report_quality
 
-__all__ = ["verify_report_quality"]
-
+__all__ = ["validate_generation_report", "verify_report_quality"]

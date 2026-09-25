@@ -15,3 +15,11 @@ class UnderstandingResult(TypedDict):
     problem_check: dict[str, object]
     problem_types: list[str]
     diagnosis_hints: list[str]
+
+
+class IntakeNormalizationResult(TypedDict):
+    problem_types: list[str]
+    description: str
+    other_problem_type: str | None
+    intake_validation: dict[str, object]
+    retrieval_query: str

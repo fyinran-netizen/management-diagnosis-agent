@@ -7,6 +7,7 @@ class RetrievedChunk(TypedDict, total=False):
     source: str
     title: str
     content: str
+    summary: str
     score: float
     keyword_score: float
     bm25_score: float

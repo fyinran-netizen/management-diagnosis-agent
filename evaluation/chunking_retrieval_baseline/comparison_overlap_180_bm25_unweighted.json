@@ -1,0 +1,42 @@
+{
+  "schema_version": "retrieval_benchmark_comparison_v1",
+  "new_report": "evaluation/chunking_retrieval_baseline/retrieval_benchmark_20260925T050924Z.json",
+  "baseline_report": "evaluation/chunking/section_semantic_overlap/overlap_180/retrieval_benchmark_20260925T042234Z.json",
+  "comparison": "overlap_180 BM25 unweighted semantic metadata versus BM25 base",
+  "cases": 48,
+  "top_k": 20,
+  "metrics": [
+    "evidence_coverage@5",
+    "evidence_density@5",
+    "recall@5",
+    "nDCG@5",
+    "hit@5",
+    "mrr@5"
+  ],
+  "results": {
+    "bm25": {
+      "evidence_coverage@5": {"base": 0.366815, "unweighted": 0.354432, "delta": -0.012383},
+      "evidence_density@5": {"base": 0.045277, "unweighted": 0.045714, "delta": 0.000437},
+      "recall@5": {"base": 0.416667, "unweighted": 0.406250, "delta": -0.010417},
+      "nDCG@5": {"base": 0.382031, "unweighted": 0.380955, "delta": -0.001076},
+      "hit@5": {"base": 0.770833, "unweighted": 0.750000, "delta": -0.020833},
+      "mrr@5": {"base": 0.557292, "unweighted": 0.573264, "delta": 0.015972}
+    },
+    "embedding": {
+      "evidence_coverage@5": {"base": 0.443006, "unweighted": 0.443006, "delta": 0.0},
+      "evidence_density@5": {"base": 0.063022, "unweighted": 0.063022, "delta": 0.0},
+      "recall@5": {"base": 0.461806, "unweighted": 0.461806, "delta": 0.0},
+      "nDCG@5": {"base": 0.384154, "unweighted": 0.384154, "delta": 0.0},
+      "hit@5": {"base": 0.750000, "unweighted": 0.750000, "delta": 0.0},
+      "mrr@5": {"base": 0.485764, "unweighted": 0.485764, "delta": 0.0}
+    },
+    "linear_hybrid": {
+      "evidence_coverage@5": {"base": 0.557671, "unweighted": 0.550678, "delta": -0.006992},
+      "evidence_density@5": {"base": 0.077349, "unweighted": 0.075862, "delta": -0.001486},
+      "recall@5": {"base": 0.576389, "unweighted": 0.576389, "delta": 0.0},
+      "nDCG@5": {"base": 0.481382, "unweighted": 0.486795, "delta": 0.005413},
+      "hit@5": {"base": 0.875000, "unweighted": 0.895833, "delta": 0.020833},
+      "mrr@5": {"base": 0.626389, "unweighted": 0.640972, "delta": 0.014583}
+    }
+  }
+}

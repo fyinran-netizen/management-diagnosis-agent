@@ -5,66 +5,70 @@ import re
 from collections import Counter
 from functools import lru_cache
 from typing import Any
+from pathlib import Path
 
 from app.tools.ingestion.repositories import FilesystemArtifactRepository
-from app.core.config import PRIVATE_KNOWLEDGE_DIR
+from app.core.config import (
+    PRIVATE_KNOWLEDGE_DIR,
+    PRODUCTION_RETRIEVAL_CORPUS_DIR,
+)
 from app.tools.retrieval.schemas import RetrievedChunk
 
 
 EXCLUDED_SOURCES = {"99_private_test.md"}
-SEMANTIC_METADATA_PATH = PRIVATE_KNOWLEDGE_DIR / "semantic_metadata.jsonl"
+SEMANTIC_METADATA_PATH = PRODUCTION_RETRIEVAL_CORPUS_DIR / "semantic_metadata.jsonl"
 BM25_METADATA_MODES = {"base", "unweighted", "weighted"}
 PRODUCTION_BM25_METADATA_MODE = "unweighted"
 
 KEYWORD_MAP: dict[str, list[str]] = {
     "customer_value": [
-        "\u987e\u5ba2",
-        "\u5ba2\u6237",
-        "\u7528\u6237",
-        "\u65b0\u5ba2\u6237",
-        "\u4ef7\u503c",
-        "\u521b\u9020\u987e\u5ba2",
-        "\u5ba2\u6237\u51cf\u5c11",
-        "\u589e\u957f\u653e\u7f13",
+        "顾客",
+        "客户",
+        "用户",
+        "新客户",
+        "价值",
+        "创造顾客",
+        "客户减少",
+        "增长放缓",
     ],
     "opportunity": [
-        "\u673a\u4f1a",
-        "\u589e\u957f",
-        "\u521b\u65b0",
-        "\u672a\u6765",
-        "\u65b0\u5e02\u573a",
-        "\u65b0\u4ea7\u54c1",
-        "\u63a2\u7d22",
-        "\u5f00\u62d3",
+        "机会",
+        "增长",
+        "创新",
+        "未来",
+        "新市场",
+        "新产品",
+        "探索",
+        "开拓",
     ],
     "strategy_organization": [
-        "\u6218\u7565",
-        "\u7ec4\u7ec7",
-        "\u90e8\u95e8",
-        "\u534f\u540c",
-        "\u6267\u884c",
-        "\u8d44\u6e90",
-        "\u76ee\u6807\u4f20\u9012",
+        "战略",
+        "组织",
+        "部门",
+        "协同",
+        "执行",
+        "资源",
+        "目标传递",
     ],
     "metrics": [
-        "\u6307\u6807",
+        "指标",
         "KPI",
-        "\u8003\u6838",
-        "\u8861\u91cf",
-        "\u6570\u636e",
-        "\u76ee\u6807",
-        "\u6548\u7387",
-        "\u6210\u672c",
+        "考核",
+        "衡量",
+        "数据",
+        "目标",
+        "效率",
+        "成本",
     ],
     "self_drive": [
-        "\u81ea\u9a71",
-        "\u7ba1\u63a7",
-        "\u5ba1\u6279",
-        "\u5458\u5de5",
-        "\u8d23\u4efb",
-        "\u6388\u6743",
-        "\u76ee\u6807\u6df7\u4e71",
-        "\u5fd9",
+        "自驱",
+        "管控",
+        "审批",
+        "员工",
+        "责任",
+        "授权",
+        "目标混乱",
+        "忙",
     ],
 }
 
@@ -156,11 +160,17 @@ def load_source_id_to_path(corpus_dir: Path = PRIVATE_KNOWLEDGE_DIR) -> dict[str
 
 
 @lru_cache(maxsize=8)
+def load_semantic_metadata_records(
+    corpus_dir: Path = PRIVATE_KNOWLEDGE_DIR,
+) -> tuple[dict[str, Any], ...]:
+    return tuple(FilesystemArtifactRepository(corpus_dir).load_semantic_metadata())
+
+
+@lru_cache(maxsize=8)
 def load_semantic_metadata_by_source(corpus_dir: Path = PRIVATE_KNOWLEDGE_DIR) -> dict[str, str]:
-    artifacts = FilesystemArtifactRepository(corpus_dir)
     source_id_to_path = load_source_id_to_path(corpus_dir)
     metadata_by_source: dict[str, str] = {}
-    for record in artifacts.load_semantic_metadata():
+    for record in load_semantic_metadata_records(corpus_dir):
         source_id = record.get("source_id")
         if not isinstance(source_id, str):
             continue
@@ -174,11 +184,24 @@ def load_semantic_metadata_by_source(corpus_dir: Path = PRIVATE_KNOWLEDGE_DIR) -
 
 
 @lru_cache(maxsize=8)
+def load_semantic_summaries_by_source(corpus_dir: Path = PRIVATE_KNOWLEDGE_DIR) -> dict[str, str]:
+    """Expose summaries already present in the semantic metadata artifacts."""
+    source_id_to_path = load_source_id_to_path(corpus_dir)
+    summaries: dict[str, str] = {}
+    for record in load_semantic_metadata_records(corpus_dir):
+        source_id = record.get("source_id")
+        summary = record.get("summary")
+        source_path = source_id_to_path.get(source_id) if isinstance(source_id, str) else None
+        if isinstance(source_path, str) and isinstance(summary, str) and summary.strip():
+            summaries[source_path] = summary.strip()
+    return summaries
+
+
+@lru_cache(maxsize=8)
 def load_semantic_metadata_by_source_unweighted(corpus_dir: Path = PRIVATE_KNOWLEDGE_DIR) -> dict[str, str]:
-    artifacts = FilesystemArtifactRepository(corpus_dir)
     source_id_to_path = load_source_id_to_path(corpus_dir)
     metadata_by_source: dict[str, str] = {}
-    for record in artifacts.load_semantic_metadata():
+    for record in load_semantic_metadata_records(corpus_dir):
         source_id = record.get("source_id")
         if not isinstance(source_id, str):
             continue
@@ -288,10 +311,13 @@ def get_cached_bm25_index(
     chunks = get_cached_chunks(corpus_dir)
     if metadata_mode == "base":
         semantic_metadata_by_source: dict[str, str] = {}
+        semantic_summaries_by_source: dict[str, str] = {}
     elif metadata_mode == "unweighted":
         semantic_metadata_by_source = load_semantic_metadata_by_source_unweighted(corpus_dir)
+        semantic_summaries_by_source = load_semantic_summaries_by_source(corpus_dir)
     else:
         semantic_metadata_by_source = load_semantic_metadata_by_source(corpus_dir)
+        semantic_summaries_by_source = load_semantic_summaries_by_source(corpus_dir)
     documents = []
     document_frequency: Counter[str] = Counter()
 
@@ -321,6 +347,7 @@ def get_cached_bm25_index(
         "document_frequency": document_frequency,
         "total_documents": total_documents,
         "average_document_length": average_document_length,
+        "semantic_summaries_by_source": semantic_summaries_by_source,
     }
 
 
@@ -368,6 +395,8 @@ def clear_bm25_caches() -> None:
     get_cached_bm25_index.cache_clear()
     load_semantic_metadata_by_source.cache_clear()
     load_semantic_metadata_by_source_unweighted.cache_clear()
+    load_semantic_summaries_by_source.cache_clear()
+    load_semantic_metadata_records.cache_clear()
     load_source_id_to_path.cache_clear()
     get_cached_chunks.cache_clear()
 
@@ -400,6 +429,9 @@ def retrieve_by_keyword(
             chunk_dict["keyword_score"] = score
             chunk_dict["bm25_score"] = score
             chunk_dict["retrieval_method"] = "keyword"
+            summary = index["semantic_summaries_by_source"].get(chunk.get("source", ""))
+            if summary:
+                chunk_dict["summary"] = summary
             scored_chunks.append(chunk_dict)
 
     scored_chunks.sort(key=lambda item: item["score"], reverse=True)

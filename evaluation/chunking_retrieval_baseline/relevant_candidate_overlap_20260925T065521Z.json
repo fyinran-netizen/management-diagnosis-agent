@@ -1,0 +1,2441 @@
+{
+  "schema_version": "relevant_candidate_overlap_v1",
+  "timestamp_utc": "2026-09-25T06:55:21Z",
+  "summary": {
+    "cases": 48,
+    "top_k": 20,
+    "hybrid_candidate_k": 100,
+    "bm25_metadata_mode": "unweighted",
+    "embedding_index": "D:\\management_diagnosis_agent\\data\\chunking_strategy_experiments\\section_semantic_overlap\\overlap_180\\vector_index",
+    "totals_by_query_occurrence": {
+      "semantic_relevant": 135,
+      "base_relevant": 133,
+      "embedding_relevant": 136,
+      "intersection": 109,
+      "union": 162,
+      "added": 8,
+      "added_top5": 0,
+      "added_outside_top5": 8
+    },
+    "semantic_relevant_also_in_embedding_rate": 0.8074074074074075,
+    "semantic_embedding_jaccard_rate": 0.6728395061728395,
+    "average_per_query": {
+      "semantic_relevant": 2.8125,
+      "base_relevant": 2.7708333333333335,
+      "embedding_relevant": 2.8333333333333335,
+      "intersection": 2.2708333333333335,
+      "union": 3.375,
+      "added": 0.16666666666666666,
+      "added_top5": 0.0,
+      "added_outside_top5": 0.16666666666666666
+    }
+  },
+  "representative_queries": [
+    {
+      "id": "metrics_004",
+      "query": "客服为了降低平均处理时长而草草结案，数字变漂亮了但投诉和流失上升；应该怎样重看这个指标？",
+      "bm25_semantic_relevant": [
+        "ch02/s07_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch05/s04_chunk_01.md#chunk_1",
+        "ch05/s04_chunk_02.md#chunk_2",
+        "ch05/s06_chunk_02.md#chunk_2",
+        "ch06/s03_chunk_01.md#chunk_1",
+        "ch06/s05_chunk_03.md#chunk_3",
+        "ch08/s01_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch05/s04_chunk_01.md#chunk_1",
+        "ch05/s04_chunk_02.md#chunk_2",
+        "ch05/s06_chunk_02.md#chunk_2",
+        "ch06/s03_chunk_01.md#chunk_1",
+        "ch06/s05_chunk_03.md#chunk_3",
+        "ch08/s01_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [
+        "ch01/s07_chunk_03.md#chunk_3",
+        "ch02/s07_chunk_02.md#chunk_2",
+        "ch05/s04_chunk_02.md#chunk_2",
+        "ch05/s04_chunk_03.md#chunk_3",
+        "ch05/s05_chunk_01.md#chunk_1",
+        "ch05/s05_chunk_02.md#chunk_2",
+        "ch05/s06_chunk_02.md#chunk_2",
+        "ch08/s01_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_intersection": [
+        "ch05/s04_chunk_02.md#chunk_2",
+        "ch05/s06_chunk_02.md#chunk_2",
+        "ch08/s01_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_union": [
+        "ch01/s07_chunk_03.md#chunk_3",
+        "ch02/s07_chunk_01.md#chunk_1",
+        "ch02/s07_chunk_02.md#chunk_2",
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch05/s04_chunk_01.md#chunk_1",
+        "ch05/s04_chunk_02.md#chunk_2",
+        "ch05/s04_chunk_03.md#chunk_3",
+        "ch05/s05_chunk_01.md#chunk_1",
+        "ch05/s05_chunk_02.md#chunk_2",
+        "ch05/s06_chunk_02.md#chunk_2",
+        "ch06/s03_chunk_01.md#chunk_1",
+        "ch06/s05_chunk_03.md#chunk_3",
+        "ch08/s01_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [
+        "ch02/s07_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_01.md#chunk_1"
+      ],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [
+        "ch02/s07_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_01.md#chunk_1"
+      ],
+      "embedding_rank_for_added": {
+        "ch02/s07_chunk_01.md#chunk_1": null,
+        "ch04/s06_chunk_01.md#chunk_1": null
+      },
+      "hybrid_rank_for_added": {
+        "ch02/s07_chunk_01.md#chunk_1": 17,
+        "ch04/s06_chunk_01.md#chunk_1": null
+      },
+      "counts": {
+        "semantic_relevant": 8,
+        "base_relevant": 6,
+        "embedding_relevant": 8,
+        "intersection": 3,
+        "union": 13,
+        "added": 2,
+        "added_top5": 0,
+        "added_outside_top5": 2
+      }
+    },
+    {
+      "id": "opportunity_006",
+      "query": "竞争者都在追某个热点，董事会要求马上跟进；如果不追就怕落后，跟进又可能偏离长期方向，如何区分机会判断和跟风？",
+      "bm25_semantic_relevant": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_01.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch03/s06_chunk_01.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_intersection": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [
+        "ch03/s05_chunk_01.md#chunk_1"
+      ],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [
+        "ch03/s05_chunk_01.md#chunk_1"
+      ],
+      "embedding_rank_for_added": {
+        "ch03/s05_chunk_01.md#chunk_1": 19
+      },
+      "hybrid_rank_for_added": {
+        "ch03/s05_chunk_01.md#chunk_1": 6
+      },
+      "counts": {
+        "semantic_relevant": 2,
+        "base_relevant": 1,
+        "embedding_relevant": 3,
+        "intersection": 2,
+        "union": 3,
+        "added": 1,
+        "added_top5": 0,
+        "added_outside_top5": 1
+      }
+    },
+    {
+      "id": "long_term_decision_003",
+      "query": "面对不确定的未来，好的长期决策依靠什么，而不是依靠什么？",
+      "bm25_semantic_relevant": [
+        "ch07/s02_chunk_01.md#chunk_1",
+        "ch07/s02_chunk_02.md#chunk_2",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch07/s02_chunk_02.md#chunk_2",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch07/s02_chunk_01.md#chunk_1",
+        "ch07/s02_chunk_02.md#chunk_2",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch07/s02_chunk_01.md#chunk_1",
+        "ch07/s02_chunk_02.md#chunk_2",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch07/s02_chunk_01.md#chunk_1",
+        "ch07/s02_chunk_02.md#chunk_2",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "semantic_added_over_base": [
+        "ch07/s02_chunk_01.md#chunk_1"
+      ],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [
+        "ch07/s02_chunk_01.md#chunk_1"
+      ],
+      "embedding_rank_for_added": {
+        "ch07/s02_chunk_01.md#chunk_1": 6
+      },
+      "hybrid_rank_for_added": {
+        "ch07/s02_chunk_01.md#chunk_1": 7
+      },
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 2,
+        "embedding_relevant": 3,
+        "intersection": 3,
+        "union": 3,
+        "added": 1,
+        "added_top5": 0,
+        "added_outside_top5": 1
+      }
+    },
+    {
+      "id": "opportunity_005",
+      "query": "新技术、海外市场和大客户项目同时出现，团队既缺人又缺验证时间；如何筛选机会、识别能力边界，并决定先做哪一个？",
+      "bm25_semantic_relevant": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s05_chunk_02.md#chunk_2",
+        "ch03/s06_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s05_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s05_chunk_02.md#chunk_2",
+        "ch03/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s05_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_union": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s05_chunk_02.md#chunk_2",
+        "ch03/s06_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [
+        "ch03/s06_chunk_02.md#chunk_2"
+      ],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [
+        "ch03/s06_chunk_02.md#chunk_2"
+      ],
+      "embedding_rank_for_added": {
+        "ch03/s06_chunk_02.md#chunk_2": null
+      },
+      "hybrid_rank_for_added": {
+        "ch03/s06_chunk_02.md#chunk_2": 9
+      },
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 2,
+        "embedding_relevant": 3,
+        "intersection": 2,
+        "union": 4,
+        "added": 1,
+        "added_top5": 0,
+        "added_outside_top5": 1
+      }
+    },
+    {
+      "id": "long_term_decision_004",
+      "query": "财务预测显示明年需求会下降，团队因此暂停人才培养和技术积累；怎样在看不清远方时仍保留建设未来的能力？",
+      "bm25_semantic_relevant": [
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s03_chunk_03.md#chunk_3",
+        "ch07/s06_chunk_01.md#chunk_1",
+        "ch07/s06_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s06_chunk_01.md#chunk_1",
+        "ch07/s06_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [
+        "ch07/s03_chunk_01.md#chunk_1",
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s03_chunk_03.md#chunk_3",
+        "ch07/s06_chunk_01.md#chunk_1",
+        "ch07/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_intersection": [
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s03_chunk_03.md#chunk_3",
+        "ch07/s06_chunk_01.md#chunk_1",
+        "ch07/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_union": [
+        "ch07/s03_chunk_01.md#chunk_1",
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s03_chunk_03.md#chunk_3",
+        "ch07/s06_chunk_01.md#chunk_1",
+        "ch07/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [
+        "ch07/s03_chunk_03.md#chunk_3"
+      ],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [
+        "ch07/s03_chunk_03.md#chunk_3"
+      ],
+      "embedding_rank_for_added": {
+        "ch07/s03_chunk_03.md#chunk_3": 5
+      },
+      "hybrid_rank_for_added": {
+        "ch07/s03_chunk_03.md#chunk_3": 6
+      },
+      "counts": {
+        "semantic_relevant": 4,
+        "base_relevant": 3,
+        "embedding_relevant": 5,
+        "intersection": 4,
+        "union": 5,
+        "added": 1,
+        "added_top5": 0,
+        "added_outside_top5": 1
+      }
+    }
+  ],
+  "per_case": [
+    {
+      "id": "customer_value_001",
+      "query": "公司越来越关注利润和内部效率，但客户复购下降，新客户增长也变慢了，应该从哪里诊断？",
+      "bm25_semantic_relevant": [
+        "ch01/s02.md#chunk_1",
+        "ch01/s06.md#chunk_1",
+        "ch01/s08_chunk_01.md#chunk_1",
+        "ch01/s08_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch01/s02.md#chunk_1",
+        "ch01/s06.md#chunk_1",
+        "ch01/s08_chunk_01.md#chunk_1",
+        "ch01/s08_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [
+        "ch01/s02.md#chunk_1",
+        "ch01/s06.md#chunk_1",
+        "ch01/s08_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_intersection": [
+        "ch01/s02.md#chunk_1",
+        "ch01/s06.md#chunk_1",
+        "ch01/s08_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_union": [
+        "ch01/s02.md#chunk_1",
+        "ch01/s06.md#chunk_1",
+        "ch01/s08_chunk_01.md#chunk_1",
+        "ch01/s08_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 4,
+        "base_relevant": 4,
+        "embedding_relevant": 3,
+        "intersection": 3,
+        "union": 4,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "customer_value_002",
+      "query": "产品功能越来越多，但客户觉得没有解决真实痛点，团队应该如何重新创造客户价值？",
+      "bm25_semantic_relevant": [
+        "ch01/s07_chunk_01.md#chunk_1",
+        "ch01/s07_chunk_03.md#chunk_3"
+      ],
+      "bm25_base_relevant": [
+        "ch01/s07_chunk_01.md#chunk_1",
+        "ch01/s07_chunk_03.md#chunk_3"
+      ],
+      "embedding_relevant": [
+        "ch01/s07_chunk_01.md#chunk_1",
+        "ch01/s07_chunk_03.md#chunk_3"
+      ],
+      "semantic_embedding_intersection": [
+        "ch01/s07_chunk_01.md#chunk_1",
+        "ch01/s07_chunk_03.md#chunk_3"
+      ],
+      "semantic_embedding_union": [
+        "ch01/s07_chunk_01.md#chunk_1",
+        "ch01/s07_chunk_03.md#chunk_3"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 2,
+        "base_relevant": 2,
+        "embedding_relevant": 2,
+        "intersection": 2,
+        "union": 2,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "sales_marketing_001",
+      "query": "公司销售动作很多，促销和回款压力很大，但品牌和客户洞察越来越弱，营销应该怎么回归？",
+      "bm25_semantic_relevant": [
+        "ch02/s02.md#chunk_1",
+        "ch02/s03.md#chunk_1",
+        "ch02/s06_chunk_01.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch02/s02.md#chunk_1",
+        "ch02/s03.md#chunk_1",
+        "ch02/s06_chunk_01.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch02/s02.md#chunk_1",
+        "ch02/s03.md#chunk_1",
+        "ch02/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch02/s02.md#chunk_1",
+        "ch02/s03.md#chunk_1",
+        "ch02/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch02/s02.md#chunk_1",
+        "ch02/s03.md#chunk_1",
+        "ch02/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 3,
+        "embedding_relevant": 3,
+        "intersection": 3,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "sales_marketing_002",
+      "query": "管理层总是把增长问题交给销售冲业绩，却很少讨论客户选择、价值定义和长期品牌。",
+      "bm25_semantic_relevant": [
+        "ch02/s06_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch02/s06_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [
+        "ch02/s05.md#chunk_1",
+        "ch02/s07_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [],
+      "semantic_embedding_union": [
+        "ch02/s05.md#chunk_1",
+        "ch02/s06_chunk_02.md#chunk_2",
+        "ch02/s07_chunk_01.md#chunk_1"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 1,
+        "base_relevant": 1,
+        "embedding_relevant": 2,
+        "intersection": 0,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "opportunity_001",
+      "query": "团队每天都在处理问题和救火，但很少寻找未来增长机会和新客户需求。",
+      "bm25_semantic_relevant": [
+        "ch03/s01.md#chunk_1",
+        "ch03/s03.md#chunk_1",
+        "ch03/s04.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch03/s01.md#chunk_1",
+        "ch03/s03.md#chunk_1",
+        "ch03/s04.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch03/s01.md#chunk_1",
+        "ch03/s03.md#chunk_1",
+        "ch03/s04.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch03/s01.md#chunk_1",
+        "ch03/s03.md#chunk_1",
+        "ch03/s04.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch03/s01.md#chunk_1",
+        "ch03/s03.md#chunk_1",
+        "ch03/s04.md#chunk_1"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 3,
+        "embedding_relevant": 3,
+        "intersection": 3,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "opportunity_002",
+      "query": "公司看到很多风口就想追，但不知道哪些机会和自己的能力、长期愿景真正相关。",
+      "bm25_semantic_relevant": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_intersection": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_union": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 3,
+        "embedding_relevant": 3,
+        "intersection": 3,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "strategy_org_001",
+      "query": "公司有战略口号，但部门各做各的，资源和组织结构没有真正承接战略。",
+      "bm25_semantic_relevant": [
+        "ch04/s02.md#chunk_1",
+        "ch04/s04_chunk_01.md#chunk_1",
+        "ch04/s04_chunk_02.md#chunk_2",
+        "ch04/s05_chunk_01.md#chunk_1",
+        "ch04/s05_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch04/s02.md#chunk_1",
+        "ch04/s04_chunk_01.md#chunk_1",
+        "ch04/s04_chunk_02.md#chunk_2",
+        "ch04/s05_chunk_01.md#chunk_1",
+        "ch04/s05_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [
+        "ch04/s02.md#chunk_1",
+        "ch04/s04_chunk_01.md#chunk_1",
+        "ch04/s04_chunk_02.md#chunk_2",
+        "ch04/s05_chunk_01.md#chunk_1",
+        "ch04/s05_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_intersection": [
+        "ch04/s02.md#chunk_1",
+        "ch04/s04_chunk_01.md#chunk_1",
+        "ch04/s04_chunk_02.md#chunk_2",
+        "ch04/s05_chunk_01.md#chunk_1",
+        "ch04/s05_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_union": [
+        "ch04/s02.md#chunk_1",
+        "ch04/s04_chunk_01.md#chunk_1",
+        "ch04/s04_chunk_02.md#chunk_2",
+        "ch04/s05_chunk_01.md#chunk_1",
+        "ch04/s05_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 5,
+        "base_relevant": 5,
+        "embedding_relevant": 5,
+        "intersection": 5,
+        "union": 5,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "strategy_org_002",
+      "query": "跨部门协同很差，战略目标传不到日常行动，如何识别组织偏离战略的信号？",
+      "bm25_semantic_relevant": [
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_02.md#chunk_2",
+        "ch04/s07.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_02.md#chunk_2",
+        "ch04/s07.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_02.md#chunk_2",
+        "ch04/s07.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_02.md#chunk_2",
+        "ch04/s07.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_02.md#chunk_2",
+        "ch04/s07.md#chunk_1"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 3,
+        "embedding_relevant": 3,
+        "intersection": 3,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "metrics_001",
+      "query": "团队为了完成KPI牺牲客户价值，短期数据好看但客户流失和复购下降。",
+      "bm25_semantic_relevant": [
+        "ch05/s04_chunk_02.md#chunk_2",
+        "ch05/s04_chunk_03.md#chunk_3",
+        "ch05/s05_chunk_02.md#chunk_2",
+        "ch06/s05_chunk_03.md#chunk_3"
+      ],
+      "bm25_base_relevant": [
+        "ch05/s04_chunk_02.md#chunk_2",
+        "ch05/s04_chunk_03.md#chunk_3",
+        "ch05/s05_chunk_02.md#chunk_2",
+        "ch06/s05_chunk_03.md#chunk_3"
+      ],
+      "embedding_relevant": [
+        "ch05/s04_chunk_03.md#chunk_3",
+        "ch05/s05_chunk_02.md#chunk_2",
+        "ch06/s05_chunk_03.md#chunk_3"
+      ],
+      "semantic_embedding_intersection": [
+        "ch05/s04_chunk_03.md#chunk_3",
+        "ch05/s05_chunk_02.md#chunk_2",
+        "ch06/s05_chunk_03.md#chunk_3"
+      ],
+      "semantic_embedding_union": [
+        "ch05/s04_chunk_02.md#chunk_2",
+        "ch05/s04_chunk_03.md#chunk_3",
+        "ch05/s05_chunk_02.md#chunk_2",
+        "ch06/s05_chunk_03.md#chunk_3"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 4,
+        "base_relevant": 4,
+        "embedding_relevant": 3,
+        "intersection": 3,
+        "union": 4,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "metrics_002",
+      "query": "公司指标越来越多，但大家不知道真正目标是什么，衡量体系应该怎么重新设计？",
+      "bm25_semantic_relevant": [
+        "ch05/s01.md#chunk_1",
+        "ch05/s03_chunk_01.md#chunk_1",
+        "ch05/s06_chunk_01.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch05/s01.md#chunk_1",
+        "ch05/s03_chunk_01.md#chunk_1",
+        "ch05/s06_chunk_01.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch05/s01.md#chunk_1",
+        "ch05/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch05/s01.md#chunk_1",
+        "ch05/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch05/s01.md#chunk_1",
+        "ch05/s03_chunk_01.md#chunk_1",
+        "ch05/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 3,
+        "embedding_relevant": 2,
+        "intersection": 2,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "self_drive_001",
+      "query": "员工只等指令，管理层不断增加审批和过程监控，目标管理变成了目标控制。",
+      "bm25_semantic_relevant": [
+        "ch06/s01.md#chunk_1",
+        "ch06/s03_chunk_01.md#chunk_1",
+        "ch06/s03_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch06/s01.md#chunk_1",
+        "ch06/s03_chunk_01.md#chunk_1",
+        "ch06/s03_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [
+        "ch06/s01.md#chunk_1",
+        "ch06/s03_chunk_01.md#chunk_1",
+        "ch06/s03_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_intersection": [
+        "ch06/s01.md#chunk_1",
+        "ch06/s03_chunk_01.md#chunk_1",
+        "ch06/s03_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_union": [
+        "ch06/s01.md#chunk_1",
+        "ch06/s03_chunk_01.md#chunk_1",
+        "ch06/s03_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 3,
+        "embedding_relevant": 3,
+        "intersection": 3,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "self_drive_002",
+      "query": "公司想减少管控、提高员工责任感和主动性，如何实现真正的自我控制？",
+      "bm25_semantic_relevant": [
+        "ch06/s02_chunk_01.md#chunk_1",
+        "ch06/s06_chunk_01.md#chunk_1",
+        "ch06/s06_chunk_02.md#chunk_2",
+        "ch06/s06_chunk_03.md#chunk_3",
+        "ch06/s07.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch06/s02_chunk_01.md#chunk_1",
+        "ch06/s06_chunk_01.md#chunk_1",
+        "ch06/s06_chunk_02.md#chunk_2",
+        "ch06/s06_chunk_03.md#chunk_3",
+        "ch06/s07.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch06/s02_chunk_01.md#chunk_1",
+        "ch06/s06_chunk_01.md#chunk_1",
+        "ch06/s06_chunk_02.md#chunk_2",
+        "ch06/s06_chunk_03.md#chunk_3",
+        "ch06/s07.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch06/s02_chunk_01.md#chunk_1",
+        "ch06/s06_chunk_01.md#chunk_1",
+        "ch06/s06_chunk_02.md#chunk_2",
+        "ch06/s06_chunk_03.md#chunk_3",
+        "ch06/s07.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch06/s02_chunk_01.md#chunk_1",
+        "ch06/s06_chunk_01.md#chunk_1",
+        "ch06/s06_chunk_02.md#chunk_2",
+        "ch06/s06_chunk_03.md#chunk_3",
+        "ch06/s07.md#chunk_1"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 5,
+        "base_relevant": 5,
+        "embedding_relevant": 5,
+        "intersection": 5,
+        "union": 5,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "long_term_decision_001",
+      "query": "公司为了季度业绩削减长期投入，担心错过未来机会，如何平衡短期生存和长期建设？",
+      "bm25_semantic_relevant": [
+        "ch07/s03_chunk_01.md#chunk_1",
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s03_chunk_03.md#chunk_3",
+        "ch07/s06_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch07/s03_chunk_01.md#chunk_1",
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s03_chunk_03.md#chunk_3",
+        "ch07/s06_chunk_01.md#chunk_1",
+        "ch07/s06_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [
+        "ch07/s03_chunk_01.md#chunk_1",
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s03_chunk_03.md#chunk_3",
+        "ch07/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_intersection": [
+        "ch07/s03_chunk_01.md#chunk_1",
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s03_chunk_03.md#chunk_3",
+        "ch07/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_union": [
+        "ch07/s03_chunk_01.md#chunk_1",
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s03_chunk_03.md#chunk_3",
+        "ch07/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 4,
+        "base_relevant": 5,
+        "embedding_relevant": 4,
+        "intersection": 4,
+        "union": 4,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "long_term_decision_002",
+      "query": "决策总是依赖预测和行业报告，一旦环境变化就很被动，怎样做面向未来的清醒决策？",
+      "bm25_semantic_relevant": [
+        "ch07/s02_chunk_01.md#chunk_1",
+        "ch07/s02_chunk_02.md#chunk_2",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch07/s02_chunk_01.md#chunk_1",
+        "ch07/s02_chunk_02.md#chunk_2",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch07/s02_chunk_01.md#chunk_1",
+        "ch07/s02_chunk_02.md#chunk_2",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch07/s02_chunk_01.md#chunk_1",
+        "ch07/s02_chunk_02.md#chunk_2",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch07/s02_chunk_01.md#chunk_1",
+        "ch07/s02_chunk_02.md#chunk_2",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 3,
+        "embedding_relevant": 3,
+        "intersection": 3,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "entrepreneurship_001",
+      "query": "企业家面对复杂问题时，不能只修补局部，要如何用系统思考看清因果和整体最优？",
+      "bm25_semantic_relevant": [
+        "ch08/s01_chunk_01.md#chunk_1",
+        "ch08/s01_chunk_02.md#chunk_2",
+        "ch08/s01_chunk_03.md#chunk_3",
+        "ch08/s01_chunk_05.md#chunk_5"
+      ],
+      "bm25_base_relevant": [
+        "ch08/s01_chunk_01.md#chunk_1",
+        "ch08/s01_chunk_02.md#chunk_2",
+        "ch08/s01_chunk_03.md#chunk_3",
+        "ch08/s01_chunk_05.md#chunk_5"
+      ],
+      "embedding_relevant": [
+        "ch08/s01_chunk_01.md#chunk_1",
+        "ch08/s01_chunk_02.md#chunk_2",
+        "ch08/s01_chunk_03.md#chunk_3",
+        "ch08/s01_chunk_05.md#chunk_5"
+      ],
+      "semantic_embedding_intersection": [
+        "ch08/s01_chunk_01.md#chunk_1",
+        "ch08/s01_chunk_02.md#chunk_2",
+        "ch08/s01_chunk_03.md#chunk_3",
+        "ch08/s01_chunk_05.md#chunk_5"
+      ],
+      "semantic_embedding_union": [
+        "ch08/s01_chunk_01.md#chunk_1",
+        "ch08/s01_chunk_02.md#chunk_2",
+        "ch08/s01_chunk_03.md#chunk_3",
+        "ch08/s01_chunk_05.md#chunk_5"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 4,
+        "base_relevant": 4,
+        "embedding_relevant": 4,
+        "intersection": 4,
+        "union": 4,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "entrepreneurship_002",
+      "query": "领导者在短期压力下犹豫不决，价值观摇摆，怎样建立决策勇气和人文精神？",
+      "bm25_semantic_relevant": [
+        "ch08/s02_chunk_01.md#chunk_1",
+        "ch08/s02_chunk_02.md#chunk_2",
+        "ch08/s02_chunk_03.md#chunk_3",
+        "ch08/s03_chunk_01.md#chunk_1",
+        "ch08/s03_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch08/s02_chunk_01.md#chunk_1",
+        "ch08/s02_chunk_02.md#chunk_2",
+        "ch08/s02_chunk_03.md#chunk_3",
+        "ch08/s03_chunk_01.md#chunk_1",
+        "ch08/s03_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [
+        "ch08/s02_chunk_01.md#chunk_1",
+        "ch08/s02_chunk_02.md#chunk_2",
+        "ch08/s02_chunk_03.md#chunk_3"
+      ],
+      "semantic_embedding_intersection": [
+        "ch08/s02_chunk_01.md#chunk_1",
+        "ch08/s02_chunk_02.md#chunk_2",
+        "ch08/s02_chunk_03.md#chunk_3"
+      ],
+      "semantic_embedding_union": [
+        "ch08/s02_chunk_01.md#chunk_1",
+        "ch08/s02_chunk_02.md#chunk_2",
+        "ch08/s02_chunk_03.md#chunk_3",
+        "ch08/s03_chunk_01.md#chunk_1",
+        "ch08/s03_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 5,
+        "base_relevant": 5,
+        "embedding_relevant": 3,
+        "intersection": 3,
+        "union": 5,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "customer_value_003",
+      "query": "企业存在的首要任务是什么，利润在其中应当扮演什么角色？",
+      "bm25_semantic_relevant": [
+        "ch01/s01.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch01/s01.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch01/s01.md#chunk_1",
+        "ch01/s02.md#chunk_1",
+        "ch01/s09.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch01/s01.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch01/s01.md#chunk_1",
+        "ch01/s02.md#chunk_1",
+        "ch01/s09.md#chunk_1"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 1,
+        "base_relevant": 1,
+        "embedding_relevant": 3,
+        "intersection": 1,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "customer_value_004",
+      "query": "我们不断加功能、做折扣，客户却仍然觉得麻烦没有减少；该怎样重新观察客户从购买到使用的完整过程？",
+      "bm25_semantic_relevant": [
+        "ch01/s07_chunk_03.md#chunk_3"
+      ],
+      "bm25_base_relevant": [
+        "ch01/s07_chunk_03.md#chunk_3"
+      ],
+      "embedding_relevant": [
+        "ch01/s07_chunk_03.md#chunk_3",
+        "ch01/s08_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_intersection": [
+        "ch01/s07_chunk_03.md#chunk_3"
+      ],
+      "semantic_embedding_union": [
+        "ch01/s07_chunk_03.md#chunk_3",
+        "ch01/s08_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 1,
+        "base_relevant": 1,
+        "embedding_relevant": 2,
+        "intersection": 1,
+        "union": 2,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "customer_value_005",
+      "query": "毛利率提升了但续约变差，研发排期也被内部效率项目占满；如何同时判断公司目的、客户价值和当期现金安全？",
+      "bm25_semantic_relevant": [
+        "ch01/s06.md#chunk_1",
+        "ch01/s08_chunk_01.md#chunk_1",
+        "ch01/s08_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch01/s06.md#chunk_1",
+        "ch01/s08_chunk_01.md#chunk_1",
+        "ch01/s08_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [
+        "ch01/s02.md#chunk_1",
+        "ch01/s06.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch01/s06.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch01/s02.md#chunk_1",
+        "ch01/s06.md#chunk_1",
+        "ch01/s08_chunk_01.md#chunk_1",
+        "ch01/s08_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 3,
+        "embedding_relevant": 2,
+        "intersection": 1,
+        "union": 4,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "customer_value_006",
+      "query": "竞争对手降价后我们准备立刻跟进，销售说客户只看价格，但一线反馈是交付和使用成本更高；这究竟是定价问题还是价值创造出了偏差？",
+      "bm25_semantic_relevant": [
+        "ch01/s05_chunk_02.md#chunk_2",
+        "ch01/s07_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch01/s05_chunk_02.md#chunk_2",
+        "ch01/s07_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [],
+      "semantic_embedding_intersection": [],
+      "semantic_embedding_union": [
+        "ch01/s05_chunk_02.md#chunk_2",
+        "ch01/s07_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 2,
+        "base_relevant": 2,
+        "embedding_relevant": 0,
+        "intersection": 0,
+        "union": 2,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "sales_marketing_003",
+      "query": "营销的核心职责是什么，它与销售促成交易的工作有何不同？",
+      "bm25_semantic_relevant": [
+        "ch02/s03.md#chunk_1",
+        "ch02/s06_chunk_01.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch02/s03.md#chunk_1",
+        "ch02/s06_chunk_01.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch02/s03.md#chunk_1",
+        "ch02/s04_chunk_01.md#chunk_1",
+        "ch02/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch02/s03.md#chunk_1",
+        "ch02/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch02/s03.md#chunk_1",
+        "ch02/s04_chunk_01.md#chunk_1",
+        "ch02/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 2,
+        "base_relevant": 2,
+        "embedding_relevant": 3,
+        "intersection": 2,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "sales_marketing_004",
+      "query": "销售团队每周都在追单和催回款，客户为什么选择我们却没人说得清；应从哪些外部事实重建增长逻辑？",
+      "bm25_semantic_relevant": [
+        "ch02/s06_chunk_01.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch02/s02.md#chunk_1",
+        "ch02/s06_chunk_01.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch02/s02.md#chunk_1",
+        "ch02/s06_chunk_01.md#chunk_1",
+        "ch02/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_intersection": [
+        "ch02/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch02/s02.md#chunk_1",
+        "ch02/s06_chunk_01.md#chunk_1",
+        "ch02/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 1,
+        "base_relevant": 2,
+        "embedding_relevant": 3,
+        "intersection": 1,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "sales_marketing_005",
+      "query": "营收目标压得很紧，品牌承诺与产品体验不一致，研发和销售各自解释客户流失；如何让市场、价值定义和跨职能行动重新对齐？",
+      "bm25_semantic_relevant": [
+        "ch02/s06_chunk_02.md#chunk_2",
+        "ch02/s06_chunk_03.md#chunk_3"
+      ],
+      "bm25_base_relevant": [
+        "ch02/s04_chunk_03.md#chunk_3",
+        "ch02/s06_chunk_02.md#chunk_2",
+        "ch02/s06_chunk_03.md#chunk_3"
+      ],
+      "embedding_relevant": [
+        "ch02/s04_chunk_03.md#chunk_3",
+        "ch02/s06_chunk_02.md#chunk_2",
+        "ch02/s06_chunk_03.md#chunk_3"
+      ],
+      "semantic_embedding_intersection": [
+        "ch02/s06_chunk_02.md#chunk_2",
+        "ch02/s06_chunk_03.md#chunk_3"
+      ],
+      "semantic_embedding_union": [
+        "ch02/s04_chunk_03.md#chunk_3",
+        "ch02/s06_chunk_02.md#chunk_2",
+        "ch02/s06_chunk_03.md#chunk_3"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 2,
+        "base_relevant": 3,
+        "embedding_relevant": 3,
+        "intersection": 2,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "sales_marketing_006",
+      "query": "销售额还在增长所以管理层认为营销有效，但客户投诉增加、品牌溢价消失；应继续加大促销，还是回到市场和客户价值？",
+      "bm25_semantic_relevant": [
+        "ch02/s03.md#chunk_1",
+        "ch02/s04_chunk_02.md#chunk_2",
+        "ch02/s04_chunk_03.md#chunk_3"
+      ],
+      "bm25_base_relevant": [
+        "ch02/s03.md#chunk_1",
+        "ch02/s04_chunk_02.md#chunk_2",
+        "ch02/s04_chunk_03.md#chunk_3"
+      ],
+      "embedding_relevant": [
+        "ch02/s03.md#chunk_1",
+        "ch02/s04_chunk_02.md#chunk_2",
+        "ch02/s04_chunk_03.md#chunk_3",
+        "ch02/s08.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch02/s03.md#chunk_1",
+        "ch02/s04_chunk_02.md#chunk_2",
+        "ch02/s04_chunk_03.md#chunk_3"
+      ],
+      "semantic_embedding_union": [
+        "ch02/s03.md#chunk_1",
+        "ch02/s04_chunk_02.md#chunk_2",
+        "ch02/s04_chunk_03.md#chunk_3",
+        "ch02/s08.md#chunk_1"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 3,
+        "embedding_relevant": 4,
+        "intersection": 3,
+        "union": 4,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "opportunity_003",
+      "query": "为什么组织总被紧急问题牵着走，无法把注意力留给真正的机会？",
+      "bm25_semantic_relevant": [
+        "ch03/s01.md#chunk_1",
+        "ch03/s03.md#chunk_1",
+        "ch03/s04.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch03/s01.md#chunk_1",
+        "ch03/s03.md#chunk_1",
+        "ch03/s04.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch03/s01.md#chunk_1",
+        "ch03/s03.md#chunk_1",
+        "ch03/s04.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch03/s01.md#chunk_1",
+        "ch03/s03.md#chunk_1",
+        "ch03/s04.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch03/s01.md#chunk_1",
+        "ch03/s03.md#chunk_1",
+        "ch03/s04.md#chunk_1"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 3,
+        "embedding_relevant": 3,
+        "intersection": 3,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "opportunity_004",
+      "query": "客服工单和内部故障不断增加，管理者每天只安排补救；怎样把视线从修复眼前问题转向发现尚未满足的需求？",
+      "bm25_semantic_relevant": [
+        "ch03/s01.md#chunk_1",
+        "ch03/s04.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch03/s01.md#chunk_1",
+        "ch03/s04.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch03/s01.md#chunk_1",
+        "ch03/s03.md#chunk_1",
+        "ch03/s04.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch03/s01.md#chunk_1",
+        "ch03/s04.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch03/s01.md#chunk_1",
+        "ch03/s03.md#chunk_1",
+        "ch03/s04.md#chunk_1"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 2,
+        "base_relevant": 2,
+        "embedding_relevant": 3,
+        "intersection": 2,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "opportunity_005",
+      "query": "新技术、海外市场和大客户项目同时出现，团队既缺人又缺验证时间；如何筛选机会、识别能力边界，并决定先做哪一个？",
+      "bm25_semantic_relevant": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s05_chunk_02.md#chunk_2",
+        "ch03/s06_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s05_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s05_chunk_02.md#chunk_2",
+        "ch03/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s05_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_union": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s05_chunk_02.md#chunk_2",
+        "ch03/s06_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [
+        "ch03/s06_chunk_02.md#chunk_2"
+      ],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [
+        "ch03/s06_chunk_02.md#chunk_2"
+      ],
+      "embedding_rank_for_added": {
+        "ch03/s06_chunk_02.md#chunk_2": null
+      },
+      "hybrid_rank_for_added": {
+        "ch03/s06_chunk_02.md#chunk_2": 9
+      },
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 2,
+        "embedding_relevant": 3,
+        "intersection": 2,
+        "union": 4,
+        "added": 1,
+        "added_top5": 0,
+        "added_outside_top5": 1
+      }
+    },
+    {
+      "id": "opportunity_006",
+      "query": "竞争者都在追某个热点，董事会要求马上跟进；如果不追就怕落后，跟进又可能偏离长期方向，如何区分机会判断和跟风？",
+      "bm25_semantic_relevant": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_01.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch03/s06_chunk_01.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_intersection": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch03/s05_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_01.md#chunk_1",
+        "ch03/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [
+        "ch03/s05_chunk_01.md#chunk_1"
+      ],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [
+        "ch03/s05_chunk_01.md#chunk_1"
+      ],
+      "embedding_rank_for_added": {
+        "ch03/s05_chunk_01.md#chunk_1": 19
+      },
+      "hybrid_rank_for_added": {
+        "ch03/s05_chunk_01.md#chunk_1": 6
+      },
+      "counts": {
+        "semantic_relevant": 2,
+        "base_relevant": 1,
+        "embedding_relevant": 3,
+        "intersection": 2,
+        "union": 3,
+        "added": 1,
+        "added_top5": 0,
+        "added_outside_top5": 1
+      }
+    },
+    {
+      "id": "strategy_org_003",
+      "query": "组织结构为什么必须服务于战略，战略变化时应观察哪些结构性后果？",
+      "bm25_semantic_relevant": [
+        "ch04/s02.md#chunk_1",
+        "ch04/s04_chunk_02.md#chunk_2",
+        "ch04/s05_chunk_01.md#chunk_1",
+        "ch04/s05_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch04/s02.md#chunk_1",
+        "ch04/s04_chunk_02.md#chunk_2",
+        "ch04/s05_chunk_01.md#chunk_1",
+        "ch04/s05_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [
+        "ch04/s02.md#chunk_1",
+        "ch04/s04_chunk_01.md#chunk_1",
+        "ch04/s04_chunk_02.md#chunk_2",
+        "ch04/s05_chunk_01.md#chunk_1",
+        "ch04/s05_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_intersection": [
+        "ch04/s02.md#chunk_1",
+        "ch04/s04_chunk_02.md#chunk_2",
+        "ch04/s05_chunk_01.md#chunk_1",
+        "ch04/s05_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_union": [
+        "ch04/s02.md#chunk_1",
+        "ch04/s04_chunk_01.md#chunk_1",
+        "ch04/s04_chunk_02.md#chunk_2",
+        "ch04/s05_chunk_01.md#chunk_1",
+        "ch04/s05_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 4,
+        "base_relevant": 4,
+        "embedding_relevant": 5,
+        "intersection": 4,
+        "union": 5,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "strategy_org_004",
+      "query": "公司宣布聚焦高价值客户，但预算、汇报线和岗位职责仍按旧业务划分；这说明战略落地卡在什么地方？",
+      "bm25_semantic_relevant": [
+        "ch04/s02.md#chunk_1",
+        "ch04/s04_chunk_01.md#chunk_1",
+        "ch04/s05_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch04/s02.md#chunk_1",
+        "ch04/s04_chunk_01.md#chunk_1",
+        "ch04/s05_chunk_01.md#chunk_1",
+        "ch04/s05_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [],
+      "semantic_embedding_intersection": [],
+      "semantic_embedding_union": [
+        "ch04/s02.md#chunk_1",
+        "ch04/s04_chunk_01.md#chunk_1",
+        "ch04/s05_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 4,
+        "embedding_relevant": 0,
+        "intersection": 0,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "strategy_org_005",
+      "query": "总部要求增长，区域团队追求利润，产品团队追求功能数量，会议越来越多却没有共同取舍；如何诊断决策结构、协同机制和战略执行的断点？",
+      "bm25_semantic_relevant": [
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [
+        "ch04/s05_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_intersection": [
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_union": [
+        "ch04/s05_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 2,
+        "base_relevant": 2,
+        "embedding_relevant": 3,
+        "intersection": 2,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "strategy_org_006",
+      "query": "大家都说协同差，于是准备再建一个跨部门委员会；但真正的问题可能是组织结构不支持战略，也可能只是沟通不足，怎样区分两者？",
+      "bm25_semantic_relevant": [
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_02.md#chunk_2",
+        "ch04/s07.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_02.md#chunk_2",
+        "ch04/s07.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_02.md#chunk_2",
+        "ch04/s07.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_02.md#chunk_2",
+        "ch04/s07.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_02.md#chunk_2",
+        "ch04/s07.md#chunk_1"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 3,
+        "embedding_relevant": 3,
+        "intersection": 3,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "metrics_003",
+      "query": "目标、指标和行动之间应当如何建立关系，避免把指标本身当成目标？",
+      "bm25_semantic_relevant": [
+        "ch05/s01.md#chunk_1",
+        "ch05/s03_chunk_01.md#chunk_1",
+        "ch05/s06_chunk_01.md#chunk_1",
+        "ch05/s06_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch05/s01.md#chunk_1",
+        "ch05/s03_chunk_01.md#chunk_1",
+        "ch05/s06_chunk_01.md#chunk_1",
+        "ch05/s06_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [
+        "ch05/s01.md#chunk_1",
+        "ch05/s03_chunk_01.md#chunk_1",
+        "ch05/s06_chunk_01.md#chunk_1",
+        "ch05/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_intersection": [
+        "ch05/s01.md#chunk_1",
+        "ch05/s03_chunk_01.md#chunk_1",
+        "ch05/s06_chunk_01.md#chunk_1",
+        "ch05/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_union": [
+        "ch05/s01.md#chunk_1",
+        "ch05/s03_chunk_01.md#chunk_1",
+        "ch05/s06_chunk_01.md#chunk_1",
+        "ch05/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 4,
+        "base_relevant": 4,
+        "embedding_relevant": 4,
+        "intersection": 4,
+        "union": 4,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "metrics_004",
+      "query": "客服为了降低平均处理时长而草草结案，数字变漂亮了但投诉和流失上升；应该怎样重看这个指标？",
+      "bm25_semantic_relevant": [
+        "ch02/s07_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch05/s04_chunk_01.md#chunk_1",
+        "ch05/s04_chunk_02.md#chunk_2",
+        "ch05/s06_chunk_02.md#chunk_2",
+        "ch06/s03_chunk_01.md#chunk_1",
+        "ch06/s05_chunk_03.md#chunk_3",
+        "ch08/s01_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch05/s04_chunk_01.md#chunk_1",
+        "ch05/s04_chunk_02.md#chunk_2",
+        "ch05/s06_chunk_02.md#chunk_2",
+        "ch06/s03_chunk_01.md#chunk_1",
+        "ch06/s05_chunk_03.md#chunk_3",
+        "ch08/s01_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [
+        "ch01/s07_chunk_03.md#chunk_3",
+        "ch02/s07_chunk_02.md#chunk_2",
+        "ch05/s04_chunk_02.md#chunk_2",
+        "ch05/s04_chunk_03.md#chunk_3",
+        "ch05/s05_chunk_01.md#chunk_1",
+        "ch05/s05_chunk_02.md#chunk_2",
+        "ch05/s06_chunk_02.md#chunk_2",
+        "ch08/s01_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_intersection": [
+        "ch05/s04_chunk_02.md#chunk_2",
+        "ch05/s06_chunk_02.md#chunk_2",
+        "ch08/s01_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_union": [
+        "ch01/s07_chunk_03.md#chunk_3",
+        "ch02/s07_chunk_01.md#chunk_1",
+        "ch02/s07_chunk_02.md#chunk_2",
+        "ch04/s06_chunk_01.md#chunk_1",
+        "ch05/s04_chunk_01.md#chunk_1",
+        "ch05/s04_chunk_02.md#chunk_2",
+        "ch05/s04_chunk_03.md#chunk_3",
+        "ch05/s05_chunk_01.md#chunk_1",
+        "ch05/s05_chunk_02.md#chunk_2",
+        "ch05/s06_chunk_02.md#chunk_2",
+        "ch06/s03_chunk_01.md#chunk_1",
+        "ch06/s05_chunk_03.md#chunk_3",
+        "ch08/s01_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [
+        "ch02/s07_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_01.md#chunk_1"
+      ],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [
+        "ch02/s07_chunk_01.md#chunk_1",
+        "ch04/s06_chunk_01.md#chunk_1"
+      ],
+      "embedding_rank_for_added": {
+        "ch02/s07_chunk_01.md#chunk_1": null,
+        "ch04/s06_chunk_01.md#chunk_1": null
+      },
+      "hybrid_rank_for_added": {
+        "ch02/s07_chunk_01.md#chunk_1": 17,
+        "ch04/s06_chunk_01.md#chunk_1": null
+      },
+      "counts": {
+        "semantic_relevant": 8,
+        "base_relevant": 6,
+        "embedding_relevant": 8,
+        "intersection": 3,
+        "union": 13,
+        "added": 2,
+        "added_top5": 0,
+        "added_outside_top5": 2
+      }
+    },
+    {
+      "id": "metrics_005",
+      "query": "管理层同时要求收入、利润、交付速度和客户留存改善，但奖金只看季度收入；如何重建衡量、激励和长期价值之间的闭环？",
+      "bm25_semantic_relevant": [
+        "ch05/s04_chunk_03.md#chunk_3"
+      ],
+      "bm25_base_relevant": [
+        "ch05/s04_chunk_03.md#chunk_3"
+      ],
+      "embedding_relevant": [],
+      "semantic_embedding_intersection": [],
+      "semantic_embedding_union": [
+        "ch05/s04_chunk_03.md#chunk_3"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 1,
+        "base_relevant": 1,
+        "embedding_relevant": 0,
+        "intersection": 0,
+        "union": 1,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "metrics_006",
+      "query": "销售团队完成签约数就被评为高绩效，即使客户很快取消；问题是销售不够努力，还是衡量方式把错误行为奖励出来了？",
+      "bm25_semantic_relevant": [
+        "ch05/s04_chunk_03.md#chunk_3",
+        "ch05/s05_chunk_02.md#chunk_2",
+        "ch06/s05_chunk_03.md#chunk_3"
+      ],
+      "bm25_base_relevant": [
+        "ch05/s04_chunk_03.md#chunk_3",
+        "ch05/s05_chunk_02.md#chunk_2",
+        "ch06/s05_chunk_03.md#chunk_3"
+      ],
+      "embedding_relevant": [
+        "ch05/s05_chunk_02.md#chunk_2",
+        "ch06/s05_chunk_03.md#chunk_3"
+      ],
+      "semantic_embedding_intersection": [
+        "ch05/s05_chunk_02.md#chunk_2",
+        "ch06/s05_chunk_03.md#chunk_3"
+      ],
+      "semantic_embedding_union": [
+        "ch05/s04_chunk_03.md#chunk_3",
+        "ch05/s05_chunk_02.md#chunk_2",
+        "ch06/s05_chunk_03.md#chunk_3"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 3,
+        "embedding_relevant": 2,
+        "intersection": 2,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "self_drive_003",
+      "query": "目标管理如何在不增加层层审批的情况下，让员工对结果负责？",
+      "bm25_semantic_relevant": [
+        "ch06/s01.md#chunk_1",
+        "ch06/s02_chunk_01.md#chunk_1",
+        "ch06/s06_chunk_01.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch06/s01.md#chunk_1",
+        "ch06/s02_chunk_01.md#chunk_1",
+        "ch06/s06_chunk_01.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch06/s01.md#chunk_1",
+        "ch06/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch06/s01.md#chunk_1",
+        "ch06/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch06/s01.md#chunk_1",
+        "ch06/s02_chunk_01.md#chunk_1",
+        "ch06/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 3,
+        "embedding_relevant": 2,
+        "intersection": 2,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "self_drive_004",
+      "query": "主管要求每一步都先报备，员工因此不再主动判断；怎样把管理从盯过程改成支持员工自我校正？",
+      "bm25_semantic_relevant": [
+        "ch06/s03_chunk_01.md#chunk_1",
+        "ch06/s03_chunk_02.md#chunk_2",
+        "ch06/s06_chunk_03.md#chunk_3"
+      ],
+      "bm25_base_relevant": [
+        "ch06/s03_chunk_01.md#chunk_1",
+        "ch06/s03_chunk_02.md#chunk_2",
+        "ch06/s06_chunk_03.md#chunk_3"
+      ],
+      "embedding_relevant": [
+        "ch06/s03_chunk_02.md#chunk_2",
+        "ch06/s06_chunk_03.md#chunk_3"
+      ],
+      "semantic_embedding_intersection": [
+        "ch06/s03_chunk_02.md#chunk_2",
+        "ch06/s06_chunk_03.md#chunk_3"
+      ],
+      "semantic_embedding_union": [
+        "ch06/s03_chunk_01.md#chunk_1",
+        "ch06/s03_chunk_02.md#chunk_2",
+        "ch06/s06_chunk_03.md#chunk_3"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 3,
+        "embedding_relevant": 2,
+        "intersection": 2,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "self_drive_005",
+      "query": "团队目标模糊、经理频繁插手、员工害怕承担风险，结果是所有决定都上收；如何同时处理目标清晰度、授权边界和责任感？",
+      "bm25_semantic_relevant": [
+        "ch06/s01.md#chunk_1"
+      ],
+      "bm25_base_relevant": [],
+      "embedding_relevant": [
+        "ch06/s01.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch06/s01.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch06/s01.md#chunk_1"
+      ],
+      "semantic_added_over_base": [
+        "ch06/s01.md#chunk_1"
+      ],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [
+        "ch06/s01.md#chunk_1"
+      ],
+      "embedding_rank_for_added": {
+        "ch06/s01.md#chunk_1": 8
+      },
+      "hybrid_rank_for_added": {
+        "ch06/s01.md#chunk_1": 10
+      },
+      "counts": {
+        "semantic_relevant": 1,
+        "base_relevant": 0,
+        "embedding_relevant": 1,
+        "intersection": 1,
+        "union": 1,
+        "added": 1,
+        "added_top5": 0,
+        "added_outside_top5": 1
+      }
+    },
+    {
+      "id": "self_drive_006",
+      "query": "公司取消打卡和审批后效率反而下降，管理层据此认为员工需要更严密控制；这真能说明自我管理无效吗？",
+      "bm25_semantic_relevant": [
+        "ch06/s06_chunk_01.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch06/s02_chunk_01.md#chunk_1",
+        "ch06/s06_chunk_01.md#chunk_1"
+      ],
+      "embedding_relevant": [],
+      "semantic_embedding_intersection": [],
+      "semantic_embedding_union": [
+        "ch06/s06_chunk_01.md#chunk_1"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 1,
+        "base_relevant": 2,
+        "embedding_relevant": 0,
+        "intersection": 0,
+        "union": 1,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "long_term_decision_003",
+      "query": "面对不确定的未来，好的长期决策依靠什么，而不是依靠什么？",
+      "bm25_semantic_relevant": [
+        "ch07/s02_chunk_01.md#chunk_1",
+        "ch07/s02_chunk_02.md#chunk_2",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch07/s02_chunk_02.md#chunk_2",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch07/s02_chunk_01.md#chunk_1",
+        "ch07/s02_chunk_02.md#chunk_2",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch07/s02_chunk_01.md#chunk_1",
+        "ch07/s02_chunk_02.md#chunk_2",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch07/s02_chunk_01.md#chunk_1",
+        "ch07/s02_chunk_02.md#chunk_2",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "semantic_added_over_base": [
+        "ch07/s02_chunk_01.md#chunk_1"
+      ],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [
+        "ch07/s02_chunk_01.md#chunk_1"
+      ],
+      "embedding_rank_for_added": {
+        "ch07/s02_chunk_01.md#chunk_1": 6
+      },
+      "hybrid_rank_for_added": {
+        "ch07/s02_chunk_01.md#chunk_1": 7
+      },
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 2,
+        "embedding_relevant": 3,
+        "intersection": 3,
+        "union": 3,
+        "added": 1,
+        "added_top5": 0,
+        "added_outside_top5": 1
+      }
+    },
+    {
+      "id": "long_term_decision_004",
+      "query": "财务预测显示明年需求会下降，团队因此暂停人才培养和技术积累；怎样在看不清远方时仍保留建设未来的能力？",
+      "bm25_semantic_relevant": [
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s03_chunk_03.md#chunk_3",
+        "ch07/s06_chunk_01.md#chunk_1",
+        "ch07/s06_chunk_02.md#chunk_2"
+      ],
+      "bm25_base_relevant": [
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s06_chunk_01.md#chunk_1",
+        "ch07/s06_chunk_02.md#chunk_2"
+      ],
+      "embedding_relevant": [
+        "ch07/s03_chunk_01.md#chunk_1",
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s03_chunk_03.md#chunk_3",
+        "ch07/s06_chunk_01.md#chunk_1",
+        "ch07/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_intersection": [
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s03_chunk_03.md#chunk_3",
+        "ch07/s06_chunk_01.md#chunk_1",
+        "ch07/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_embedding_union": [
+        "ch07/s03_chunk_01.md#chunk_1",
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s03_chunk_03.md#chunk_3",
+        "ch07/s06_chunk_01.md#chunk_1",
+        "ch07/s06_chunk_02.md#chunk_2"
+      ],
+      "semantic_added_over_base": [
+        "ch07/s03_chunk_03.md#chunk_3"
+      ],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [
+        "ch07/s03_chunk_03.md#chunk_3"
+      ],
+      "embedding_rank_for_added": {
+        "ch07/s03_chunk_03.md#chunk_3": 5
+      },
+      "hybrid_rank_for_added": {
+        "ch07/s03_chunk_03.md#chunk_3": 6
+      },
+      "counts": {
+        "semantic_relevant": 4,
+        "base_relevant": 3,
+        "embedding_relevant": 5,
+        "intersection": 4,
+        "union": 5,
+        "added": 1,
+        "added_top5": 0,
+        "added_outside_top5": 1
+      }
+    },
+    {
+      "id": "long_term_decision_005",
+      "query": "现金流只够支持一个方向，公司要在核心业务优化、下一代产品试验和组织能力建设之间取舍；如何分层投入并兼顾今天与未来？",
+      "bm25_semantic_relevant": [
+        "ch07/s03_chunk_01.md#chunk_1",
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s07.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch07/s03_chunk_01.md#chunk_1",
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s07.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch07/s07.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch07/s07.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch07/s03_chunk_01.md#chunk_1",
+        "ch07/s03_chunk_02.md#chunk_2",
+        "ch07/s07.md#chunk_1"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 3,
+        "base_relevant": 3,
+        "embedding_relevant": 1,
+        "intersection": 1,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "long_term_decision_006",
+      "query": "行业报告一致看好某赛道，团队准备重仓；但自身能力、客户价值和长期资源承诺都不清楚，应该相信预测还是先做价值判断？",
+      "bm25_semantic_relevant": [
+        "ch07/s02_chunk_01.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch07/s02_chunk_01.md#chunk_1",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch07/s02_chunk_01.md#chunk_1",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_intersection": [
+        "ch07/s02_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch07/s02_chunk_01.md#chunk_1",
+        "ch07/s05_chunk_01.md#chunk_1"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 1,
+        "base_relevant": 2,
+        "embedding_relevant": 2,
+        "intersection": 1,
+        "union": 2,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "entrepreneurship_003",
+      "query": "系统思考在企业诊断中要解决什么问题，为什么不能只处理眼前症状？",
+      "bm25_semantic_relevant": [
+        "ch08/s01_chunk_01.md#chunk_1",
+        "ch08/s01_chunk_02.md#chunk_2",
+        "ch08/s01_chunk_04.md#chunk_4",
+        "ch08/s01_chunk_05.md#chunk_5"
+      ],
+      "bm25_base_relevant": [
+        "ch08/s01_chunk_01.md#chunk_1",
+        "ch08/s01_chunk_02.md#chunk_2",
+        "ch08/s01_chunk_04.md#chunk_4",
+        "ch08/s01_chunk_05.md#chunk_5"
+      ],
+      "embedding_relevant": [
+        "ch08/s01_chunk_01.md#chunk_1",
+        "ch08/s01_chunk_02.md#chunk_2",
+        "ch08/s01_chunk_04.md#chunk_4",
+        "ch08/s01_chunk_05.md#chunk_5"
+      ],
+      "semantic_embedding_intersection": [
+        "ch08/s01_chunk_01.md#chunk_1",
+        "ch08/s01_chunk_02.md#chunk_2",
+        "ch08/s01_chunk_04.md#chunk_4",
+        "ch08/s01_chunk_05.md#chunk_5"
+      ],
+      "semantic_embedding_union": [
+        "ch08/s01_chunk_01.md#chunk_1",
+        "ch08/s01_chunk_02.md#chunk_2",
+        "ch08/s01_chunk_04.md#chunk_4",
+        "ch08/s01_chunk_05.md#chunk_5"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 4,
+        "base_relevant": 4,
+        "embedding_relevant": 4,
+        "intersection": 4,
+        "union": 4,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "entrepreneurship_004",
+      "query": "一次次优化流程却没有改善整体结果，甚至让别的部门更忙；管理者应如何看见局部改进造成的连锁反应？",
+      "bm25_semantic_relevant": [
+        "ch08/s01_chunk_01.md#chunk_1",
+        "ch08/s01_chunk_03.md#chunk_3"
+      ],
+      "bm25_base_relevant": [
+        "ch08/s01_chunk_03.md#chunk_3"
+      ],
+      "embedding_relevant": [
+        "ch08/s01_chunk_01.md#chunk_1",
+        "ch08/s01_chunk_02.md#chunk_2",
+        "ch08/s01_chunk_03.md#chunk_3"
+      ],
+      "semantic_embedding_intersection": [
+        "ch08/s01_chunk_01.md#chunk_1",
+        "ch08/s01_chunk_03.md#chunk_3"
+      ],
+      "semantic_embedding_union": [
+        "ch08/s01_chunk_01.md#chunk_1",
+        "ch08/s01_chunk_02.md#chunk_2",
+        "ch08/s01_chunk_03.md#chunk_3"
+      ],
+      "semantic_added_over_base": [
+        "ch08/s01_chunk_01.md#chunk_1"
+      ],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [
+        "ch08/s01_chunk_01.md#chunk_1"
+      ],
+      "embedding_rank_for_added": {
+        "ch08/s01_chunk_01.md#chunk_1": 7
+      },
+      "hybrid_rank_for_added": {
+        "ch08/s01_chunk_01.md#chunk_1": 6
+      },
+      "counts": {
+        "semantic_relevant": 2,
+        "base_relevant": 1,
+        "embedding_relevant": 3,
+        "intersection": 2,
+        "union": 3,
+        "added": 1,
+        "added_top5": 0,
+        "added_outside_top5": 1
+      }
+    },
+    {
+      "id": "entrepreneurship_005",
+      "query": "重大项目延期、客户流失和员工离职同时发生，负责人想分别追责；如何从系统关系、组织机制和领导行为寻找共同原因？",
+      "bm25_semantic_relevant": [
+        "ch08/s01_chunk_04.md#chunk_4"
+      ],
+      "bm25_base_relevant": [
+        "ch08/s01_chunk_04.md#chunk_4"
+      ],
+      "embedding_relevant": [
+        "ch08/s01_chunk_04.md#chunk_4",
+        "ch08/s01_chunk_05.md#chunk_5"
+      ],
+      "semantic_embedding_intersection": [
+        "ch08/s01_chunk_04.md#chunk_4"
+      ],
+      "semantic_embedding_union": [
+        "ch08/s01_chunk_04.md#chunk_4",
+        "ch08/s01_chunk_05.md#chunk_5"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 1,
+        "base_relevant": 1,
+        "embedding_relevant": 2,
+        "intersection": 1,
+        "union": 2,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    },
+    {
+      "id": "entrepreneurship_006",
+      "query": "事故发生后立刻加一条审批规则，短期事故减少就认为问题解决；怎样判断这是系统性改进，还是把风险转移到了别处？",
+      "bm25_semantic_relevant": [
+        "ch08/s01_chunk_01.md#chunk_1"
+      ],
+      "bm25_base_relevant": [
+        "ch08/s01_chunk_01.md#chunk_1"
+      ],
+      "embedding_relevant": [
+        "ch08/s01_chunk_01.md#chunk_1",
+        "ch08/s01_chunk_03.md#chunk_3",
+        "ch08/s01_chunk_05.md#chunk_5"
+      ],
+      "semantic_embedding_intersection": [
+        "ch08/s01_chunk_01.md#chunk_1"
+      ],
+      "semantic_embedding_union": [
+        "ch08/s01_chunk_01.md#chunk_1",
+        "ch08/s01_chunk_03.md#chunk_3",
+        "ch08/s01_chunk_05.md#chunk_5"
+      ],
+      "semantic_added_over_base": [],
+      "added_in_hybrid_top5": [],
+      "added_outside_hybrid_top5": [],
+      "embedding_rank_for_added": {},
+      "hybrid_rank_for_added": {},
+      "counts": {
+        "semantic_relevant": 1,
+        "base_relevant": 1,
+        "embedding_relevant": 3,
+        "intersection": 1,
+        "union": 3,
+        "added": 0,
+        "added_top5": 0,
+        "added_outside_top5": 0
+      }
+    }
+  ]
+}

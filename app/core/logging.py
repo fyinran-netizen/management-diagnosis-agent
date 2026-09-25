@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -10,6 +11,24 @@ from app.core.config import PROJECT_ROOT
 
 LOGGER_NAME = "drucker"
 DEFAULT_LOG_FILE = PROJECT_ROOT / ".runtime" / "logs" / "application.log"
+
+
+class ConsoleFormatter(logging.Formatter):
+    """Color only the INFO level token in console output."""
+
+    _INFO_GREEN = "\033[92m"
+    _RESET = "\033[0m"
+
+    def format(self, record: logging.LogRecord) -> str:
+        formatted = super().format(record)
+        if record.levelno != logging.INFO:
+            return formatted
+        return re.sub(
+            r"(?<= )INFO(?= )",
+            f"{self._INFO_GREEN}INFO{self._RESET}",
+            formatted,
+            count=1,
+        )
 
 
 def configure_logging() -> None:
@@ -28,7 +47,12 @@ def configure_logging() -> None:
         datefmt="%Y-%m-%dT%H:%M:%S%z",
     )
     console_handler = logging.StreamHandler(sys.stderr)
-    console_handler.setFormatter(formatter)
+    console_handler.setFormatter(
+        ConsoleFormatter(
+            "%(asctime)s %(levelname)s %(name)s %(message)s",
+            datefmt="%Y-%m-%dT%H:%M:%S%z",
+        )
+    )
     file_handler = logging.FileHandler(log_file, encoding="utf-8")
     file_handler.setFormatter(formatter)
 

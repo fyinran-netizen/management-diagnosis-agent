@@ -25,12 +25,16 @@ def build_config(
 def start_run(
     description: str,
     run_id: str | None = None,
+    problem_types: list[str] | None = None,
+    other_problem_type: str | None = None,
 ) -> str:
     run_id = run_id or str(uuid4())
 
     diagnosis_graph.invoke(
         {
             "description": description.strip(),
+            "problem_types": problem_types or [],
+            "other_problem_type": other_problem_type,
             "revision_count": 0,
         },
         config=build_config(run_id),
@@ -44,6 +48,19 @@ def run_next_step(run_id: str):
         None,
         config=build_config(run_id),
     )
+
+
+def run_all_steps(run_id: str):
+    """Advance an existing run until the graph reaches END.
+
+    The graph remains interruptible after every node; this helper is only the
+    runtime control for the UI's explicit "Run all" mode.
+    """
+    while True:
+        snapshot = get_current_state(run_id)
+        if not list(getattr(snapshot, "next", ()) or ()):
+            return snapshot
+        run_next_step(run_id)
 
 
 def get_current_state(run_id: str):

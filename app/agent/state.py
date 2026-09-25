@@ -3,26 +3,21 @@ from __future__ import annotations
 from typing import Any
 from typing_extensions import TypedDict
 
+from app.tools.generation.schemas import DiagnosisReport
+
 
 class AgentState(TypedDict, total=False):
+    problem_types: list[str]
     description: str
-    company_context: str
-    goal: str | None
-    language: str
+    other_problem_type: str | None
+    intake_validation: dict[str, Any]
     retrieval_query: str
 
-    problem_types: list[str]
-    diagnosis_hints: list[str]
-    problem_check: dict[str, Any]
-    retrieval_quality: dict[str, Any]
-    diagnosis_summary: dict[str, Any]
-    trace: list[dict[str, Any]]
-    ingestion_status: dict[str, Any]
-
     retrieved_chunks: list[dict[str, Any]]
-    report: str
+    retrieval_quality: dict[str, Any]
+    report: DiagnosisReport
     verification: dict[str, Any]
-
     revision_count: int
     project_id: str | None
-    final_answer: str
+    final_answer: DiagnosisReport
+    trace: list[dict[str, Any]]

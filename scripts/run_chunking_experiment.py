@@ -40,7 +40,13 @@ DEFAULT_SOURCE = PROJECT_ROOT / "source_docs" / "raw_converted.md"
 EMBEDDING_MODEL = "BAAI/bge-small-zh-v1.5"
 
 
-def build_experiment_corpus(source_path: Path, corpus_dir: Path, strategy: str) -> int:
+def build_experiment_corpus(
+    source_path: Path,
+    corpus_dir: Path,
+    strategy: str,
+    *,
+    overlap_chars: int = SectionSemanticOverlapChunker.config()["overlap_chars"],
+) -> int:
     document = MarkdownLoader().load(source_path, root_dir=source_path.parent)
     chunker_factory = {
         "section_based": SectionBasedChunker,
@@ -54,7 +60,10 @@ def build_experiment_corpus(source_path: Path, corpus_dir: Path, strategy: str) 
         "section_semantic": SectionSemanticChunker,
         "section_semantic_overlap": SectionSemanticOverlapChunker,
     }[strategy]
-    chunks = chunker_factory().chunk(document)
+    if strategy == "section_semantic_overlap":
+        chunks = SectionSemanticOverlapChunker(overlap_chars=overlap_chars).chunk(document)
+    else:
+        chunks = chunker_factory().chunk(document)
     # The existing retrieval baseline is private corpus scope excluding ch00;
     # keep this experiment corpus identical to that scope.
     chunks = [chunk for chunk in chunks if chunk.chapter_id != "ch00"]
@@ -105,15 +114,32 @@ def main() -> int:
     parser.add_argument("--experiment-root", type=Path, default=DEFAULT_EXPERIMENT_ROOT)
     parser.add_argument("--report-dir", type=Path, default=DEFAULT_REPORT_DIR)
     parser.add_argument("--batch-size", type=int, default=32)
+    parser.add_argument(
+        "--overlap-chars",
+        type=int,
+        default=SectionSemanticOverlapChunker.config()["overlap_chars"],
+        help="Requested sentence-preserving overlap target for section_semantic_overlap.",
+    )
     args = parser.parse_args()
 
-    corpus_dir = args.experiment_root / args.strategy / "corpus"
-    index_dir = args.experiment_root / args.strategy / "vector_index"
-    strategy_report_dir = args.report_dir / args.strategy
+    if args.strategy == "section_semantic_overlap":
+        overlap_dir = f"overlap_{args.overlap_chars:03d}"
+        experiment_dir = args.experiment_root / args.strategy / overlap_dir
+        strategy_report_dir = args.report_dir / args.strategy / overlap_dir
+    else:
+        experiment_dir = args.experiment_root / args.strategy
+        strategy_report_dir = args.report_dir / args.strategy
+    corpus_dir = experiment_dir / "corpus"
+    index_dir = experiment_dir / "vector_index"
     experiments_path = args.report_dir / "experiments.jsonl"
     strategy_report_dir.mkdir(parents=True, exist_ok=True)
     clean_experiment_artifacts(corpus_dir, index_dir)
-    chunk_count = build_experiment_corpus(args.source.resolve(), corpus_dir, args.strategy)
+    chunk_count = build_experiment_corpus(
+        args.source.resolve(),
+        corpus_dir,
+        args.strategy,
+        overlap_chars=args.overlap_chars,
+    )
     print(f"experiment: {args.strategy}")
     print(f"corpus_dir: {corpus_dir}")
     print(f"generated_chunks: {chunk_count}")
@@ -178,14 +204,22 @@ def main() -> int:
     report["chunking_diagnostics"] = diagnostics
     if args.strategy in {"section_semantic", "section_semantic_overlap"}:
         config_factory = SectionSemanticOverlapChunker if args.strategy == "section_semantic_overlap" else SectionSemanticChunker
-        report["chunking_strategy_config"] = config_factory.config()
+        config = config_factory.config()
+        if args.strategy == "section_semantic_overlap":
+            config["overlap_chars"] = args.overlap_chars
+            report["requested_overlap_chars"] = args.overlap_chars
+        report["chunking_strategy_config"] = config
     report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     markdown = append_diagnostics_markdown(markdown_path.read_text(encoding="utf-8"), diagnostics)
     if args.strategy in {"section_semantic", "section_semantic_overlap"}:
         config_factory = SectionSemanticOverlapChunker if args.strategy == "section_semantic_overlap" else SectionSemanticChunker
         config = config_factory.config()
+        if args.strategy == "section_semantic_overlap":
+            config["overlap_chars"] = args.overlap_chars
         markdown += "\n\n## Chunking strategy configuration\n\n"
         markdown += "| Parameter | Value |\n| --- | --- |\n"
+        if args.strategy == "section_semantic_overlap":
+            markdown += f"| requested_overlap_chars | {args.overlap_chars} |\n"
         for key, value in config.items():
             markdown += f"| {key} | {value} |\n"
     markdown_path.write_text(markdown, encoding="utf-8")

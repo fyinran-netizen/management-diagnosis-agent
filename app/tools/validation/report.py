@@ -3,6 +3,8 @@ from __future__ import annotations
 import re
 from typing import Any
 
+from app.tools.generation.schemas import DiagnosisReport
+
 
 KNOWLEDGE_ITEM_CITATION_PATTERN = re.compile(
     r"(?:知识项\s*|knowledge\s+item\s*)\[?\s*(\d+)\s*\]?",
@@ -14,10 +16,66 @@ def extract_knowledge_item_citations(report: str) -> list[int]:
     return [int(match.group(1)) for match in KNOWLEDGE_ITEM_CITATION_PATTERN.finditer(report)]
 
 
-def verify_report_quality(
-    report: str,
+def validate_generation_report(
+    report: DiagnosisReport | dict[str, Any],
     retrieved_chunks: list[dict[str, Any]],
+    section_metrics: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
+    """Apply only structural and per-section completion checks to a new report."""
+    issues: list[str] = []
+    section_names = (
+        "core_diagnosis",
+        "management_concepts",
+        "root_causes",
+        "recommendations",
+    )
+    metrics = section_metrics or {}
+
+    for section_name in section_names:
+        section = report.get(section_name)
+        if not isinstance(section, dict):
+            issues.append(f"Missing section: {section_name}.")
+            continue
+
+        content = section.get("content")
+        if not isinstance(content, str) or not content.strip():
+            issues.append(f"Section content is empty: {section_name}.")
+
+        source_items = section.get("source_items")
+        if not isinstance(source_items, list):
+            issues.append(f"source_items is invalid: {section_name}.")
+        elif any(
+            not isinstance(item, int)
+            or isinstance(item, bool)
+            or not 1 <= item <= len(retrieved_chunks)
+            for item in source_items
+        ):
+            issues.append(f"source_items contains an invalid knowledge-item number: {section_name}.")
+
+        done_reason = metrics.get(section_name, {}).get("done_reason")
+        if done_reason == "length":
+            issues.append(f"Section was truncated by token length: {section_name}.")
+        elif done_reason != "stop":
+            issues.append(f"Section did not finish normally ({done_reason or 'missing'}): {section_name}.")
+
+        if metrics.get(section_name, {}).get("parse_success") is not True:
+            issues.append(f"Structured output parse failure: {section_name}.")
+
+    return {
+        "passed": not issues,
+        "issues": issues,
+        "needs_revision": bool(issues),
+    }
+
+
+def verify_report_quality(
+    report: str | dict[str, Any],
+    retrieved_chunks: list[dict[str, Any]],
+    section_metrics: dict[str, dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    if isinstance(report, dict):
+        return validate_generation_report(report, retrieved_chunks, section_metrics)
+
     issues: list[str] = []
 
     normalized_report = report.strip().lower()

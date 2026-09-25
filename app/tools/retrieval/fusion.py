@@ -36,6 +36,15 @@ def merge_ranked_results(
             if current is None:
                 current = dict(item)
                 merged[key] = current
+            for metadata_key in (
+                "chapter_id",
+                "section_id",
+                "chapter_number",
+                "section_number",
+                "summary",
+            ):
+                if not current.get(metadata_key) and item.get(metadata_key):
+                    current[metadata_key] = item[metadata_key]
             if method == "bm25":
                 current["keyword_score"] = item.get("keyword_score", item.get("bm25_score", 0.0))
                 current["bm25_score"] = item.get("bm25_score", item.get("keyword_score", 0.0))
@@ -81,15 +90,24 @@ def rrf_fusion(
     k: float = 60.0,
     top_k: int,
 ) -> list[RetrievedChunk]:
-    merged = merge_ranked_results(ranked_lists)
-    for method, items in ranked_lists:
+    lists = list(ranked_lists)
+    merged = merge_ranked_results(lists)
+    # Keep the score diagnostics exposed by the legacy hybrid interface.  They
+    # are observability fields only; RRF ranking below uses ranks exclusively.
+    for method, items in lists:
+        score_key = "keyword_score" if method == "bm25" else "embedding_score"
+        normalized_key = "normalized_keyword_score" if method == "bm25" else "normalized_embedding_score"
+        normalize_scores(items, score_key, normalized_key)
         for rank, item in enumerate(items, 1):
             current = merged[result_key(item)]
             current["rrf_score"] = float(current.get("rrf_score", 0.0)) + 1.0 / (k + rank)
             current.setdefault("rrf_sources", []).append(method)
+            current[normalized_key] = item.get(normalized_key, 0.0)
     for item in merged.values():
         item["score"] = float(item.get("rrf_score", 0.0))
         item["hybrid_score"] = item["score"]
+        item["normalized_bm25_score"] = item.get("normalized_keyword_score", 0.0)
+        item["normalized_embedding_cosine_score"] = item.get("normalized_embedding_score", 0.0)
         item["retrieval_method"] = "hybrid_rrf" if len(item.get("rrf_sources", [])) > 1 else ("embedding" if item.get("embedding_rank") else "keyword")
     return _rank(merged.values(), "rrf_score", top_k)
 

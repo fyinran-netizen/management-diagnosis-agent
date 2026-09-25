@@ -3,8 +3,15 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+from app.core.config import (
+    PRODUCTION_RETRIEVAL_BM25_METADATA_MODE,
+    PRODUCTION_RETRIEVAL_CANDIDATE_K,
+    PRODUCTION_RETRIEVAL_CORPUS_DIR,
+    PRODUCTION_RETRIEVAL_EMBEDDING_INDEX_DIR,
+)
 from app.tools.retrieval.rerankers.bge_reranker import score_candidates
 from app.tools.retrieval.retrievers.hybrid_linear import hybrid_retrieve
+from app.tools.retrieval.retrievers.hybrid_rrf import hybrid_retrieve_rrf
 from app.tools.retrieval.schemas import RetrievedChunk
 
 
@@ -15,7 +22,7 @@ DEFAULT_MIN_CANDIDATES = int(os.getenv("RERANKER_MIN_CANDIDATES", "25"))
 def retrieve_pipeline(
     query: str,
     *,
-    mode: str = "hybrid_rerank",
+    mode: str = "hybrid",
     hybrid_candidate_k: int | None = None,
     final_k: int = 5,
     source_retrieval_k: int | None = None,
@@ -29,14 +36,23 @@ def retrieve_pipeline(
     if final_k <= 0:
         return []
 
+    effective_corpus_dir = corpus_dir or PRODUCTION_RETRIEVAL_CORPUS_DIR
+    effective_embedding_index_dir = (
+        embedding_index_dir or PRODUCTION_RETRIEVAL_EMBEDDING_INDEX_DIR
+    )
+    effective_metadata_mode = (
+        bm25_metadata_mode or PRODUCTION_RETRIEVAL_BM25_METADATA_MODE
+    )
+    effective_source_retrieval_k = source_retrieval_k or PRODUCTION_RETRIEVAL_CANDIDATE_K
+
     if mode == "hybrid":
-        return hybrid_retrieve(
+        return hybrid_retrieve_rrf(
             query=query,
-            hybrid_top_k=final_k,
-            source_retrieval_k=source_retrieval_k,
-            corpus_dir=corpus_dir,
-            embedding_index_dir=embedding_index_dir,
-            bm25_metadata_mode=bm25_metadata_mode,
+            top_k=final_k,
+            source_retrieval_k=effective_source_retrieval_k,
+            corpus_dir=effective_corpus_dir,
+            embedding_index_dir=effective_embedding_index_dir,
+            bm25_metadata_mode=effective_metadata_mode,
         )
 
     candidate_k = (
@@ -44,13 +60,13 @@ def retrieve_pipeline(
         if hybrid_candidate_k is not None
         else max(final_k * DEFAULT_CANDIDATE_MULTIPLIER, DEFAULT_MIN_CANDIDATES)
     )
-    candidates = hybrid_retrieve(
+    candidates = hybrid_retrieve_rrf(
         query=query,
-        hybrid_top_k=candidate_k,
-        source_retrieval_k=source_retrieval_k,
-        corpus_dir=corpus_dir,
-        embedding_index_dir=embedding_index_dir,
-        bm25_metadata_mode=bm25_metadata_mode,
+        top_k=candidate_k,
+        source_retrieval_k=effective_source_retrieval_k,
+        corpus_dir=effective_corpus_dir,
+        embedding_index_dir=effective_embedding_index_dir,
+        bm25_metadata_mode=effective_metadata_mode,
     )
 
     scored_candidates = score_candidates(

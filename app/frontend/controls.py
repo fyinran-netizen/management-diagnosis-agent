@@ -8,6 +8,7 @@ from app.agent.runtime import (
     get_state_history,
     load_run,
     resume_from_checkpoint,
+    run_all_steps,
     run_next_step,
     start_run,
 )
@@ -114,23 +115,66 @@ def branch_selected_checkpoint(checkpoint_id: str) -> None:
         st.session_state.runtime_error = f"{type(exc).__name__}: {exc}"
 
 
-def render_run_controls(description: str) -> None:
+def start_run_with_mode(
+    description: str,
+    problem_types: list[str],
+    other_problem_type: str | None,
+    mode: str,
+) -> None:
+    st.session_state.runtime_error = None
+
+    try:
+        run_id = start_run(
+            description,
+            problem_types=problem_types,
+            other_problem_type=other_problem_type,
+        )
+        st.session_state.run_id = run_id
+        st.session_state.selected_checkpoint_id = None
+        if mode == "Run all":
+            run_all_steps(run_id)
+        refresh_run_state()
+    except Exception as exc:
+        st.session_state.runtime_error = f"{type(exc).__name__}: {exc}"
+
+
+def render_run_controls(
+    description: str,
+    problem_types: list[str],
+    other_problem_type: str | None,
+) -> None:
+    mode = st.radio(
+        "Execution mode",
+        ["Step-by-step", "Run all"],
+        horizontal=True,
+        index=0,
+        help="Step-by-step runs one graph node per action. Run all continues to END.",
+    )
+    has_intake = bool(description.strip() and problem_types)
+    if "other" in problem_types:
+        has_intake = has_intake and bool((other_problem_type or "").strip())
+
     col_new, col_next = st.columns(2)
 
     with col_new:
         if st.button(
-            "New Run",
+            "Start",
             type="primary",
             use_container_width=True,
-            disabled=not description.strip(),
+            disabled=not has_intake,
         ):
-            start_new_run(description.strip())
+            start_run_with_mode(
+                description.strip(),
+                problem_types,
+                other_problem_type,
+                mode,
+            )
 
     with col_next:
         if st.button(
             "Next Step",
             use_container_width=True,
-            disabled=not bool(st.session_state.run_id),
+            disabled=not bool(st.session_state.run_id) or mode != "Step-by-step",
         ):
             execute_next_step()
 
