@@ -35,6 +35,7 @@ The main diagnosis flow is:
 `User Intake → Retrieval → Evidence Selection → Structured Generation → Validation / Recovery → Diagnosis Report`
 
 Knowledge preparation is handled separately through document ingestion, section-aware chunking, metadata enrichment, and BM25/vector indexing. The runtime then uses these prepared retrieval assets to construct evidence-grounded diagnosis reports.
+
 ## 5. Codebase Architecture
 
 ```text
@@ -105,6 +106,8 @@ The results suggest that the current retrieval context and structured generation
 The most common issue was unsupported specificity, where some reports introduced numerical thresholds or expressed hypotheses too confidently.
 
 Generation is therefore treated as an experimental synthesis layer whose quality remains dependent on retrieval context, evidence calibration, and validation.
+
+## 8. Demo Showcase
 
 ### 8.1 Intake Example
 
