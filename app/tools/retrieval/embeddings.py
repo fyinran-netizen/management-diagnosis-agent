@@ -2,19 +2,13 @@ from __future__ import annotations
 
 import os
 from functools import lru_cache
-from pathlib import Path
 
 import numpy as np
 
 
 from app.core.config import (
     EMBEDDING_MODEL,
-    HF_CACHE_DIR,
-    TORCH_CACHE_DIR,
 )
-
-os.environ.setdefault("HF_HOME", str(HF_CACHE_DIR))
-os.environ.setdefault("TORCH_HOME", str(TORCH_CACHE_DIR))
 
 from sentence_transformers import SentenceTransformer
 
@@ -22,9 +16,6 @@ from sentence_transformers import SentenceTransformer
 def get_embedding_model_name() -> str:
     return EMBEDDING_MODEL
 
-
-def get_embedding_cache_dir() -> Path:
-    return HF_CACHE_DIR.resolve()
 
 def should_use_local_files_only() -> bool:
     value = os.getenv("EMBEDDING_LOCAL_FILES_ONLY", "true").lower().strip()
@@ -35,7 +26,6 @@ def should_use_local_files_only() -> bool:
 def get_embedding_model() -> SentenceTransformer:
     return SentenceTransformer(
         get_embedding_model_name(),
-        cache_folder=str(get_embedding_cache_dir()),
         local_files_only=should_use_local_files_only(),
     )
 

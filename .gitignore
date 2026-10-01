@@ -10,15 +10,19 @@
 .pytest_tmp*/
 .pytest_run_tmp/
 .pytest_cache/
+.deepeval/
 .env
 __pycache__/
 *.pyc
+*.db-shm
+*.db-wal
 hs_err_pid*.log
 terminal.txt
 
 .idea/
 
 data/private_knowledge_base/
+data/databases/
 data/vector_index/
 data/stats/
 tests/evals/retrieval_eval_report.json

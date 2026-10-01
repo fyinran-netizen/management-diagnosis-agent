@@ -21,5 +21,3 @@ dependencies = [
 pythonpath = ["."]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
-addopts = "--basetemp=.pytest_run_tmp"
-cache_dir = ".pytest_run_tmp/cache"

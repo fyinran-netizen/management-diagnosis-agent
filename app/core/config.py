@@ -39,8 +39,6 @@ DEFAULT_GENERATION_MODEL = "qwen3:8b"
 DEFAULT_GENERATION_EVALUATION_MODEL = "qwen3:8b"
 DEFAULT_EMBEDDING_MODEL = "BAAI/bge-small-zh-v1.5"
 
-DEFAULT_HF_CACHE_DIR = PROJECT_ROOT / ".hf_cache"
-DEFAULT_TORCH_CACHE_DIR = PROJECT_ROOT / ".torch_cache"
 DEFAULT_RUNTIME_DIR = PROJECT_ROOT / ".runtime"
 DEFAULT_LOG_LEVEL = "INFO"
 DEFAULT_LOG_FILE = DEFAULT_RUNTIME_DIR / "logs" / "application.log"
@@ -78,22 +76,6 @@ RERANKER_MODEL = os.getenv(
 
 USE_PRIVATE_KNOWLEDGE = (
     os.getenv("USE_PRIVATE_KNOWLEDGE", "false").strip().lower() == "true"
-)
-
-HF_CACHE_DIR = Path(
-    os.getenv("HF_HOME", str(DEFAULT_HF_CACHE_DIR))
-)
-
-TORCH_CACHE_DIR = Path(
-    os.getenv("TORCH_HOME", str(DEFAULT_TORCH_CACHE_DIR))
-)
-
-RUNTIME_DIR = Path(
-    os.getenv("PROJECT_RUNTIME_DIR", str(DEFAULT_RUNTIME_DIR))
-)
-
-TEMP_DIR = Path(
-    os.getenv("TEMP", str(RUNTIME_DIR / "tmp"))
 )
 
 # ---------- Logging configuration ----------

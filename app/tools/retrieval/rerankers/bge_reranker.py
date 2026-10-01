@@ -5,12 +5,9 @@ from functools import lru_cache
 
 import numpy as np
 
-from app.core.config import HF_CACHE_DIR, RERANKER_MODEL, TORCH_CACHE_DIR
+from app.core.config import RERANKER_MODEL
 from app.tools.retrieval.schemas import RetrievedChunk
 from app.tools.retrieval.retrievers.embedding import chunk_to_embedding_text
-
-os.environ.setdefault("HF_HOME", str(HF_CACHE_DIR))
-os.environ.setdefault("TORCH_HOME", str(TORCH_CACHE_DIR))
 
 from sentence_transformers import CrossEncoder
 
@@ -18,9 +15,6 @@ from sentence_transformers import CrossEncoder
 def get_reranker_model_name() -> str:
     return RERANKER_MODEL
 
-
-def get_reranker_cache_dir() -> str:
-    return str(HF_CACHE_DIR.resolve())
 
 
 def should_use_local_files_only() -> bool:
@@ -32,7 +26,6 @@ def should_use_local_files_only() -> bool:
 def get_reranker_model() -> CrossEncoder:
     return CrossEncoder(
         get_reranker_model_name(),
-        cache_folder=get_reranker_cache_dir(),
         local_files_only=should_use_local_files_only(),
     )
 
