@@ -3,7 +3,11 @@ from __future__ import annotations
 import re
 from typing import Any
 
+from app.core.logging import get_logger
 from app.tools.generation.schemas import DiagnosisReport
+
+
+logger = get_logger("validation")
 
 
 KNOWLEDGE_ITEM_CITATION_PATTERN = re.compile(
@@ -23,6 +27,7 @@ def validate_generation_report(
 ) -> dict[str, Any]:
     """Apply only structural and per-section completion checks to a new report."""
     issues: list[str] = []
+    failed_sections: list[str] = []
     section_names = (
         "core_diagnosis",
         "management_concepts",
@@ -32,18 +37,22 @@ def validate_generation_report(
     metrics = section_metrics or {}
 
     for section_name in section_names:
+        section_failed = False
         section = report.get(section_name)
         if not isinstance(section, dict):
             issues.append(f"Missing section: {section_name}.")
+            failed_sections.append(section_name)
             continue
 
         content = section.get("content")
         if not isinstance(content, str) or not content.strip():
             issues.append(f"Section content is empty: {section_name}.")
+            section_failed = True
 
         source_items = section.get("source_items")
         if not isinstance(source_items, list):
             issues.append(f"source_items is invalid: {section_name}.")
+            section_failed = True
         elif any(
             not isinstance(item, int)
             or isinstance(item, bool)
@@ -51,20 +60,37 @@ def validate_generation_report(
             for item in source_items
         ):
             issues.append(f"source_items contains an invalid knowledge-item number: {section_name}.")
+            section_failed = True
 
         done_reason = metrics.get(section_name, {}).get("done_reason")
         if done_reason == "length":
             issues.append(f"Section was truncated by token length: {section_name}.")
+            section_failed = True
         elif done_reason != "stop":
             issues.append(f"Section did not finish normally ({done_reason or 'missing'}): {section_name}.")
+            section_failed = True
 
-        if metrics.get(section_name, {}).get("parse_success") is not True:
+        if metrics.get(section_name, {}).get("final_parse_success") is not True:
             issues.append(f"Structured output parse failure: {section_name}.")
+            section_failed = True
+
+        if section_failed and section_name not in failed_sections:
+            failed_sections.append(section_name)
+        logger.debug(
+            "validation section=%s passed=%s content_chars=%s source_item_count=%s done_reason=%s parse_success=%s",
+            section_name,
+            not section_failed,
+            len(content) if isinstance(content, str) else 0,
+            len(source_items) if isinstance(source_items, list) else type(source_items).__name__,
+            metrics.get(section_name, {}).get("done_reason"),
+            metrics.get(section_name, {}).get("final_parse_success"),
+        )
 
     return {
         "passed": not issues,
         "issues": issues,
         "needs_revision": bool(issues),
+        "failed_sections": failed_sections,
     }
 
 

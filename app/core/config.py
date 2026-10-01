@@ -42,6 +42,8 @@ DEFAULT_EMBEDDING_MODEL = "BAAI/bge-small-zh-v1.5"
 DEFAULT_HF_CACHE_DIR = PROJECT_ROOT / ".hf_cache"
 DEFAULT_TORCH_CACHE_DIR = PROJECT_ROOT / ".torch_cache"
 DEFAULT_RUNTIME_DIR = PROJECT_ROOT / ".runtime"
+DEFAULT_LOG_LEVEL = "INFO"
+DEFAULT_LOG_FILE = DEFAULT_RUNTIME_DIR / "logs" / "application.log"
 
 
 # ---------- Runtime configuration ----------
@@ -93,6 +95,11 @@ RUNTIME_DIR = Path(
 TEMP_DIR = Path(
     os.getenv("TEMP", str(RUNTIME_DIR / "tmp"))
 )
+
+# ---------- Logging configuration ----------
+
+APP_LOG_LEVEL = os.getenv("APP_LOG_LEVEL", DEFAULT_LOG_LEVEL).strip().upper() or DEFAULT_LOG_LEVEL
+APP_LOG_FILE = Path(os.getenv("APP_LOG_FILE", str(DEFAULT_LOG_FILE)))
 
 
 def env_float(name: str, default: float) -> float:

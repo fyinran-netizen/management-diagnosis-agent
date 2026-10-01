@@ -1,31 +1,35 @@
 from __future__ import annotations
 
 import logging
-import os
 import re
 import sys
-from pathlib import Path
 
-from app.core.config import PROJECT_ROOT
+from app.core.config import APP_LOG_FILE, APP_LOG_LEVEL
 
 
 LOGGER_NAME = "drucker"
-DEFAULT_LOG_FILE = PROJECT_ROOT / ".runtime" / "logs" / "application.log"
 
 
 class ConsoleFormatter(logging.Formatter):
-    """Color only the INFO level token in console output."""
+    """Color only the level token in console output."""
 
-    _INFO_GREEN = "\033[92m"
+    _LEVEL_COLORS = {
+        logging.DEBUG: "\033[96m",     # cyan
+        logging.INFO: "\033[92m",      # green
+        logging.WARNING: "\033[93m",   # yellow
+        logging.ERROR: "\033[91m",     # red
+        logging.CRITICAL: "\033[95m",  # magenta
+    }
     _RESET = "\033[0m"
 
     def format(self, record: logging.LogRecord) -> str:
         formatted = super().format(record)
-        if record.levelno != logging.INFO:
+        color = self._LEVEL_COLORS.get(record.levelno)
+        if color is None:
             return formatted
         return re.sub(
-            r"(?<= )INFO(?= )",
-            f"{self._INFO_GREEN}INFO{self._RESET}",
+            rf"(?<= ){re.escape(record.levelname)}(?= )",
+            f"{color}{record.levelname}{self._RESET}",
             formatted,
             count=1,
         )
@@ -37,10 +41,8 @@ def configure_logging() -> None:
     if getattr(logger, "_drucker_configured", False):
         return
 
-    level_name = os.getenv("APP_LOG_LEVEL", "INFO").upper()
-    level = getattr(logging, level_name, logging.INFO)
-    log_file = Path(os.getenv("APP_LOG_FILE", str(DEFAULT_LOG_FILE)))
-    log_file.parent.mkdir(parents=True, exist_ok=True)
+    level = getattr(logging, APP_LOG_LEVEL, logging.INFO)
+    APP_LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
 
     formatter = logging.Formatter(
         "%(asctime)s %(levelname)s %(name)s %(message)s",
@@ -53,7 +55,7 @@ def configure_logging() -> None:
             datefmt="%Y-%m-%dT%H:%M:%S%z",
         )
     )
-    file_handler = logging.FileHandler(log_file, encoding="utf-8")
+    file_handler = logging.FileHandler(APP_LOG_FILE, encoding="utf-8")
     file_handler.setFormatter(formatter)
 
     logger.setLevel(level)

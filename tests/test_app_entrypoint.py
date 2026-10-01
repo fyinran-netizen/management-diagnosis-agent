@@ -1,7 +1,32 @@
-from app.agent.graph import run_diagnosis_workflow
+from app.agent import runtime
 
 
-def test_streamlit_workflow_entrypoint_returns_clarification_without_ollama():
-    result = run_diagnosis_workflow("甯垜鐪嬬湅")
-    assert result["verification"]["needs_revision"] is False
-    assert result["final_answer"]
+class FakeGraph:
+    def __init__(self):
+        self.calls = []
+
+    def invoke(self, values, config):
+        self.calls.append((values, config))
+        return None
+
+
+def test_start_run_uses_current_runtime_contract_without_running_ollama(monkeypatch):
+    graph = FakeGraph()
+    monkeypatch.setattr(runtime, "diagnosis_graph", graph)
+
+    run_id = runtime.start_run(
+        "  help me diagnose this management issue  ",
+        run_id="test-run",
+        problem_types=["coordination"],
+        other_problem_type="other",
+    )
+
+    assert run_id == "test-run"
+    values, config = graph.calls[0]
+    assert values == {
+        "description": "help me diagnose this management issue",
+        "problem_types": ["coordination"],
+        "other_problem_type": "other",
+        "revision_count": 0,
+    }
+    assert config["configurable"]["thread_id"] == "test-run"

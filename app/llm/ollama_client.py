@@ -64,6 +64,14 @@ def chat_with_ollama(
     if format is not None:
         payload["format"] = format
 
+    logger.debug(
+        "ollama request model=%s message_count=%d prompt_chars=%d roles=%s",
+        model,
+        len(messages),
+        sum(len(message.get("content", "")) for message in messages),
+        [message.get("role") for message in messages],
+    )
+
     try:
         response = requests.post(
             f"{OLLAMA_BASE_URL}/api/chat",
